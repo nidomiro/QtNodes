@@ -28,6 +28,9 @@
 *.app
 
 # Qt
-build-NodeWidget-*
 *.pro.user
+
+build-NodeWidget-*
+*/build-NodeWidget-*
 */build-NodeShowcase-*
+build-NodeShowcase-*

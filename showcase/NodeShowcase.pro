@@ -24,12 +24,3 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
-
-
-
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build/ -lNodeWidget
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build/ -lNodeWidgetd
-#else:unix: LIBS += -L$$PWD/../build/ -lNodeWidget
-
-#INCLUDEPATH += $$PWD/../build
-#DEPENDPATH += $$PWD/../build

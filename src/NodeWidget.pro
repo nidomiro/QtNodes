@@ -14,9 +14,7 @@ INSTALLS += headerFiles
 
 CONFIG(debug, debug|release) {
     mac: TARGET = $$join(TARGET,,,_debug)
-    else:win32: TARGET = $$join(TARGET,,,d)
-    else:win64: TARGET = $$join(TARGET,,,d)
-    else:unix: TARGET = $$join(TARGET,,,d)
+    else: TARGET = $$join(TARGET,,,d)
  }
 
 HEADERS += \
