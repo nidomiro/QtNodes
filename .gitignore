@@ -26,3 +26,8 @@
 *.exe
 *.out
 *.app
+
+# Qt
+build-NodeWidget-*
+*.pro.user
+*/build-NodeShowcase-*
