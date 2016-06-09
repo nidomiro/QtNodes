@@ -15,37 +15,17 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEWIDGET_H
-#define NODEWIDGET_H
+#include "abstractiowidget.h"
+#include "ui_abstractiowidget.h"
 
-class AbsractIOWidget;
-
-#include <QWidget>
-
-namespace Ui {
-class NodeWidget;
+AbstractIOWidget::AbstractIOWidget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::AbstractIOWidget)
+{
+    ui->setupUi(this);
 }
 
-class NodeWidget : public QWidget
+AbstractIOWidget::~AbstractIOWidget()
 {
-    Q_OBJECT
-
-public:
-    explicit NodeWidget(QWidget *parent = nullptr);
-    ~NodeWidget();
-
-    bool setHeaderWidget(QWidget *widget);
-    bool removeHeaderWidget(QWidget *widget);
-
-    bool addIOWidget(AbsractIOWidget *ioWidget);
-    bool removeIOWidget(AbsractIOWidget *ioWidget);
-
-    bool setFooterWidget(QWidget *widget);
-    bool removeFooterWidget(QWidget *widget);
-
-
-private:
-    Ui::NodeWidget *ui;
-};
-
-#endif // NODEWIDGET_H
+    delete ui;
+}

@@ -16,8 +16,47 @@
  */
 
 #include "nodewidget.h"
+#include "ui_nodewidget.h"
 
-NodeWidget::NodeWidget(QWidget *parent) : QWidget(parent)
+NodeWidget::NodeWidget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::NodeWidget)
 {
-
+    ui->setupUi(this);
 }
+
+NodeWidget::~NodeWidget()
+{
+    delete ui;
+}
+
+bool NodeWidget::setHeaderWidget(QWidget *widget)
+{
+    return false;
+}
+
+bool NodeWidget::removeHeaderWidget(QWidget *widget)
+{
+    return false;
+}
+
+bool NodeWidget::addIOWidget(AbsractIOWidget *ioWidget)
+{
+    return false;
+}
+
+bool NodeWidget::removeIOWidget(AbsractIOWidget *ioWidget)
+{
+    return false;
+}
+
+bool NodeWidget::setFooterWidget(QWidget *widget)
+{
+    return false;
+}
+
+bool NodeWidget::removeFooterWidget(QWidget *widget)
+{
+    return false;
+}
+

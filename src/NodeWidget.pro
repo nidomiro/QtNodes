@@ -18,10 +18,16 @@ CONFIG(debug, debug|release) {
  }
 
 HEADERS += \
-    nodewidget.h
+    nodewidget.h \
+    abstractiowidget.h
 
 SOURCES += \
-    nodewidget.cpp
+    nodewidget.cpp \
+    abstractiowidget.cpp
+
+FORMS += \
+    nodewidget.ui \
+    abstractiowidget.ui
 
 
 
