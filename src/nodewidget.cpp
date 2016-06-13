@@ -18,26 +18,21 @@
 #include "nodewidget.h"
 #include "ui_nodewidget.h"
 
+#include <QLabel>
+#include <QPushButton>
+#include <QDebug>
+
 NodeWidget::NodeWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NodeWidget)
 {
     ui->setupUi(this);
+    createHeaderWidget(ui->headerWidget); //TODO: change -> always calles "createHeaderWidget" of this class (ignoring override because it's not known in this constructor)
 }
 
 NodeWidget::~NodeWidget()
 {
     delete ui;
-}
-
-bool NodeWidget::setHeaderWidget(QWidget *widget)
-{
-    return false;
-}
-
-bool NodeWidget::removeHeaderWidget(QWidget *widget)
-{
-    return false;
 }
 
 bool NodeWidget::addIOWidget(AbsractIOWidget *ioWidget)
@@ -58,5 +53,35 @@ bool NodeWidget::setFooterWidget(QWidget *widget)
 bool NodeWidget::removeFooterWidget(QWidget *widget)
 {
     return false;
+}
+
+QString NodeWidget::nodeName()
+{
+    return m_nodeName;
+}
+
+void NodeWidget::createHeaderWidget(QWidget *headerWidget)
+{
+    QLayout *layout = new QHBoxLayout(headerWidget);
+
+    QLabel *headerLabel = new QLabel(nodeName(), headerWidget);
+    layout->addWidget(headerLabel);
+
+    QPushButton *closeButton = new QPushButton("X", headerWidget);
+    QObject::connect(closeButton, SIGNAL(clicked()), this, SLOT(closeNodeWidget()));
+    layout->addWidget(closeButton);
+
+
+    headerWidget->setLayout(layout);
+}
+
+void NodeWidget::setNodeName(const QString &name)
+{
+    m_nodeName = name;
+}
+
+void NodeWidget::closeNodeWidget()
+{
+    qDebug() <<"NodeWidget::closeNodeWidget() not implemented!!";
 }
 

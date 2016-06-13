@@ -19,8 +19,10 @@
 #define NODEWIDGET_H
 
 class AbsractIOWidget;
+class QLabel;
 
 #include <QWidget>
+
 
 namespace Ui {
 class NodeWidget;
@@ -30,12 +32,11 @@ class NodeWidget : public QWidget
 {
     Q_OBJECT
 
+    Q_PROPERTY(QString nodeName READ nodeName WRITE setNodeName NOTIFY nodeNameChanged)
+
 public:
     explicit NodeWidget(QWidget *parent = nullptr);
     ~NodeWidget();
-
-    bool setHeaderWidget(QWidget *widget);
-    bool removeHeaderWidget(QWidget *widget);
 
     bool addIOWidget(AbsractIOWidget *ioWidget);
     bool removeIOWidget(AbsractIOWidget *ioWidget);
@@ -43,9 +44,27 @@ public:
     bool setFooterWidget(QWidget *widget);
     bool removeFooterWidget(QWidget *widget);
 
+    QString nodeName();
+
+protected:
+
+    virtual void createHeaderWidget(QWidget *headerWidget);
+
+
+public slots:
+    void setNodeName(const QString &name);
+
+    void closeNodeWidget();
+
+signals:
+
+    void nodeNameChanged(const QString &newName);
+
 
 private:
     Ui::NodeWidget *ui;
+
+    QString m_nodeName = "Unnamed Node";
 };
 
 #endif // NODEWIDGET_H
