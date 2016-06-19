@@ -23,17 +23,26 @@
 #include <QDebug>
 
 NodeWidget::NodeWidget(QWidget *parent):
-    NodeWidget(&NodeWidget::createHeaderWidget, parent)
+    NodeWidget(&NodeWidget::createDefaultHeaderWidget, parent)
 {
 
 }
 
-NodeWidget::NodeWidget(NodeWidget::HeaderCreationFunction func = &NodeWidget::createHeaderWidget, QWidget *parent) :
+NodeWidget::NodeWidget(WidgetCreationFunction headerCreationFunc, QWidget *parent):
+    NodeWidget(headerCreationFunc, nullptr, parent)
+{
+
+}
+
+NodeWidget::NodeWidget(NodeWidget::WidgetCreationFunction headerCreationFunc, NodeWidget::WidgetCreationFunction footerCreationFunc, QWidget *parent):
     QWidget(parent),
     ui(new Ui::NodeWidget)
 {
     ui->setupUi(this);
-    func(ui->headerWidget);
+    headerCreationFunc(this, ui->headerWidget);
+    if(footerCreationFunc != nullptr){
+        footerCreationFunc(this, ui->footerWidget);
+    }
 }
 
 NodeWidget::~NodeWidget()
@@ -51,30 +60,27 @@ bool NodeWidget::removeIOWidget(AbsractIOWidget *ioWidget)
     return false;
 }
 
-bool NodeWidget::setFooterWidget(QWidget *widget)
-{
-    return false;
-}
-
-bool NodeWidget::removeFooterWidget(QWidget *widget)
-{
-    return false;
-}
-
 QString NodeWidget::nodeName()
 {
     return m_nodeName;
 }
 
-void NodeWidget::createHeaderWidget(QWidget *headerWidget)
+void NodeWidget::createDefaultHeaderWidget(NodeWidget *node, QWidget *headerWidget)
 {
     QLayout *layout = new QHBoxLayout(headerWidget);
 
-    QLabel *headerLabel = new QLabel(nodeName(), headerWidget);
+    QLabel *headerLabel = new QLabel(node->nodeName(), headerWidget);
+    QObject::connect(node, SIGNAL(nodeNameChanged(QString)), headerLabel, SLOT(setText(QString)));
+    QSizePolicy spHeaderLabel(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    spHeaderLabel.setHorizontalStretch(2);
+    headerLabel->setSizePolicy(spHeaderLabel);
     layout->addWidget(headerLabel);
 
     QPushButton *closeButton = new QPushButton("X", headerWidget);
-    QObject::connect(closeButton, SIGNAL(clicked()), this, SLOT(closeNodeWidget()));
+    QObject::connect(closeButton, SIGNAL(clicked()), node, SLOT(closeNodeWidget()));
+    QSizePolicy spCloseButton(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    spCloseButton.setHorizontalStretch(1);
+    closeButton->setSizePolicy(spCloseButton);
     layout->addWidget(closeButton);
 
 
