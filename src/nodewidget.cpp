@@ -22,12 +22,18 @@
 #include <QPushButton>
 #include <QDebug>
 
-NodeWidget::NodeWidget(QWidget *parent) :
+NodeWidget::NodeWidget(QWidget *parent):
+    NodeWidget(&NodeWidget::createHeaderWidget, parent)
+{
+
+}
+
+NodeWidget::NodeWidget(NodeWidget::HeaderCreationFunction func = &NodeWidget::createHeaderWidget, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NodeWidget)
 {
     ui->setupUi(this);
-    createHeaderWidget(ui->headerWidget); //TODO: change -> always calles "createHeaderWidget" of this class (ignoring override because it's not known in this constructor)
+    func(ui->headerWidget);
 }
 
 NodeWidget::~NodeWidget()

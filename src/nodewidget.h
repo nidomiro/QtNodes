@@ -35,7 +35,10 @@ class NodeWidget : public QWidget
     Q_PROPERTY(QString nodeName READ nodeName WRITE setNodeName NOTIFY nodeNameChanged)
 
 public:
+    typedef void (*HeaderCreationFunction)(QWidget *headerWidget);
+
     explicit NodeWidget(QWidget *parent = nullptr);
+    explicit NodeWidget(HeaderCreationFunction func, QWidget *parent = nullptr);
     ~NodeWidget();
 
     bool addIOWidget(AbsractIOWidget *ioWidget);
@@ -46,10 +49,9 @@ public:
 
     QString nodeName();
 
-protected:
 
-    virtual void createHeaderWidget(QWidget *headerWidget);
 
+    static void createHeaderWidget(QWidget *headerWidget);
 
 public slots:
     void setNodeName(const QString &name);
