@@ -19,11 +19,18 @@ CONFIG(debug, debug|release) {
 
 HEADERS += \
     nodewidget.h \
-    abstractiowidget.h
+    abstractiowidget.h \
+    iconnectionregister.h \
+    nodegrid.h \
+    nodescene.h \
+    connection.h
 
 SOURCES += \
     nodewidget.cpp \
-    abstractiowidget.cpp
+    abstractiowidget.cpp \
+    nodegrid.cpp \
+    nodescene.cpp \
+    connection.cpp
 
 FORMS += \
     nodewidget.ui \
