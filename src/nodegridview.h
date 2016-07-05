@@ -15,21 +15,21 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEGRID_H
-#define NODEGRID_H
+#ifndef NODEGRIDVIEW_H
+#define NODEGRIDVIEW_H
 
 #include <QGraphicsView>
 
-class NodeGrid : public QGraphicsView
+class NodeGridView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    explicit NodeGrid(QWidget *parent = 0);
-    NodeGrid(QGraphicsScene *scene, QWidget *parent = 0);
+    explicit NodeGridView(QWidget *parent = 0);
+    NodeGridView(QGraphicsScene *scene, QWidget *parent = 0);
 
 signals:
 
 public slots:
 };
 
-#endif // NODEGRID_H
+#endif // NODEGRIDVIEW_H

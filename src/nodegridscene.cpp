@@ -15,28 +15,28 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "nodescene.h"
+#include "nodegridscene.h"
 
 
-NodeScene::NodeScene(QObject *parent):
+NodeGridScene::NodeGridScene(QObject *parent):
     QGraphicsScene(parent)
 {
 
 }
 
-NodeScene::NodeScene(const QRectF &sceneRect, QObject *parent):
+NodeGridScene::NodeGridScene(const QRectF &sceneRect, QObject *parent):
     QGraphicsScene(sceneRect, parent)
 {
 
 }
 
-NodeScene::NodeScene(qreal x, qreal y, qreal width, qreal height, QObject *parent):
+NodeGridScene::NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent):
     QGraphicsScene(x, y, width, height, parent)
 {
 
 }
 
-bool NodeScene::addNodeWidget(NodeWidget *node)
+bool NodeGridScene::addNodeWidget(NodeWidget *node)
 {
     bool ret = false;
     if( !m_nodeMapping.keys().contains(node)){

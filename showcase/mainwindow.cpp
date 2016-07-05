@@ -18,11 +18,31 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QList>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    m_nodeGridScene = new NodeGridScene;
+
+    ui->nodeGridView->setScene(m_nodeGridScene);
+
+    QList<NodeWidget*> nodes;
+
+    for(int i=0; i<2; i++)
+    {
+        NodeWidget *nw = new NodeWidget;
+        nw->setNodeName("Node" + QString::number(i));
+        nodes.append(nw);
+        m_nodeGridScene->addNodeWidget(nw);
+    }
+
+
+
+
 }
 
 MainWindow::~MainWindow()

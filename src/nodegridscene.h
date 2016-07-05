@@ -15,15 +15,34 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "nodegrid.h"
+#ifndef NODEGRIDSCENE_H
+#define NODEGRIDSCENE_H
 
-NodeGrid::NodeGrid(QWidget *parent) : QGraphicsView(parent)
+#include <QGraphicsScene>
+#include <QGraphicsProxyWidget>
+#include <QMap>
+
+#include "nodewidget.h"
+
+
+class NodeGridScene : public QGraphicsScene
 {
+    Q_OBJECT
+public:
+    explicit NodeGridScene(QObject *parent = 0);
+    NodeGridScene(const QRectF &sceneRect, QObject *parent = 0);
+    NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
 
-}
+    bool addNodeWidget(NodeWidget * node);
 
-NodeGrid::NodeGrid(QGraphicsScene *scene, QWidget *parent):
-    QGraphicsView(scene, parent)
-{
+signals:
 
-}
+public slots:
+
+
+
+private:
+    QMap<NodeWidget*, QGraphicsProxyWidget*> m_nodeMapping;
+};
+
+#endif // NODEGRIDSCENE_H

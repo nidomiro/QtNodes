@@ -111,6 +111,7 @@ void NodeWidget::createDefaultHeaderWidget(NodeWidget *node, QWidget *headerWidg
 void NodeWidget::setNodeName(const QString &name)
 {
     m_nodeName = name;
+    emit nodeNameChanged(m_nodeName);
 }
 
 void NodeWidget::closeNodeWidget()

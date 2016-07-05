@@ -24,7 +24,7 @@
 class IConnectionRegister
 {
 public:
-    virtual QList<Connection*> *getOutgoingConnections() = 0;
+    virtual QList<Connection*> *getIncomingConnections() = 0;
     virtual QList<Connection*> *getOutgoingConnections() = 0;
 };
 

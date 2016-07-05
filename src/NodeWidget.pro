@@ -21,16 +21,16 @@ HEADERS += \
     nodewidget.h \
     abstractiowidget.h \
     iconnectionregister.h \
-    nodegrid.h \
-    nodescene.h \
-    connection.h
+    connection.h \
+    nodegridview.h \
+    nodegridscene.h
 
 SOURCES += \
     nodewidget.cpp \
     abstractiowidget.cpp \
-    nodegrid.cpp \
-    nodescene.cpp \
-    connection.cpp
+    connection.cpp \
+    nodegridview.cpp \
+    nodegridscene.cpp
 
 FORMS += \
     nodewidget.ui \

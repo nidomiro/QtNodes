@@ -14,16 +14,11 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="NodeWidget" name="widget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>100</y>
-      <width>120</width>
-      <height>80</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="NodeGridView" name="nodeGridView"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -48,10 +43,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>NodeWidget</class>
-   <extends>QWidget</extends>
-   <header>nodewidget.h</header>
-   <container>1</container>
+   <class>NodeGridView</class>
+   <extends>QGraphicsView</extends>
+   <header>nodegridview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

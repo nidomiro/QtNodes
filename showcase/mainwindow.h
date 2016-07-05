@@ -20,6 +20,9 @@
 
 #include <QMainWindow>
 
+#include "nodewidget.h"
+#include "nodegridscene.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -34,6 +37,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    NodeGridScene *m_nodeGridScene = nullptr;
 };
 
 #endif // MAINWINDOW_H
