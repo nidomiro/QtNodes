@@ -22,7 +22,7 @@
 #include <QGraphicsProxyWidget>
 #include <QMap>
 
-#include "nodewidget.h"
+#include "nodegraphicswidget.h"
 
 
 class NodeGridScene : public QGraphicsScene
@@ -33,7 +33,7 @@ public:
     NodeGridScene(const QRectF &sceneRect, QObject *parent = 0);
     NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
 
-    bool addNodeWidget(NodeWidget * node);
+    bool addNodeWidget(NodeGraphicsWidget * node);
 
 signals:
 
@@ -42,7 +42,7 @@ public slots:
 
 
 private:
-    QMap<NodeWidget*, QGraphicsProxyWidget*> m_nodeMapping;
+    QList<NodeGraphicsWidget*> m_nodes;
 };
 
 #endif // NODEGRIDSCENE_H

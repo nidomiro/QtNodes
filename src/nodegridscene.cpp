@@ -36,12 +36,15 @@ NodeGridScene::NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObjec
 
 }
 
-bool NodeGridScene::addNodeWidget(NodeWidget *node)
+bool NodeGridScene::addNodeWidget(NodeGraphicsWidget *node)
 {
     bool ret = false;
-    if( !m_nodeMapping.keys().contains(node)){
-        QGraphicsProxyWidget *proxy = this->addWidget(node);
-        m_nodeMapping.insert(node, proxy);
+    if( !m_nodes.contains(node)){
+        this->addItem(node);
+        m_nodes.append(node);
+        node->setFlag(QGraphicsProxyWidget::ItemIsMovable);
+        node->setFlag(QGraphicsProxyWidget::ItemIsSelectable);
+        node->setFlag(QGraphicsProxyWidget::ItemSendsGeometryChanges);
         ret = true;
     }
     return ret;

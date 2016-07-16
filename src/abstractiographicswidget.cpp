@@ -15,17 +15,16 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "abstractiowidget.h"
+#include "abstractiographicswidget.h"
 #include "ui_abstractiowidget.h"
 
-AbstractIOWidget::AbstractIOWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::AbstractIOWidget)
+AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
+    QGraphicsWidget(parent, wFlags)
 {
-    ui->setupUi(this);
+
 }
 
-AbstractIOWidget::~AbstractIOWidget()
+AbstractIOGraphicsWidget::~AbstractIOGraphicsWidget()
 {
-    delete ui;
+
 }

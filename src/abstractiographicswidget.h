@@ -15,25 +15,22 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABSTRACTIOWIDGET_H
-#define ABSTRACTIOWIDGET_H
+#ifndef ABSTRACTIOGRAPHICSWIDGET_H
+#define ABSTRACTIOGRAPHICSWIDGET_H
 
-#include <QWidget>
+#include <QGraphicsWidget>
 
-namespace Ui {
-class AbstractIOWidget;
-}
 
-class AbstractIOWidget : public QWidget
+class AbstractIOGraphicsWidget : public QGraphicsWidget
 {
     Q_OBJECT
 
 public:
-    explicit AbstractIOWidget(QWidget *parent = 0);
-    ~AbstractIOWidget();
+    explicit AbstractIOGraphicsWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    ~AbstractIOGraphicsWidget();
 
 private:
-    Ui::AbstractIOWidget *ui;
+
 };
 
-#endif // ABSTRACTIOWIDGET_H
+#endif // ABSTRACTIOGRAPHICSWIDGET_H

@@ -18,22 +18,21 @@ CONFIG(debug, debug|release) {
  }
 
 HEADERS += \
-    nodewidget.h \
-    abstractiowidget.h \
     iconnectionregister.h \
     connection.h \
     nodegridview.h \
-    nodegridscene.h
+    nodegridscene.h \
+    nodegraphicswidget.h \
+    abstractiographicswidget.h
 
 SOURCES += \
-    nodewidget.cpp \
-    abstractiowidget.cpp \
     connection.cpp \
     nodegridview.cpp \
-    nodegridscene.cpp
+    nodegridscene.cpp \
+    nodegraphicswidget.cpp \
+    abstractiographicswidget.cpp
 
 FORMS += \
-    nodewidget.ui \
     abstractiowidget.ui
 
 

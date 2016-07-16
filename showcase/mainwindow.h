@@ -20,7 +20,7 @@
 
 #include <QMainWindow>
 
-#include "nodewidget.h"
+#include "nodegraphicswidget.h"
 #include "nodegridscene.h"
 
 namespace Ui {

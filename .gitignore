@@ -30,7 +30,10 @@
 # Qt
 *.pro.user
 
-build-NodeWidget-*
-*/build-NodeWidget-*
+build-Nodes-*
+*/build-Nodes-*
 */build-NodeShowcase-*
 build-NodeShowcase-*
+
+# KDE
+.directory

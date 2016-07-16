@@ -30,11 +30,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->nodeGridView->setScene(m_nodeGridScene);
 
-    QList<NodeWidget*> nodes;
+    QList<NodeGraphicsWidget*> nodes;
 
     for(int i=0; i<2; i++)
     {
-        NodeWidget *nw = new NodeWidget;
+        NodeGraphicsWidget *nw = new NodeGraphicsWidget;
         nw->setNodeName("Node" + QString::number(i));
         nodes.append(nw);
         m_nodeGridScene->addNodeWidget(nw);
