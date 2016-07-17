@@ -19,6 +19,7 @@
 #define ABSTRACTIOGRAPHICSWIDGET_H
 
 #include <QGraphicsWidget>
+//#include <type_traits>
 
 
 class AbstractIOGraphicsWidget : public QGraphicsWidget
@@ -26,8 +27,26 @@ class AbstractIOGraphicsWidget : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    explicit AbstractIOGraphicsWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    typedef void (*IOWidgetCreationFunction)(AbstractIOGraphicsWidget *ioWidget, QGraphicsWidget *widgetToCreate);
+
+
     ~AbstractIOGraphicsWidget();
+
+    void init();
+
+
+
+    // only callable if template-parameter is derived from AbstractIOGraphicsWidget
+    template<typename CLAZZ, typename std::enable_if<std::is_base_of<AbstractIOGraphicsWidget, CLAZZ>::value>::type* = nullptr>
+    static CLAZZ *create(){
+        CLAZZ *instance = new CLAZZ();
+        instance->init();
+
+        return instance;
+    }
+
+protected:
+    AbstractIOGraphicsWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
 
 private:
 

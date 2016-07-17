@@ -20,6 +20,8 @@
 
 #include <QList>
 
+#include "abstractiographicswidget.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -40,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
         m_nodeGridScene->addNodeWidget(nw);
     }
 
+    AbstractIOGraphicsWidget *aiogw = AbstractIOGraphicsWidget::create<AbstractIOGraphicsWidget>();
+//    AbstractIOGraphicsWidget *aiogw2 = AbstractIOGraphicsWidget::create<MainWindow>();
 
 
 

@@ -28,3 +28,9 @@ AbstractIOGraphicsWidget::~AbstractIOGraphicsWidget()
 {
 
 }
+
+void AbstractIOGraphicsWidget::init()
+{
+
+}
+
