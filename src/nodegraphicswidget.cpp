@@ -44,6 +44,7 @@
 
 
 #include "abstractiographicswidget.h"
+#include "utils/colorutils.h"
 
 NodeGraphicsWidget::NodeGraphicsWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags):
     NodeGraphicsWidget(&NodeGraphicsWidget::createDefaultHeaderWidget, parent, wFlags)
@@ -62,7 +63,7 @@ NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunctio
 {
     m_headerWidget = new QGraphicsWidget(this);
     m_centerWidget = new QGraphicsWidget(this);
-    m_centerWidgetLayout = new QGraphicsLinearLayout(m_centerWidget);
+    m_centerWidgetLayout = new QGraphicsLinearLayout(Qt::Orientation::Vertical, m_centerWidget);
     m_centerWidget->setLayout(m_centerWidgetLayout);
     m_footerWidget = new QGraphicsWidget(this);
 
@@ -71,6 +72,14 @@ NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunctio
     if(footerCreationFunc != nullptr){
         footerCreationFunc(this, m_headerWidget);
     }
+
+    setAutoFillBackground(true);
+
+    QPalette pal;
+
+    pal.setColor(QPalette::Window, QColor(Qt::red));
+
+    this->setPalette(pal);
 
 }
 
@@ -119,6 +128,16 @@ void NodeGraphicsWidget::createDefaultHeaderWidget(NodeGraphicsWidget *node, QGr
     layout->addItem(closeButtonProxy);
 
     headerWidget->setLayout(layout);
+
+    headerWidget->setAutoFillBackground(true);
+
+    QPalette pal;
+
+    pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
+
+    headerWidget->setPalette(pal);
+
+
 }
 
 void NodeGraphicsWidget::setNodeName(const QString &name)

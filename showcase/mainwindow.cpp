@@ -21,6 +21,7 @@
 #include <QList>
 
 #include "abstractiographicswidget.h"
+#include "iowidgets/qstringiographicswidget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -39,10 +40,15 @@ MainWindow::MainWindow(QWidget *parent) :
         NodeGraphicsWidget *nw = new NodeGraphicsWidget;
         nw->setNodeName("Node" + QString::number(i));
         nodes.append(nw);
+
+        for( int j=0; j<3; j++){
+            nw->addIOWidget(AbstractIOGraphicsWidget::create<QStringIOGraphicsWidget>());
+        }
+
         m_nodeGridScene->addNodeWidget(nw);
     }
 
-    AbstractIOGraphicsWidget *aiogw = AbstractIOGraphicsWidget::create<AbstractIOGraphicsWidget>();
+    //AbstractIOGraphicsWidget *aiogw = AbstractIOGraphicsWidget::create<AbstractIOGraphicsWidget>();
 //    AbstractIOGraphicsWidget *aiogw2 = AbstractIOGraphicsWidget::create<MainWindow>();
 
 

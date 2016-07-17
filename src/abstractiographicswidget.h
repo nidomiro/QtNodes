@@ -18,6 +18,9 @@
 #ifndef ABSTRACTIOGRAPHICSWIDGET_H
 #define ABSTRACTIOGRAPHICSWIDGET_H
 
+
+class QGraphicsLinearLayout;
+
 #include <QGraphicsWidget>
 //#include <type_traits>
 
@@ -27,15 +30,25 @@ class AbstractIOGraphicsWidget : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    typedef void (*IOWidgetCreationFunction)(AbstractIOGraphicsWidget *ioWidget, QGraphicsWidget *widgetToCreate);
-
-
     ~AbstractIOGraphicsWidget();
 
+
+protected:
+    AbstractIOGraphicsWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
     void init();
+    virtual void createCenterWidget(QGraphicsWidget *centerWidget) = 0;
+
+private:
+
+    QGraphicsLinearLayout *m_layout = nullptr;
+
+    QGraphicsWidget *m_leftConnector = nullptr;
+    QGraphicsWidget *m_centerWidget = nullptr;
+    QGraphicsWidget *m_rightConnector = nullptr;
 
 
-
+// BEGIN static part
+public:
     // only callable if template-parameter is derived from AbstractIOGraphicsWidget
     template<typename CLAZZ, typename std::enable_if<std::is_base_of<AbstractIOGraphicsWidget, CLAZZ>::value>::type* = nullptr>
     static CLAZZ *create(){
@@ -44,11 +57,6 @@ public:
 
         return instance;
     }
-
-protected:
-    AbstractIOGraphicsWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-
-private:
 
 };
 

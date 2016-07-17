@@ -23,14 +23,20 @@ HEADERS += \
     nodegridview.h \
     nodegridscene.h \
     nodegraphicswidget.h \
-    abstractiographicswidget.h
+    abstractiographicswidget.h \
+    utils/colorutils.h \
+    utils/mathutil.h \
+    iowidgets/qstringiographicswidget.h
 
 SOURCES += \
     connection.cpp \
     nodegridview.cpp \
     nodegridscene.cpp \
     nodegraphicswidget.cpp \
-    abstractiographicswidget.cpp
+    abstractiographicswidget.cpp \
+    utils/colorutils.cpp \
+    utils/mathutil.cpp \
+    iowidgets/qstringiographicswidget.cpp
 
 FORMS += \
     abstractiowidget.ui
