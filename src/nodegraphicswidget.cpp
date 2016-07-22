@@ -71,7 +71,7 @@ NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunctio
 
     headerCreationFunc(this, m_headerWidget);
     if(footerCreationFunc != nullptr){
-        footerCreationFunc(this, m_headerWidget);
+        footerCreationFunc(this, m_footerWidget);
     }
 
     setAutoFillBackground(true);
