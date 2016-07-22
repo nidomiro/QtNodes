@@ -19,9 +19,11 @@
 #include "ui_mainwindow.h"
 
 #include <QList>
+#include <QDebug>
 
 #include "abstractiographicswidget.h"
 #include "iowidgets/qstringiographicswidget.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -33,22 +35,24 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->nodeGridView->setScene(m_nodeGridScene);
 
-    QList<NodeGraphicsWidget*> nodes;
 
-    for(int i=0; i<2; i++)
-    {
-        NodeGraphicsWidget *nw = new NodeGraphicsWidget;
-        nw->setNodeName("Node" + QString::number(i));
-        nodes.append(nw);
 
-        for( int j=0; j<3; j++){
-            nw->addIOWidget(AbstractIOGraphicsWidget::create<QStringIOGraphicsWidget>());
-        }
+    NodeGraphicsWidget *nw = new NodeGraphicsWidget;
+    nw->setNodeName("Node" + QString::number(m_nodes.size()));
+    m_nodes.append(nw);
 
-        m_nodeGridScene->addNodeWidget(nw);
+    for( int j=0; j<3; j++){
+        nw->addIOWidget(AbstractIOGraphicsWidget::create<QStringIOGraphicsWidget>());
     }
 
-    //AbstractIOGraphicsWidget *aiogw = AbstractIOGraphicsWidget::create<AbstractIOGraphicsWidget>();
+    m_nodeGridScene->addNodeWidget(nw);
+
+
+    ui->nodeGridView->setSceneRect(0, 0, ui->nodeGridView->width(), ui->nodeGridView->height());
+    ui->nodeGridView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->nodeGridView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+//    AbstractIOGraphicsWidget *aiogw = AbstractIOGraphicsWidget::create<AbstractIOGraphicsWidget>();
 //    AbstractIOGraphicsWidget *aiogw2 = AbstractIOGraphicsWidget::create<MainWindow>();
 
 
@@ -58,4 +62,31 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_addNode_clicked()
+{
+
+    NodeGraphicsWidget *nw = new NodeGraphicsWidget;
+    nw->setNodeName("Node" + QString::number(m_nodes.size()));
+    m_nodes.append(nw);
+    qDebug() <<"Node: " <<nw->nodeName() <<"j: -1" <<" NodeGraphicsWidgetSize: " <<nw->size();
+    for( int j=0; j<3; j++){
+        nw->addIOWidget(AbstractIOGraphicsWidget::create<QStringIOGraphicsWidget>());
+        qDebug() <<"Node: " <<nw->nodeName() <<"j: " <<j <<" NodeGraphicsWidgetSize: " <<nw->size();
+    }
+
+    m_nodeGridScene->addNodeWidget(nw);
+
+}
+
+void MainWindow::on_addIOWidget_clicked()
+{
+    if(m_nodes.size() < 1)
+        return;
+
+    NodeGraphicsWidget *nw = m_nodes[m_nodes.size() - 1];
+    nw->addIOWidget(AbstractIOGraphicsWidget::create<QStringIOGraphicsWidget>());
+    qDebug() <<"Node: " <<nw->nodeName() <<"j: **" <<" NodeGraphicsWidgetSize: " <<nw->size();
+
 }

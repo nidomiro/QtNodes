@@ -35,10 +35,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_addNode_clicked();
+
+    void on_addIOWidget_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     NodeGridScene *m_nodeGridScene = nullptr;
+
+    QList<NodeGraphicsWidget*> m_nodes;
 };
 
 #endif // MAINWINDOW_H

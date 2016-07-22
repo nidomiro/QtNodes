@@ -64,6 +64,7 @@ NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunctio
     m_headerWidget = new QGraphicsWidget(this);
     m_centerWidget = new QGraphicsWidget(this);
     m_centerWidgetLayout = new QGraphicsLinearLayout(Qt::Orientation::Vertical, m_centerWidget);
+    m_centerWidgetLayout->setSpacing(0);
     m_centerWidget->setLayout(m_centerWidgetLayout);
     m_footerWidget = new QGraphicsWidget(this);
 
