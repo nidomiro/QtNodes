@@ -62,6 +62,8 @@ private:
 
     QString m_nodeName = "Unnamed Node";
 
+    QGraphicsLinearLayout *m_layout = nullptr;
+
     QGraphicsWidget *m_headerWidget = nullptr;
     QGraphicsWidget *m_centerWidget = nullptr;
     QGraphicsLinearLayout *m_centerWidgetLayout = nullptr;

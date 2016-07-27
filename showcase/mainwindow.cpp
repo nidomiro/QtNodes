@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_nodeGridScene = new NodeGridScene;
 
     ui->nodeGridView->setScene(m_nodeGridScene);
+    m_nodeGridScene->setSceneRect(QRect(QPoint(0,0),ui->nodeGridView->size()));
 
 
 

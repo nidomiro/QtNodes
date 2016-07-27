@@ -21,16 +21,19 @@
 #include <QGraphicsProxyWidget>
 #include <QGraphicsLinearLayout>
 
+#include "utils/colorutils.h"
+
 
 void QStringIOGraphicsWidget::createCenterWidget(QGraphicsWidget *centerWidget)
 {
-    m_layout = new QGraphicsLinearLayout(centerWidget);
+    m_layout = new QGraphicsLinearLayout(Qt::Orientation::Horizontal, centerWidget);
 
     m_label = new QLabel("Some Text"); // no need to destroy, QGraphicsProxyWidget handles it
     m_labelProxy = new QGraphicsProxyWidget(centerWidget);
     m_labelProxy->setWidget(m_label);
 
     m_layout->addItem(m_labelProxy);
+
 
     centerWidget->setLayout(m_layout);
 }

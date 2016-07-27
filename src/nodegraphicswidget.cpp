@@ -61,12 +61,22 @@ NodeGraphicsWidget::NodeGraphicsWidget(WidgetCreationFunction headerCreationFunc
 NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunction headerCreationFunc, NodeGraphicsWidget::WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
     QGraphicsWidget(parent, wFlags)
 {
+    m_layout = new QGraphicsLinearLayout(Qt::Orientation::Vertical, this);
+    this->setLayout(m_layout);
+    m_layout->setContentsMargins(0,0,0,0);
+    m_layout->setSpacing(0);
+
     m_headerWidget = new QGraphicsWidget(this);
+    m_layout->addItem(m_headerWidget);
     m_centerWidget = new QGraphicsWidget(this);
+    m_layout->addItem(m_centerWidget);
     m_centerWidgetLayout = new QGraphicsLinearLayout(Qt::Orientation::Vertical, m_centerWidget);
     m_centerWidgetLayout->setSpacing(0);
+    m_centerWidgetLayout->setContentsMargins(0,2,0,2);
     m_centerWidget->setLayout(m_centerWidgetLayout);
     m_footerWidget = new QGraphicsWidget(this);
+    m_footerWidget->setMaximumHeight(5);
+    m_layout->addItem(m_footerWidget);
 
 
     headerCreationFunc(this, m_headerWidget);
@@ -74,13 +84,14 @@ NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunctio
         footerCreationFunc(this, m_footerWidget);
     }
 
-    setAutoFillBackground(true);
 
-    QPalette pal;
-
-    pal.setColor(QPalette::Window, QColor(Qt::red));
-
-    this->setPalette(pal);
+    // Todo: Remove hacky code after debug
+    {
+        QPalette pal;
+        pal.setColor(QPalette::Window, QColor(200,50,50));
+        this->setAutoFillBackground(true);
+        this->setPalette(pal);
+    }
 
 }
 
@@ -91,6 +102,8 @@ NodeGraphicsWidget::~NodeGraphicsWidget()
 bool NodeGraphicsWidget::addIOWidget(AbstractIOGraphicsWidget *ioWidget)
 {
     m_centerWidgetLayout->addItem(ioWidget);
+    m_centerWidgetLayout->setSpacing(0);
+
     return true;
 }
 

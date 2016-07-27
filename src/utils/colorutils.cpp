@@ -26,9 +26,9 @@ ColorUtils::ColorUtils()
 }
 
 // SOURCE: http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
-QColor ColorUtils::generateRandomColor()
+QColor ColorUtils::generateRandomColor(qreal alpha)
 {
     QColor ret;
-    ret.setHsvF(MathUtil::randD(), 0.5, 0.95);
+    ret.setHsvF(MathUtil::randD(), 0.5, alpha);
     return ret;
 }

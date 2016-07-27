@@ -32,7 +32,7 @@ public:
 // BEGIN static part
 
 public:
-    static QColor generateRandomColor();
+    static QColor generateRandomColor(qreal alpha = .95);
 
     static QColor HSVtoRGB(QColor);
 

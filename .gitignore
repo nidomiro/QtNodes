@@ -29,6 +29,7 @@
 
 # Qt
 *.pro.user
+*.autosave
 
 build-Nodes-*
 */build-Nodes-*

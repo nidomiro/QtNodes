@@ -28,6 +28,9 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
     //Do not call "init" here, because it calls the virtual method "createCenterWidget", use "AbstractIOGraphicsWidget::create<SubClass>()" instead
 
     m_layout = new QGraphicsLinearLayout(Qt::Orientation::Horizontal, this);
+    m_layout->setSpacing(0);
+    m_layout->setContentsMargins(0,2,0,2);
+    this->setLayout(m_layout);
 
     m_leftConnector = new QGraphicsWidget(this);
     m_centerWidget = new QGraphicsWidget(this);
@@ -41,11 +44,34 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
     m_layout->setStretchFactor(m_centerWidget, 3);
     m_layout->setStretchFactor(m_rightConnector, 1);
 
-    QPalette pal;
-
-    pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
-
-    this->setPalette(pal);
+    // Todo: Remove hacky code after debug
+    {
+        QPalette pal;
+        pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
+        this->setAutoFillBackground(true);
+        this->setPalette(pal);
+    }
+    // Todo: Remove hacky code after debug
+    {
+        QPalette pal;
+        pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
+        m_leftConnector->setPalette(pal);
+        m_leftConnector->setAutoFillBackground(true);
+    }
+    // Todo: Remove hacky code after debug
+    {
+        QPalette pal;
+        pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
+        m_rightConnector->setPalette(pal);
+        m_rightConnector->setAutoFillBackground(true);
+    }
+    // Todo: Remove hacky code after debug
+    {
+        QPalette pal;
+        pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
+        m_centerWidget->setPalette(pal);
+        m_centerWidget->setAutoFillBackground(true);
+    }
 
 
 }
