@@ -26,7 +26,8 @@ HEADERS += \
     abstractiographicswidget.h \
     utils/colorutils.h \
     utils/mathutil.h \
-    iowidgets/qstringiographicswidget.h
+    iowidgets/qstringiographicswidget.h \
+    connectorgraphicswidget.h
 
 SOURCES += \
     connection.cpp \
@@ -36,7 +37,8 @@ SOURCES += \
     abstractiographicswidget.cpp \
     utils/colorutils.cpp \
     utils/mathutil.cpp \
-    iowidgets/qstringiographicswidget.cpp
+    iowidgets/qstringiographicswidget.cpp \
+    connectorgraphicswidget.cpp
 
 FORMS += \
     abstractiowidget.ui

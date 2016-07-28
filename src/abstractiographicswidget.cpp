@@ -32,9 +32,9 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
     m_layout->setContentsMargins(0,2,0,2);
     this->setLayout(m_layout);
 
-    m_leftConnector = new QGraphicsWidget(this);
+    m_leftConnector = new ConnectorGraphicsWidget(this);
     m_centerWidget = new QGraphicsWidget(this);
-    m_rightConnector = new QGraphicsWidget(this);
+    m_rightConnector = new ConnectorGraphicsWidget(this);
 
     m_layout->addItem(m_leftConnector);
     m_layout->addItem(m_centerWidget);
@@ -43,6 +43,7 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
     m_layout->setStretchFactor(m_leftConnector, 1);
     m_layout->setStretchFactor(m_centerWidget, 3);
     m_layout->setStretchFactor(m_rightConnector, 1);
+
 
     // Todo: Remove hacky code after debug
     {

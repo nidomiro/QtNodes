@@ -24,6 +24,8 @@ class QGraphicsLinearLayout;
 #include <QGraphicsWidget>
 //#include <type_traits>
 
+#include "connectorgraphicswidget.h"
+
 
 class AbstractIOGraphicsWidget : public QGraphicsWidget
 {
@@ -42,9 +44,9 @@ private:
 
     QGraphicsLinearLayout *m_layout = nullptr;
 
-    QGraphicsWidget *m_leftConnector = nullptr;
+    ConnectorGraphicsWidget *m_leftConnector = nullptr;
     QGraphicsWidget *m_centerWidget = nullptr;
-    QGraphicsWidget *m_rightConnector = nullptr;
+    ConnectorGraphicsWidget *m_rightConnector = nullptr;
 
 
 // BEGIN static part
