@@ -27,12 +27,21 @@
 void QStringIOGraphicsWidget::createCenterWidget(QGraphicsWidget *centerWidget)
 {
     m_layout = new QGraphicsLinearLayout(Qt::Orientation::Horizontal, centerWidget);
+    m_layout->setContentsMargins(2,0,2,0);
 
     m_label = new QLabel("Some Text"); // no need to destroy, QGraphicsProxyWidget handles it
     m_labelProxy = new QGraphicsProxyWidget(centerWidget);
     m_labelProxy->setWidget(m_label);
 
     m_layout->addItem(m_labelProxy);
+
+    // Todo: Remove hacky code after debug
+    {
+        QPalette pal;
+        pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
+        m_labelProxy->setAutoFillBackground(true);
+        m_labelProxy->setPalette(pal);
+    }
 
 
     centerWidget->setLayout(m_layout);

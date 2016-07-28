@@ -32,17 +32,19 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
     m_layout->setContentsMargins(0,2,0,2);
     this->setLayout(m_layout);
 
-    m_leftConnector = new ConnectorGraphicsWidget(this);
+    m_leftConnector = new ConnectorGraphicsWidget(ConnectorGraphicsWidget::POS_LEFT, this);
     m_centerWidget = new QGraphicsWidget(this);
-    m_rightConnector = new ConnectorGraphicsWidget(this);
+    m_rightConnector = new ConnectorGraphicsWidget(ConnectorGraphicsWidget::POS_RIGHT, this);
 
     m_layout->addItem(m_leftConnector);
     m_layout->addItem(m_centerWidget);
     m_layout->addItem(m_rightConnector);
 
     m_layout->setStretchFactor(m_leftConnector, 1);
-    m_layout->setStretchFactor(m_centerWidget, 3);
+    m_layout->setStretchFactor(m_centerWidget, 20);
     m_layout->setStretchFactor(m_rightConnector, 1);
+
+    m_centerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
 
     // Todo: Remove hacky code after debug
@@ -52,7 +54,7 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
         this->setAutoFillBackground(true);
         this->setPalette(pal);
     }
-    // Todo: Remove hacky code after debug
+/*    // Todo: Remove hacky code after debug
     {
         QPalette pal;
         pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
@@ -65,7 +67,7 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
         pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
         m_rightConnector->setPalette(pal);
         m_rightConnector->setAutoFillBackground(true);
-    }
+    }*/
     // Todo: Remove hacky code after debug
     {
         QPalette pal;

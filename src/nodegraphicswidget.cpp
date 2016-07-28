@@ -75,7 +75,7 @@ NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunctio
     m_centerWidgetLayout->setContentsMargins(0,2,0,2);
     m_centerWidget->setLayout(m_centerWidgetLayout);
     m_footerWidget = new QGraphicsWidget(this);
-    m_footerWidget->setMaximumHeight(5);
+    m_footerWidget->setPreferredHeight(5);
     m_layout->addItem(m_footerWidget);
 
 

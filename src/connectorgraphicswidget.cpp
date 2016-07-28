@@ -17,8 +17,52 @@
 
 #include "connectorgraphicswidget.h"
 
-ConnectorGraphicsWidget::ConnectorGraphicsWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
-    QGraphicsWidget(parent, wFlags)
-{
+#include <QWidget>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+#include <QDebug>
 
+ qreal ConnectorGraphicsWidget::connectorRadius = 4;
+
+ConnectorGraphicsWidget::ConnectorGraphicsWidget(Position pos, QGraphicsItem *parent) :
+    QGraphicsWidget(parent),
+    m_connectorPos(pos)
+{
+    setMinimumSize(connectorRadius*2, connectorRadius*2);
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    setMaximumWidth(connectorRadius*2);
+//    setPreferredSize(connectorRadius*2, connectorRadius*2);
+}
+
+void ConnectorGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->setRenderHint(QPainter::Antialiasing, true);
+
+//    QPointF center = QPointF(this->size().width() / 2, this->size().height() / 2);
+//    qDebug() <<center;
+    painter->setBrush(QBrush(m_conectorColor));
+    QRect connector;
+    switch (m_connectorPos) {
+    case POS_LEFT:
+        connector = QRect(0, this->size().height() / 2 - connectorRadius, connectorRadius*2, connectorRadius*2);
+        break;
+    case POS_RIGHT:
+        connector = QRect(this->size().width() - connectorRadius*2, this->size().height() / 2 - connectorRadius, connectorRadius*2, connectorRadius*2);
+        break;
+    default:
+        break;
+    }
+
+    painter->drawEllipse(connector);
+
+}
+
+QColor ConnectorGraphicsWidget::conectorColor() const
+{
+    return m_conectorColor;
+}
+
+void ConnectorGraphicsWidget::setConectorColor(const QColor &conectorColor)
+{
+    m_conectorColor = conectorColor;
 }
