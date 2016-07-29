@@ -32,7 +32,7 @@ public:
         POS_RIGHT
     };
 
-public:
+public: // Methods
     ConnectorGraphicsWidget(Position pos, QGraphicsItem *parent = nullptr);
 
 
@@ -40,18 +40,29 @@ public:
 
 //    virtual void paintWindowFrame(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 //    QRectF boundingRect() const override;
-//    QPainterPath shape() const override;
+    QPainterPath shape() const override;
 
     QColor conectorColor() const;
     void setConectorColor(const QColor &conectorColor);
 
+    QRectF getConnectorRect() const;
+    void recalculateConnectorRect();
+
 protected:
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
+
+protected slots:
+    void onGeometryChange();
+
+protected: // Members
     Position m_connectorPos = POS_LEFT;
 
     QColor m_conectorColor = QColor(255,255,51);
+    QRectF m_connectorRect;
 
-public:
-    static qreal connectorRadius;
+public: // Static
+    static qreal s_connectorRadius;
 
 
 

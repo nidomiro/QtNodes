@@ -21,17 +21,26 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
+#include <QGraphicsSceneHoverEvent>
 
- qreal ConnectorGraphicsWidget::connectorRadius = 4;
+ qreal ConnectorGraphicsWidget::s_connectorRadius = 5;
 
 ConnectorGraphicsWidget::ConnectorGraphicsWidget(Position pos, QGraphicsItem *parent) :
     QGraphicsWidget(parent),
     m_connectorPos(pos)
 {
-    setMinimumSize(connectorRadius*2, connectorRadius*2);
+
+    setMinimumSize(s_connectorRadius*2, s_connectorRadius*2);
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-    setMaximumWidth(connectorRadius*2);
+    setMaximumWidth(s_connectorRadius*2);
 //    setPreferredSize(connectorRadius*2, connectorRadius*2);
+
+    QObject::connect(this, SIGNAL(geometryChanged()), this, SLOT(onGeometryChange()));
+
+    setAcceptHoverEvents(true);
+    setAcceptDrops(true);
+
+    recalculateConnectorRect();
 }
 
 void ConnectorGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -41,20 +50,17 @@ void ConnectorGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphic
 //    QPointF center = QPointF(this->size().width() / 2, this->size().height() / 2);
 //    qDebug() <<center;
     painter->setBrush(QBrush(m_conectorColor));
-    QRect connector;
-    switch (m_connectorPos) {
-    case POS_LEFT:
-        connector = QRect(0, this->size().height() / 2 - connectorRadius, connectorRadius*2, connectorRadius*2);
-        break;
-    case POS_RIGHT:
-        connector = QRect(this->size().width() - connectorRadius*2, this->size().height() / 2 - connectorRadius, connectorRadius*2, connectorRadius*2);
-        break;
-    default:
-        break;
-    }
+    QRectF connector = getConnectorRect();
 
     painter->drawEllipse(connector);
 
+}
+
+QPainterPath ConnectorGraphicsWidget::shape() const
+{
+    QPainterPath path;
+    path.addEllipse(getConnectorRect());
+    return path;
 }
 
 QColor ConnectorGraphicsWidget::conectorColor() const
@@ -65,4 +71,38 @@ QColor ConnectorGraphicsWidget::conectorColor() const
 void ConnectorGraphicsWidget::setConectorColor(const QColor &conectorColor)
 {
     m_conectorColor = conectorColor;
+}
+
+QRectF ConnectorGraphicsWidget::getConnectorRect() const
+{
+    return m_connectorRect;
+}
+
+void ConnectorGraphicsWidget::recalculateConnectorRect()
+{
+    switch (m_connectorPos) {
+    case POS_LEFT:
+        m_connectorRect = QRectF(0, this->size().height() / 2 - s_connectorRadius, s_connectorRadius*2, s_connectorRadius*2);
+        break;
+    case POS_RIGHT:
+        m_connectorRect = QRectF(this->size().width() - s_connectorRadius*2, this->size().height() / 2 - s_connectorRadius, s_connectorRadius*2, s_connectorRadius*2);
+        break;
+    default:
+        m_connectorRect = QRectF();
+    }
+}
+
+void ConnectorGraphicsWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    qDebug() <<(int)this <<"Hover: " <<event->pos();
+}
+
+void ConnectorGraphicsWidget::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    qDebug() <<"Drag: " <<event->pos();
+}
+
+void ConnectorGraphicsWidget::onGeometryChange()
+{
+    recalculateConnectorRect();
 }
