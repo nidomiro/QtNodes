@@ -15,12 +15,12 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "abstractiographicswidget.h"
+#include "abstract_io_graphics_widget.h"
 #include "ui_abstractiowidget.h"
 
 #include <QGraphicsLinearLayout>
 
-#include "utils/colorutils.h"
+#include "utils/color_utils.h"
 
 AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     QGraphicsWidget(parent, wFlags)

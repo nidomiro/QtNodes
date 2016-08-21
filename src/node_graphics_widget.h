@@ -23,6 +23,7 @@ class IConnectionRegister;
 class QGraphicsLinearLayout;
 
 #include <QGraphicsWidget>
+#include <QUuid>
 
 class NodeGraphicsWidget : public QGraphicsWidget
 {
@@ -41,12 +42,15 @@ public:
     bool addIOWidget(AbstractIOGraphicsWidget *ioWidget);
     bool removeIOWidget(AbstractIOGraphicsWidget *ioWidget);
 
-    QString nodeName();
+    QString nodeName() const;
+    QUuid getNodeAdress() const;
 
     const IConnectionRegister *getConnectionRegister() const;
 
 
     static void createDefaultHeaderWidget(NodeGraphicsWidget *node, QGraphicsWidget *headerWidget);
+
+
 
 public slots:
     void setNodeName(const QString &name);
@@ -61,6 +65,7 @@ signals:
 private:
 
     QString m_nodeName = "Unnamed Node";
+    QUuid m_nodeAdress = QUuid::createUuid();
 
     QGraphicsLinearLayout *m_layout = nullptr;
 

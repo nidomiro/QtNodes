@@ -21,7 +21,7 @@
     <item>
      <widget class="QToolBox" name="toolBox">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page">
        <property name="geometry">
@@ -94,7 +94,7 @@
   <customwidget>
    <class>NodeGridView</class>
    <extends>QGraphicsView</extends>
-   <header>nodegridview.h</header>
+   <header>node_grid_view.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

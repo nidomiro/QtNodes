@@ -15,34 +15,26 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEGRIDSCENE_H
-#define NODEGRIDSCENE_H
-
-#include <QGraphicsScene>
-#include <QGraphicsProxyWidget>
-#include <QMap>
-
-#include "nodegraphicswidget.h"
+#include "connection_request.h"
 
 
-class NodeGridScene : public QGraphicsScene
+#include <QDataStream>
+
+void ConnectionRequest::serialize(QByteArray& byteArray)
 {
-    Q_OBJECT
-public:
-    explicit NodeGridScene(QObject *parent = 0);
-    NodeGridScene(const QRectF &sceneRect, QObject *parent = 0);
-    NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
+    QDataStream stream(&byteArray, QIODevice::WriteOnly);
+    //stream.setVersion(QDataStream::Qt_5_5);
 
-    bool addNodeWidget(NodeGraphicsWidget * node);
+    stream << this->source
+           << this->target;
+}
 
-signals:
+void ConnectionRequest::deserialize(const QByteArray& byteArray)
+{
+   QDataStream stream(byteArray);
+   //stream.setVersion(QDataStream::Qt_5_5);
 
-public slots:
 
-
-
-private:
-    QList<NodeGraphicsWidget*> m_nodes;
-};
-
-#endif // NODEGRIDSCENE_H
+   //stream >> (void*)this->source
+   //       >> (void*)this->target;
+}

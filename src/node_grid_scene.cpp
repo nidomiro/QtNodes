@@ -15,7 +15,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "nodegridscene.h"
+#include "node_grid_scene.h"
 
 
 NodeGridScene::NodeGridScene(QObject *parent):

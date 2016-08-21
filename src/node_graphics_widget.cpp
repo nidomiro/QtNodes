@@ -15,7 +15,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "nodegraphicswidget.h"
+#include "node_graphics_widget.h"
 /*
  * Copyright 2016  Niclas Roßberger
  *
@@ -40,11 +40,12 @@
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsLinearLayout>
+#include <QUuid>
 
 
 
-#include "abstractiographicswidget.h"
-#include "utils/colorutils.h"
+#include "abstract_io_graphics_widget.h"
+#include "utils/color_utils.h"
 
 NodeGraphicsWidget::NodeGraphicsWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags):
     NodeGraphicsWidget(&NodeGraphicsWidget::createDefaultHeaderWidget, parent, wFlags)
@@ -84,7 +85,6 @@ NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunctio
         footerCreationFunc(this, m_footerWidget);
     }
 
-
     // Todo: Remove hacky code after debug
     {
         QPalette pal;
@@ -113,7 +113,7 @@ bool NodeGraphicsWidget::removeIOWidget(AbstractIOGraphicsWidget *ioWidget)
     return false;
 }
 
-QString NodeGraphicsWidget::nodeName()
+QString NodeGraphicsWidget::nodeName() const
 {
     return m_nodeName;
 }
@@ -163,5 +163,10 @@ void NodeGraphicsWidget::setNodeName(const QString &name)
 void NodeGraphicsWidget::closeNodeWidget()
 {
     qDebug() <<"NodeGraphicsWidget::closeNodeWidget() not implemented!!";
+}
+
+QUuid NodeGraphicsWidget::getNodeAdress() const
+{
+    return m_nodeAdress;
 }
 

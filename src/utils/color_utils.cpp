@@ -15,10 +15,10 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "colorutils.h"
+#include "color_utils.h"
 
 #include <QtGlobal>
-#include "mathutil.h"
+#include "math_util.h"
 
 ColorUtils::ColorUtils()
 {

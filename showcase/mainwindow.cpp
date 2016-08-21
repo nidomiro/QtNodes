@@ -21,8 +21,8 @@
 #include <QList>
 #include <QDebug>
 
-#include "abstractiographicswidget.h"
-#include "iowidgets/qstringiographicswidget.h"
+#include "abstract_io_graphics_widget.h"
+#include "iowidgets/qstring_io_graphics_widget.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :

@@ -18,30 +18,31 @@ CONFIG(debug, debug|release) {
  }
 
 HEADERS += \
-    iconnectionregister.h \
     connection.h \
-    nodegridview.h \
-    nodegridscene.h \
-    nodegraphicswidget.h \
-    abstractiographicswidget.h \
-    utils/colorutils.h \
-    utils/mathutil.h \
-    iowidgets/qstringiographicswidget.h \
-    connectorgraphicswidget.h
+    utils/color_utils.h \
+    utils/math_util.h \
+    iowidgets/qstring_io_graphics_widget.h \
+    abstract_io_graphics_widget.h \
+    connection_request.h \
+    connector_graphics_widget.h \
+    i_connection_register.h \
+    node_graphics_widget.h \
+    node_grid_scene.h \
+    node_grid_view.h
 
 SOURCES += \
     connection.cpp \
-    nodegridview.cpp \
-    nodegridscene.cpp \
-    nodegraphicswidget.cpp \
-    abstractiographicswidget.cpp \
-    utils/colorutils.cpp \
-    utils/mathutil.cpp \
-    iowidgets/qstringiographicswidget.cpp \
-    connectorgraphicswidget.cpp
+    iowidgets/qstring_io_graphics_widget.cpp \
+    utils/color_utils.cpp \
+    utils/math_util.cpp \
+    abstract_io_graphics_widget.cpp \
+    connection_request.cpp \
+    connector_graphics_widget.cpp \
+    node_graphics_widget.cpp \
+    node_grid_scene.cpp \
+    node_grid_view.cpp
 
-FORMS += \
-    abstractiowidget.ui
+FORMS +=
 
 
 

@@ -18,9 +18,12 @@
 #ifndef CONNECTORGRAPHICSWIDGET_H
 #define CONNECTORGRAPHICSWIDGET_H
 
+class AbstractIOGraphicsWidget;
+
 #include <QObject>
 #include <QGraphicsWidget>
 #include <QColor>
+
 
 class ConnectorGraphicsWidget : public QGraphicsWidget
 {
@@ -33,7 +36,7 @@ public:
     };
 
 public: // Methods
-    ConnectorGraphicsWidget(Position pos, QGraphicsItem *parent = nullptr);
+    ConnectorGraphicsWidget(Position pos, AbstractIOGraphicsWidget *parent);
 
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
@@ -50,19 +53,33 @@ public: // Methods
 
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
+
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) override;
+
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
 protected slots:
     void onGeometryChange();
 
 protected: // Members
+
     Position m_connectorPos = POS_LEFT;
+
+    AbstractIOGraphicsWidget *m_parent= nullptr;
 
     QColor m_conectorColor = QColor(255,255,51);
     QRectF m_connectorRect;
 
+private: // Members
+    bool m_isRecalulatingRect = false;
+
 public: // Static
     static qreal s_connectorRadius;
+    static QString s_connectionRequestMimeType;
 
 
 

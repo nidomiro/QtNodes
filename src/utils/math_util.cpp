@@ -15,7 +15,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mathutil.h"
+#include "math_util.h"
 
 #include <QtGlobal>
 #include <cstdlib>

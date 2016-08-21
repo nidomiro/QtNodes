@@ -15,36 +15,15 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSTRINGIOGRAPHICSWIDGET_H
-#define QSTRINGIOGRAPHICSWIDGET_H
+#include "node_grid_view.h"
 
-class QLabel;
-class QGraphicsProxyWidget;
-
-class QGraphicsLinearLayout;
-
-#include "../abstractiographicswidget.h"
-
-class QStringIOGraphicsWidget : public AbstractIOGraphicsWidget
+NodeGridView::NodeGridView(QWidget *parent) : QGraphicsView(parent)
 {
-    Q_OBJECT
 
-public:
+}
 
+NodeGridView::NodeGridView(QGraphicsScene *scene, QWidget *parent):
+    QGraphicsView(scene, parent)
+{
 
-protected:
-    virtual void createCenterWidget(QGraphicsWidget *centerWidget) override;
-
-
-
-
-private:
-
-    QGraphicsLinearLayout *m_layout = nullptr;
-
-    QLabel *m_label = nullptr;
-    QGraphicsProxyWidget *m_labelProxy = nullptr;
-
-};
-
-#endif // QSTRINGIOGRAPHICSWIDGET_H
+}

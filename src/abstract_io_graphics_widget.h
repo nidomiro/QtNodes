@@ -24,7 +24,7 @@ class QGraphicsLinearLayout;
 #include <QGraphicsWidget>
 //#include <type_traits>
 
-#include "connectorgraphicswidget.h"
+#include "connector_graphics_widget.h"
 
 
 class AbstractIOGraphicsWidget : public QGraphicsWidget

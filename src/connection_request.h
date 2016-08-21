@@ -15,15 +15,21 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "nodegridview.h"
+#ifndef CONNECTIONREQUEST_H
+#define CONNECTIONREQUEST_H
 
-NodeGridView::NodeGridView(QWidget *parent) : QGraphicsView(parent)
-{
+#include <QByteArray>
 
-}
+class ConnectorGraphicsWidget;
 
-NodeGridView::NodeGridView(QGraphicsScene *scene, QWidget *parent):
-    QGraphicsView(scene, parent)
-{
+struct ConnectionRequest{
+    ConnectorGraphicsWidget *source = nullptr; // = output
+    ConnectorGraphicsWidget *target = nullptr; // = input
 
-}
+
+    void serialize(QByteArray &byteArray );
+    void deserialize(const QByteArray& byteArray);
+};
+
+
+#endif // CONNECTIONREQUEST_H

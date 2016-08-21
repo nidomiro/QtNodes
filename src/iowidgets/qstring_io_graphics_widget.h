@@ -15,37 +15,36 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef QSTRINGIOGRAPHICSWIDGET_H
+#define QSTRINGIOGRAPHICSWIDGET_H
 
-#include <QMainWindow>
+class QLabel;
+class QGraphicsProxyWidget;
 
-#include "node_graphics_widget.h"
-#include "node_grid_scene.h"
+class QGraphicsLinearLayout;
 
-namespace Ui {
-class MainWindow;
-}
+#include "../abstract_io_graphics_widget.h"
 
-class MainWindow : public QMainWindow
+class QStringIOGraphicsWidget : public AbstractIOGraphicsWidget
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
 
-private slots:
-    void on_addNode_clicked();
 
-    void on_addIOWidget_clicked();
+protected:
+    virtual void createCenterWidget(QGraphicsWidget *centerWidget) override;
+
+
+
 
 private:
-    Ui::MainWindow *ui;
 
-    NodeGridScene *m_nodeGridScene = nullptr;
+    QGraphicsLinearLayout *m_layout = nullptr;
 
-    QList<NodeGraphicsWidget*> m_nodes;
+    QLabel *m_label = nullptr;
+    QGraphicsProxyWidget *m_labelProxy = nullptr;
+
 };
 
-#endif // MAINWINDOW_H
+#endif // QSTRINGIOGRAPHICSWIDGET_H

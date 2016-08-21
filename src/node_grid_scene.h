@@ -15,37 +15,34 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef NODEGRIDSCENE_H
+#define NODEGRIDSCENE_H
 
-#include <QMainWindow>
+#include <QGraphicsScene>
+#include <QGraphicsProxyWidget>
+#include <QMap>
 
 #include "node_graphics_widget.h"
-#include "node_grid_scene.h"
 
-namespace Ui {
-class MainWindow;
-}
 
-class MainWindow : public QMainWindow
+class NodeGridScene : public QGraphicsScene
 {
     Q_OBJECT
-
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit NodeGridScene(QObject *parent = 0);
+    NodeGridScene(const QRectF &sceneRect, QObject *parent = 0);
+    NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
 
-private slots:
-    void on_addNode_clicked();
+    bool addNodeWidget(NodeGraphicsWidget * node);
 
-    void on_addIOWidget_clicked();
+signals:
+
+public slots:
+
+
 
 private:
-    Ui::MainWindow *ui;
-
-    NodeGridScene *m_nodeGridScene = nullptr;
-
     QList<NodeGraphicsWidget*> m_nodes;
 };
 
-#endif // MAINWINDOW_H
+#endif // NODEGRIDSCENE_H

@@ -15,13 +15,13 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qstringiographicswidget.h"
+#include "qstring_io_graphics_widget.h"
 
 #include <QLabel>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsLinearLayout>
 
-#include "utils/colorutils.h"
+#include "utils/color_utils.h"
 
 
 void QStringIOGraphicsWidget::createCenterWidget(QGraphicsWidget *centerWidget)
