@@ -15,13 +15,13 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "abstract_io_graphics_widget.h"
+#include "abstract_node_port_g_w.h"
 
 #include <QGraphicsLinearLayout>
 
 #include "utils/color_utils.h"
 
-AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
+AbstractNodePortGW::AbstractNodePortGW(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
     QGraphicsWidget(parent, wFlags)
 {
     //Do not call "init" here, because it calls the virtual method "createCenterWidget", use "AbstractIOGraphicsWidget::create<SubClass>()" instead
@@ -31,9 +31,9 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
     m_layout->setContentsMargins(0,2,0,2);
     this->setLayout(m_layout);
 
-    m_leftConnector = new ConnectorGraphicsWidget(ConnectorGraphicsWidget::POS_LEFT, this);
+    m_leftConnector = new ConnectorGW(ConnectorGW::POS_LEFT, this);
     m_centerWidget = new QGraphicsWidget(this);
-    m_rightConnector = new ConnectorGraphicsWidget(ConnectorGraphicsWidget::POS_RIGHT, this);
+    m_rightConnector = new ConnectorGW(ConnectorGW::POS_RIGHT, this);
 
     m_layout->addItem(m_leftConnector);
     m_layout->addItem(m_centerWidget);
@@ -78,12 +78,12 @@ AbstractIOGraphicsWidget::AbstractIOGraphicsWidget(QGraphicsItem *parent, Qt::Wi
 
 }
 
-AbstractIOGraphicsWidget::~AbstractIOGraphicsWidget()
+AbstractNodePortGW::~AbstractNodePortGW()
 {
 
 }
 
-void AbstractIOGraphicsWidget::init()
+void AbstractNodePortGW::init()
 {
     createCenterWidget(m_centerWidget);
 }

@@ -39,20 +39,20 @@ LIBS += -L$$PWD/../build
 HEADERS += \
     utils/color_utils.h \
     utils/math_util.h \
-    iowidgets/qstring_io_graphics_widget.h \
-    abstract_io_graphics_widget.h \
-    connector_graphics_widget.h \
-    node_graphics_widget.h \
     node_grid_scene.h \
     node_grid_view.h \
-    qtnodes_global.h
+    qtnodes_global.h \
+    node_g_w.h \
+    connector_g_w.h \
+    abstract_node_port_g_w.h \
+    iowidgets/qstring_node_port_g_w.h
 
 SOURCES += \
     iowidgets/qstring_io_graphics_widget.cpp \
     utils/color_utils.cpp \
     utils/math_util.cpp \
-    abstract_io_graphics_widget.cpp \
-    connector_graphics_widget.cpp \
-    node_graphics_widget.cpp \
     node_grid_scene.cpp \
-    node_grid_view.cpp
+    node_grid_view.cpp \
+    abstract_node_port_g_w.cpp \
+    connector_g_w.cpp \
+    node_g_w.cpp

@@ -15,7 +15,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "node_graphics_widget.h"
+#include "node_g_w.h"
 /*
  * Copyright 2016  Niclas Roßberger
  *
@@ -44,22 +44,22 @@
 
 
 
-#include "abstract_io_graphics_widget.h"
+#include "abstract_node_port_g_w.h"
 #include "utils/color_utils.h"
 
-NodeGraphicsWidget::NodeGraphicsWidget(QGraphicsItem *parent, Qt::WindowFlags wFlags):
-    NodeGraphicsWidget(&NodeGraphicsWidget::createDefaultHeaderWidget, parent, wFlags)
+NodeGW::NodeGW(QGraphicsItem *parent, Qt::WindowFlags wFlags):
+    NodeGW(&NodeGW::createDefaultHeaderWidget, parent, wFlags)
 {
 
 }
 
-NodeGraphicsWidget::NodeGraphicsWidget(WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
-    NodeGraphicsWidget(headerCreationFunc, nullptr, parent, wFlags)
+NodeGW::NodeGW(WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
+    NodeGW(headerCreationFunc, nullptr, parent, wFlags)
 {
 
 }
 
-NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunction headerCreationFunc, NodeGraphicsWidget::WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
+NodeGW::NodeGW(NodeGW::WidgetCreationFunction headerCreationFunc, NodeGW::WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
     QGraphicsWidget(parent, wFlags)
 {
     m_layout = new QGraphicsLinearLayout(Qt::Orientation::Vertical, this);
@@ -95,11 +95,11 @@ NodeGraphicsWidget::NodeGraphicsWidget(NodeGraphicsWidget::WidgetCreationFunctio
 
 }
 
-NodeGraphicsWidget::~NodeGraphicsWidget()
+NodeGW::~NodeGW()
 {
 }
 
-bool NodeGraphicsWidget::addIOWidget(AbstractIOGraphicsWidget *ioWidget)
+bool NodeGW::addIOWidget(AbstractNodePortGW *ioWidget)
 {
     m_centerWidgetLayout->addItem(ioWidget);
     m_centerWidgetLayout->setSpacing(0);
@@ -107,18 +107,18 @@ bool NodeGraphicsWidget::addIOWidget(AbstractIOGraphicsWidget *ioWidget)
     return true;
 }
 
-bool NodeGraphicsWidget::removeIOWidget(AbstractIOGraphicsWidget *ioWidget)
+bool NodeGW::removeIOWidget(AbstractNodePortGW *ioWidget)
 {
     m_centerWidgetLayout->removeItem(ioWidget);
     return false;
 }
 
-QString NodeGraphicsWidget::nodeName() const
+QString NodeGW::nodeName() const
 {
     return m_nodeName;
 }
 
-void NodeGraphicsWidget::createDefaultHeaderWidget(NodeGraphicsWidget *node, QGraphicsWidget *headerWidget)
+void NodeGW::createDefaultHeaderWidget(NodeGW *node, QGraphicsWidget *headerWidget)
 {
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Orientation::Horizontal, headerWidget);
 
@@ -154,18 +154,18 @@ void NodeGraphicsWidget::createDefaultHeaderWidget(NodeGraphicsWidget *node, QGr
 
 }
 
-void NodeGraphicsWidget::setNodeName(const QString &name)
+void NodeGW::setNodeName(const QString &name)
 {
     m_nodeName = name;
     emit nodeNameChanged(m_nodeName);
 }
 
-void NodeGraphicsWidget::closeNodeWidget()
+void NodeGW::closeNodeWidget()
 {
     qDebug() <<"NodeGraphicsWidget::closeNodeWidget() not implemented!!";
 }
 
-QUuid NodeGraphicsWidget::getNodeAdress() const
+QUuid NodeGW::getNodeAdress() const
 {
     return m_nodeAdress;
 }

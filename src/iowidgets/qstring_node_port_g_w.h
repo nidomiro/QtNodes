@@ -24,9 +24,9 @@ class QLabel;
 class QGraphicsProxyWidget;
 class QGraphicsLinearLayout;
 
-#include "../abstract_io_graphics_widget.h"
+#include "../abstract_node_port_g_w.h"
 
-class QTNODESSHARED_EXPORT QStringIOGraphicsWidget : public AbstractIOGraphicsWidget
+class QTNODESSHARED_EXPORT QStringNodePortGW : public AbstractNodePortGW
 {
     Q_OBJECT
 

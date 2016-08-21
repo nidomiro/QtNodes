@@ -20,29 +20,29 @@
 
 #include "qtnodes_global.h"
 
-class AbstractIOGraphicsWidget;
+class AbstractNodePortGW;
 class IConnectionRegister;
 class QGraphicsLinearLayout;
 
 #include <QGraphicsWidget>
 #include <QUuid>
 
-class QTNODESSHARED_EXPORT NodeGraphicsWidget : public QGraphicsWidget
+class QTNODESSHARED_EXPORT NodeGW : public QGraphicsWidget
 {
     Q_OBJECT
 
     Q_PROPERTY(QString nodeName READ nodeName WRITE setNodeName NOTIFY nodeNameChanged)
 
 public:
-    typedef void (*WidgetCreationFunction)(NodeGraphicsWidget *node, QGraphicsWidget *widgetToCreate);
+    typedef void (*WidgetCreationFunction)(NodeGW *node, QGraphicsWidget *widgetToCreate);
 
-    explicit NodeGraphicsWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-    explicit NodeGraphicsWidget(WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-    explicit NodeGraphicsWidget(WidgetCreationFunction headerCreationFunc, WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-    ~NodeGraphicsWidget();
+    explicit NodeGW(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    explicit NodeGW(WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    explicit NodeGW(WidgetCreationFunction headerCreationFunc, WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    ~NodeGW();
 
-    bool addIOWidget(AbstractIOGraphicsWidget *ioWidget);
-    bool removeIOWidget(AbstractIOGraphicsWidget *ioWidget);
+    bool addIOWidget(AbstractNodePortGW *ioWidget);
+    bool removeIOWidget(AbstractNodePortGW *ioWidget);
 
     QString nodeName() const;
     QUuid getNodeAdress() const;
@@ -50,7 +50,7 @@ public:
     const IConnectionRegister *getConnectionRegister() const;
 
 
-    static void createDefaultHeaderWidget(NodeGraphicsWidget *node, QGraphicsWidget *headerWidget);
+    static void createDefaultHeaderWidget(NodeGW *node, QGraphicsWidget *headerWidget);
 
 
 

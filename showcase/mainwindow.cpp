@@ -21,8 +21,8 @@
 #include <QList>
 #include <QDebug>
 
-#include "abstract_io_graphics_widget.h"
-#include "iowidgets/qstring_io_graphics_widget.h"
+#include "abstract_node_port_g_w.h"
+#include "iowidgets/qstring_node_port_g_w.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -38,12 +38,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    NodeGraphicsWidget *nw = new NodeGraphicsWidget;
+    NodeGW *nw = new NodeGW;
     nw->setNodeName("Node" + QString::number(m_nodes.size()));
     m_nodes.append(nw);
 
     for( int j=0; j<3; j++){
-        nw->addIOWidget(AbstractIOGraphicsWidget::create<QStringIOGraphicsWidget>());
+        nw->addIOWidget(AbstractNodePortGW::create<QStringNodePortGW>());
     }
 
     m_nodeGridScene->addNodeWidget(nw);
@@ -68,12 +68,12 @@ MainWindow::~MainWindow()
 void MainWindow::on_addNode_clicked()
 {
 
-    NodeGraphicsWidget *nw = new NodeGraphicsWidget;
+    NodeGW *nw = new NodeGW;
     nw->setNodeName("Node" + QString::number(m_nodes.size()));
     m_nodes.append(nw);
     qDebug() <<"Node: " <<nw->nodeName() <<"j: -1" <<" NodeGraphicsWidgetSize: " <<nw->size();
     for( int j=0; j<3; j++){
-        nw->addIOWidget(AbstractIOGraphicsWidget::create<QStringIOGraphicsWidget>());
+        nw->addIOWidget(AbstractNodePortGW::create<QStringNodePortGW>());
         qDebug() <<"Node: " <<nw->nodeName() <<"j: " <<j <<" NodeGraphicsWidgetSize: " <<nw->size();
     }
 
@@ -86,8 +86,8 @@ void MainWindow::on_addIOWidget_clicked()
     if(m_nodes.size() < 1)
         return;
 
-    NodeGraphicsWidget *nw = m_nodes[m_nodes.size() - 1];
-    nw->addIOWidget(AbstractIOGraphicsWidget::create<QStringIOGraphicsWidget>());
+    NodeGW *nw = m_nodes[m_nodes.size() - 1];
+    nw->addIOWidget(AbstractNodePortGW::create<QStringNodePortGW>());
     qDebug() <<"Node: " <<nw->nodeName() <<"j: **" <<" NodeGraphicsWidgetSize: " <<nw->size();
 
 }

@@ -15,7 +15,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qstring_io_graphics_widget.h"
+#include "qstring_node_port_g_w.h"
 
 #include <QLabel>
 #include <QGraphicsProxyWidget>
@@ -24,7 +24,7 @@
 #include "utils/color_utils.h"
 
 
-void QStringIOGraphicsWidget::createCenterWidget(QGraphicsWidget *centerWidget)
+void QStringNodePortGW::createCenterWidget(QGraphicsWidget *centerWidget)
 {
     m_layout = new QGraphicsLinearLayout(Qt::Orientation::Horizontal, centerWidget);
     m_layout->setContentsMargins(2,0,2,0);

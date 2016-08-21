@@ -25,19 +25,19 @@ class QGraphicsLinearLayout;
 #include <QGraphicsWidget>
 //#include <type_traits>
 
-#include "connector_graphics_widget.h"
+#include "connector_g_w.h"
 
 
-class QTNODESSHARED_EXPORT AbstractIOGraphicsWidget : public QGraphicsWidget
+class QTNODESSHARED_EXPORT AbstractNodePortGW : public QGraphicsWidget
 {
     Q_OBJECT
 
 public:
-    ~AbstractIOGraphicsWidget();
+    ~AbstractNodePortGW();
 
 
 protected:
-    AbstractIOGraphicsWidget(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    AbstractNodePortGW(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
     void init();
     virtual void createCenterWidget(QGraphicsWidget *centerWidget) = 0;
 
@@ -45,15 +45,15 @@ private:
 
     QGraphicsLinearLayout *m_layout = nullptr;
 
-    ConnectorGraphicsWidget *m_leftConnector = nullptr;
+    ConnectorGW *m_leftConnector = nullptr;
     QGraphicsWidget *m_centerWidget = nullptr;
-    ConnectorGraphicsWidget *m_rightConnector = nullptr;
+    ConnectorGW *m_rightConnector = nullptr;
 
 
 // BEGIN static part
 public:
     // only callable if template-parameter is derived from AbstractIOGraphicsWidget
-    template<typename CLAZZ, typename std::enable_if<std::is_base_of<AbstractIOGraphicsWidget, CLAZZ>::value>::type* = nullptr>
+    template<typename CLAZZ, typename std::enable_if<std::is_base_of<AbstractNodePortGW, CLAZZ>::value>::type* = nullptr>
     static CLAZZ *create(){
         CLAZZ *instance = new CLAZZ();
         instance->init();

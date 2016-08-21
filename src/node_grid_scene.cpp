@@ -36,7 +36,7 @@ NodeGridScene::NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObjec
 
 }
 
-bool NodeGridScene::addNodeWidget(NodeGraphicsWidget *node)
+bool NodeGridScene::addNodeWidget(NodeGW *node)
 {
     bool ret = false;
     if( !m_nodes.contains(node)){

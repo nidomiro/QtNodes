@@ -20,14 +20,14 @@
 
 #include "qtnodes_global.h"
 
-class AbstractIOGraphicsWidget;
+class AbstractNodePortGW;
 
 #include <QObject>
 #include <QGraphicsWidget>
 #include <QColor>
 
 
-class QTNODESSHARED_EXPORT ConnectorGraphicsWidget : public QGraphicsWidget
+class QTNODESSHARED_EXPORT ConnectorGW : public QGraphicsWidget
 {
     Q_OBJECT
 
@@ -38,7 +38,7 @@ public:
     };
 
 public: // Methods
-    ConnectorGraphicsWidget(Position pos, AbstractIOGraphicsWidget *parent);
+    ConnectorGW(Position pos, AbstractNodePortGW *parent);
 
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
@@ -71,7 +71,7 @@ protected: // Members
 
     Position m_connectorPos = POS_LEFT;
 
-    AbstractIOGraphicsWidget *m_parent= nullptr;
+    AbstractNodePortGW *m_parent= nullptr;
 
     QColor m_conectorColor = QColor(255,255,51);
     QRectF m_connectorRect;
