@@ -18,11 +18,14 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
+#include "qtnodesshare_global.h"
+#include "node_port_adress.h"
 
-class Connection
+struct QTNODESSHARESHARED_EXPORT Connection
 {
 public:
-    Connection();
+    NodePortAdress source;
+    NodePortAdress destination;
 };
 
 #endif // CONNECTION_H

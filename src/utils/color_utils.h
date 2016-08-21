@@ -18,9 +18,11 @@
 #ifndef COLORUTILS_H
 #define COLORUTILS_H
 
+#include "../qtnodes_global.h"
+
 #include <QColor>
 
-class ColorUtils
+class QTNODESSHARED_EXPORT ColorUtils
 {
 public:
     ColorUtils();

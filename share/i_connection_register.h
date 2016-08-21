@@ -18,10 +18,12 @@
 #ifndef ICONNECTIONREGISTER_H
 #define ICONNECTIONREGISTER_H
 
+#include "qtnodesshare_global.h"
+
 #include <QList>
 #include "connection.h"
 
-class IConnectionRegister
+class QTNODESSHARESHARED_EXPORT IConnectionRegister
 {
 public:
     virtual QList<Connection*> *getIncomingConnections() = 0;

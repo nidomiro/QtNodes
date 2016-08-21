@@ -18,6 +18,7 @@
 #ifndef ABSTRACTIOGRAPHICSWIDGET_H
 #define ABSTRACTIOGRAPHICSWIDGET_H
 
+#include "qtnodes_global.h"
 
 class QGraphicsLinearLayout;
 
@@ -27,7 +28,7 @@ class QGraphicsLinearLayout;
 #include "connector_graphics_widget.h"
 
 
-class AbstractIOGraphicsWidget : public QGraphicsWidget
+class QTNODESSHARED_EXPORT AbstractIOGraphicsWidget : public QGraphicsWidget
 {
     Q_OBJECT
 

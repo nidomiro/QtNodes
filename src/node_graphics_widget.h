@@ -18,6 +18,8 @@
 #ifndef NODEGRAPHICSWIDGET_H
 #define NODEGRAPHICSWIDGET_H
 
+#include "qtnodes_global.h"
+
 class AbstractIOGraphicsWidget;
 class IConnectionRegister;
 class QGraphicsLinearLayout;
@@ -25,7 +27,7 @@ class QGraphicsLinearLayout;
 #include <QGraphicsWidget>
 #include <QUuid>
 
-class NodeGraphicsWidget : public QGraphicsWidget
+class QTNODESSHARED_EXPORT NodeGraphicsWidget : public QGraphicsWidget
 {
     Q_OBJECT
 

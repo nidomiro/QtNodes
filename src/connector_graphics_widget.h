@@ -18,6 +18,8 @@
 #ifndef CONNECTORGRAPHICSWIDGET_H
 #define CONNECTORGRAPHICSWIDGET_H
 
+#include "qtnodes_global.h"
+
 class AbstractIOGraphicsWidget;
 
 #include <QObject>
@@ -25,7 +27,7 @@ class AbstractIOGraphicsWidget;
 #include <QColor>
 
 
-class ConnectorGraphicsWidget : public QGraphicsWidget
+class QTNODESSHARED_EXPORT ConnectorGraphicsWidget : public QGraphicsWidget
 {
     Q_OBJECT
 

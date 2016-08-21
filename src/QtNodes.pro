@@ -18,6 +18,8 @@ CONFIG(debug, debug|release) {
     else: TARGET = $$join(TARGET,,,d)
 }
 
+DEFINES += QTNODES_LIBRARY
+
 # Installs
 headerFiles.path = $$PWD/../build
 headerFiles.files = $$PWD/*.h
@@ -30,8 +32,8 @@ unix {
 
 # Libs
 LIBS += -L$$PWD/../build
-CONFIG(release, debug|release):LIBS += -lQtNodesShare
-CONFIG(debug, debug|release): LIBS += -lQtNodesShared
+#CONFIG(release, debug|release):LIBS += -lQtNodesShare
+#CONFIG(debug, debug|release): LIBS += -lQtNodesShared
 
 # Files
 HEADERS += \
@@ -42,7 +44,8 @@ HEADERS += \
     connector_graphics_widget.h \
     node_graphics_widget.h \
     node_grid_scene.h \
-    node_grid_view.h
+    node_grid_view.h \
+    qtnodes_global.h
 
 SOURCES += \
     iowidgets/qstring_io_graphics_widget.cpp \

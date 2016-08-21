@@ -18,9 +18,11 @@
 #ifndef NODEGRIDVIEW_H
 #define NODEGRIDVIEW_H
 
+#include "qtnodes_global.h"
+
 #include <QGraphicsView>
 
-class NodeGridView : public QGraphicsView
+class QTNODESSHARED_EXPORT NodeGridView : public QGraphicsView
 {
     Q_OBJECT
 public:

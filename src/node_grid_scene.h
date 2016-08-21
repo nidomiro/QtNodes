@@ -18,6 +18,8 @@
 #ifndef NODEGRIDSCENE_H
 #define NODEGRIDSCENE_H
 
+#include "qtnodes_global.h"
+
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 #include <QMap>
@@ -25,7 +27,7 @@
 #include "node_graphics_widget.h"
 
 
-class NodeGridScene : public QGraphicsScene
+class QTNODESSHARED_EXPORT NodeGridScene : public QGraphicsScene
 {
     Q_OBJECT
 public:

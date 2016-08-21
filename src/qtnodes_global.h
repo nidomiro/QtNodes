@@ -15,37 +15,16 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSTRINGIOGRAPHICSWIDGET_H
-#define QSTRINGIOGRAPHICSWIDGET_H
 
-#include "../qtnodes_global.h"
+#ifndef QTNODES_GLOBAL_H
+#define QTNODES_GLOBAL_H
 
-class QLabel;
-class QGraphicsProxyWidget;
-class QGraphicsLinearLayout;
+#include <QtCore/qglobal.h>
 
-#include "../abstract_io_graphics_widget.h"
+#if defined(QTNODES_LIBRARY)
+#  define QTNODESSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define QTNODESSHARED_EXPORT Q_DECL_IMPORT
+#endif
 
-class QTNODESSHARED_EXPORT QStringIOGraphicsWidget : public AbstractIOGraphicsWidget
-{
-    Q_OBJECT
-
-public:
-
-
-protected:
-    virtual void createCenterWidget(QGraphicsWidget *centerWidget) override;
-
-
-
-
-private:
-
-    QGraphicsLinearLayout *m_layout = nullptr;
-
-    QLabel *m_label = nullptr;
-    QGraphicsProxyWidget *m_labelProxy = nullptr;
-
-};
-
-#endif // QSTRINGIOGRAPHICSWIDGET_H
+#endif // QTNODES_GLOBAL_H

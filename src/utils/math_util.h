@@ -18,8 +18,9 @@
 #ifndef MATHUTIL_H
 #define MATHUTIL_H
 
+#include "../qtnodes_global.h"
 
-class MathUtil
+class QTNODESSHARED_EXPORT MathUtil
 {
 public:
     MathUtil();
