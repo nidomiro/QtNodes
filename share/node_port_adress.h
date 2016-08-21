@@ -20,11 +20,25 @@
 
 #include "qtnodesshare_global.h"
 
-class QTNODESSHARESHARED_EXPORT NodePortAdress
-{
+#include <QUuid>
+#include <QMap>
 
+struct QTNODESSHARESHARED_EXPORT NodePortAdress
+{
 public:
-    NodePortAdress();
+
+    enum Type {
+        INPUT,
+        OUTPUT,
+        NULL
+    };
+
+    QUuid sceneAddress; // normally unused
+    QUuid nodeAddress;
+    qint16 port = -1;
+    Type type = NULL;
+
+
 };
 
 #endif // NODE_PORT_ADRESS_H

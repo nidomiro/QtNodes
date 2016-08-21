@@ -18,6 +18,3 @@
 #include "node_port_adress.h"
 
 
-NodePortAdress::NodePortAdress()
-{
-}

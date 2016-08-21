@@ -19,13 +19,14 @@
 #define ABSTRACTIOGRAPHICSWIDGET_H
 
 #include "qtnodes_global.h"
+#include "connector_g_w.h"
 
 class QGraphicsLinearLayout;
 
 #include <QGraphicsWidget>
 //#include <type_traits>
 
-#include "connector_g_w.h"
+
 
 
 class QTNODESSHARED_EXPORT AbstractNodePortGW : public QGraphicsWidget

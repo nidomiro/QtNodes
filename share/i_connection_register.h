@@ -19,9 +19,10 @@
 #define ICONNECTIONREGISTER_H
 
 #include "qtnodesshare_global.h"
+#include "connection.h"
 
 #include <QList>
-#include "connection.h"
+
 
 class QTNODESSHARESHARED_EXPORT IConnectionRegister
 {

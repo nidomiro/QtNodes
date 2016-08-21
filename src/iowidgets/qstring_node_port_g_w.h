@@ -19,12 +19,13 @@
 #define QSTRINGIOGRAPHICSWIDGET_H
 
 #include "../qtnodes_global.h"
+#include "../abstract_node_port_g_w.h"
 
 class QLabel;
 class QGraphicsProxyWidget;
 class QGraphicsLinearLayout;
 
-#include "../abstract_node_port_g_w.h"
+
 
 class QTNODESSHARED_EXPORT QStringNodePortGW : public AbstractNodePortGW
 {

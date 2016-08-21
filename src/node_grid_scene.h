@@ -19,12 +19,13 @@
 #define NODEGRIDSCENE_H
 
 #include "qtnodes_global.h"
+#include "node_g_w.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 #include <QMap>
 
-#include "node_g_w.h"
+
 
 
 class QTNODESSHARED_EXPORT NodeGridScene : public QGraphicsScene
