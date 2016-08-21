@@ -15,8 +15,8 @@ DEPENDPATH += . $$PWD/../src
 LIBS += -L$$PWD/../build
 
 
-CONFIG(release, debug|release):LIBS += -lNodes
-CONFIG(debug, debug|release): LIBS += -lNodesd
+CONFIG(release, debug|release):LIBS += -lQtNodes
+CONFIG(debug, debug|release): LIBS += -lQtNodesd
 
 SOURCES += main.cpp\
         mainwindow.cpp

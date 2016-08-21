@@ -16,7 +16,6 @@
  */
 
 #include "abstract_io_graphics_widget.h"
-#include "ui_abstractiowidget.h"
 
 #include <QGraphicsLinearLayout>
 
