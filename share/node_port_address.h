@@ -15,19 +15,42 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONNECTION_H
-#define CONNECTION_H
+#ifndef NODE_PORT_ADRESS_H
+#define NODE_PORT_ADRESS_H
 
 #include "qtnodesshare_global.h"
-#include "node_port_address.h"
 
-class QTNODESSHARESHARED_EXPORT Connection
+#include <QUuid>
+#include <QMap>
+#include <QUrl>
+
+struct QTNODESSHARESHARED_EXPORT NodePortAddress
 {
 public:
-    NodePortAddress source;
-    NodePortAddress target;
+
+    enum Type {
+        INPUT,
+        OUTPUT,
+        NONE
+    };
+
+    QUuid sceneAddress; // normally unused
+    QUuid nodeAddress;
+    qint16 port = -1;
+    Type type = Type::NONE;
+
 
     bool isNull() const;
+    bool operator==(const NodePortAddress &other) const;
+
+
 };
 
-#endif // CONNECTION_H
+extern "C" QTNODESSHARESHARED_EXPORT QString toString(const NodePortAddress::Type & type);
+extern "C" QTNODESSHARESHARED_EXPORT NodePortAddress::Type fromString(const QString & str);
+
+extern "C" QTNODESSHARESHARED_EXPORT QUrl toUrl(const NodePortAddress &node);
+extern "C" QTNODESSHARESHARED_EXPORT NodePortAddress fromUrl(const QUrl &url);
+
+
+#endif // NODE_PORT_ADRESS_H

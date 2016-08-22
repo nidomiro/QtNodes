@@ -28,10 +28,13 @@ unix {
 }
 
 # Files
-SOURCES += node_port_adress.cpp \
-    connection.cpp
+SOURCES += \
+    connection.cpp \
+    node_port_address.cpp
 
-HEADERS += node_port_adress.h\
+HEADERS +=\
         qtnodesshare_global.h \
     connection.h \
-    i_connection_register.h
+    i_connection_register.h \
+    i_node_impl.h \
+    node_port_address.h

@@ -18,11 +18,15 @@
 #ifndef ABSTRACTIOGRAPHICSWIDGET_H
 #define ABSTRACTIOGRAPHICSWIDGET_H
 
-#include "qtnodes_global.h"
-#include "connector_g_w.h"
-
+class NodeGW;
 class QGraphicsLinearLayout;
 
+#include "qtnodes_global.h"
+#include "node_port_connector_g_w.h"
+
+#include "node_port_address.h"
+
+#include <QMimeData>
 #include <QGraphicsWidget>
 //#include <type_traits>
 
@@ -36,9 +40,11 @@ class QTNODESSHARED_EXPORT AbstractNodePortGW : public QGraphicsWidget
 public:
     ~AbstractNodePortGW();
 
+    bool connectionRequest(const NodePortAddress &source, NodePortAddress &thisAddress, const bool &test=false);
+
 
 protected:
-    AbstractNodePortGW(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    AbstractNodePortGW(NodeGW *parent = nullptr);
     void init();
     virtual void createCenterWidget(QGraphicsWidget *centerWidget) = 0;
 
@@ -46,9 +52,12 @@ private:
 
     QGraphicsLinearLayout *m_layout = nullptr;
 
-    ConnectorGW *m_leftConnector = nullptr;
+    NodePortConnectorGW *m_leftConnector = nullptr;
     QGraphicsWidget *m_centerWidget = nullptr;
-    ConnectorGW *m_rightConnector = nullptr;
+    NodePortConnectorGW *m_rightConnector = nullptr;
+
+protected:
+    NodeGW *m_parent = nullptr;
 
 
 // BEGIN static part

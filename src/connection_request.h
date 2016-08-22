@@ -20,11 +20,11 @@
 
 #include <QByteArray>
 
-class ConnectorGW;
+class NodePortConnectorGW;
 
 struct ConnectionRequest{
-    ConnectorGW *source = nullptr; // = output
-    ConnectorGW *target = nullptr; // = input
+    NodePortConnectorGW *source = nullptr; // = output
+    NodePortConnectorGW *target = nullptr; // = input
 
 
     void serialize(QByteArray &byteArray );

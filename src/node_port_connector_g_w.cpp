@@ -15,7 +15,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "connector_g_w.h"
+#include "node_port_connector_g_w.h"
+#include "connection_request.h"
+#include "abstract_node_port_g_w.h"
+
+#include "node_port_address.h"
 
 #include <QWidget>
 #include <QPainter>
@@ -26,14 +30,13 @@
 #include <QDrag>
 #include <QMimeData>
 
-#include "connection_request.h"
-#include "abstract_node_port_g_w.h"
-
-qreal ConnectorGW::s_connectorRadius = 5;
-QString ConnectorGW::s_connectionRequestMimeType = QStringLiteral("application/nodeconnectrequest");
 
 
-ConnectorGW::ConnectorGW(Position pos, AbstractNodePortGW *parent) :
+qreal NodePortConnectorGW::s_connectorRadius = 5;
+QString NodePortConnectorGW::s_connectionRequestMimeType = QStringLiteral("application/nodeconnectrequest");
+
+
+NodePortConnectorGW::NodePortConnectorGW(Position pos, AbstractNodePortGW *parent) :
     QGraphicsWidget(parent),
     m_connectorPos(pos),
     m_parent(parent)
@@ -53,7 +56,7 @@ ConnectorGW::ConnectorGW(Position pos, AbstractNodePortGW *parent) :
     recalculateConnectorRect();
 }
 
-void ConnectorGW::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void NodePortConnectorGW::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setRenderHint(QPainter::Antialiasing, true);
 
@@ -66,29 +69,29 @@ void ConnectorGW::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
 
 }
 
-QPainterPath ConnectorGW::shape() const
+QPainterPath NodePortConnectorGW::shape() const
 {
     QPainterPath path;
     path.addEllipse(getConnectorRect());
     return path;
 }
 
-QColor ConnectorGW::conectorColor() const
+QColor NodePortConnectorGW::conectorColor() const
 {
     return m_conectorColor;
 }
 
-void ConnectorGW::setConectorColor(const QColor &conectorColor)
+void NodePortConnectorGW::setConectorColor(const QColor &conectorColor)
 {
     m_conectorColor = conectorColor;
 }
 
-QRectF ConnectorGW::getConnectorRect() const
+QRectF NodePortConnectorGW::getConnectorRect() const
 {
     return m_connectorRect;
 }
 
-void ConnectorGW::recalculateConnectorRect()
+void NodePortConnectorGW::recalculateConnectorRect()
 {
     if(!m_isRecalulatingRect) // Prevent possible infinate recursion
     {
@@ -108,37 +111,62 @@ void ConnectorGW::recalculateConnectorRect()
     }
 }
 
-void ConnectorGW::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+bool NodePortConnectorGW::isInput()
+{
+    return m_connectorPos == POS_LEFT;
+}
+
+bool NodePortConnectorGW::isOutput()
+{
+    return !isInput();
+}
+
+bool NodePortConnectorGW::connectionRequest(const NodePortAddress &source, const bool &test)
+{
+    NodePortAddress thisAddr;
+    thisAddr.type = (this->isInput())? NodePortAddress::INPUT : NodePortAddress::OUTPUT;
+    return m_parent->connectionRequest(source, thisAddr, test);
+}
+
+void NodePortConnectorGW::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     //qDebug() <<(int)this <<"Hover: " <<event->pos();
     QGraphicsWidget::hoverMoveEvent(event);
 }
 
-void ConnectorGW::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+void NodePortConnectorGW::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
     qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragMove: " <<event->pos();
     QGraphicsWidget::dragMoveEvent(event);
 }
 
-void ConnectorGW::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+void NodePortConnectorGW::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragEnter: " <<event->pos();
     QGraphicsWidget::dragEnterEvent(event);
 }
 
-void ConnectorGW::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+void NodePortConnectorGW::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
     qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragLeave: " <<event->pos();
     QGraphicsWidget::dragLeaveEvent(event);
 }
 
-void ConnectorGW::dropEvent(QGraphicsSceneDragDropEvent *event)
+void NodePortConnectorGW::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DropEvent: " <<event->pos();
+
+    NodePortAddress source;
+    QList<QUrl> urls = event->mimeData()->urls();
+    if(!urls.empty())
+        source = fromUrl(urls.first());
+    //TODO: error handling?
+    bool success = connectionRequest(source, false);
+
     QGraphicsWidget::dropEvent(event);
 }
 
-void ConnectorGW::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void NodePortConnectorGW::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() <<(int)this  <<"MousePressEvent: " <<event->pos();
 
@@ -160,13 +188,13 @@ void ConnectorGW::mousePressEvent(QGraphicsSceneMouseEvent *event)
     //QGraphicsWidget::mousePressEvent(event);
 }
 
-void ConnectorGW::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void NodePortConnectorGW::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() <<(int)this  <<"MouseMoveEvent: " <<event->pos();
     QGraphicsWidget::mouseMoveEvent(event);
 }
 
-void ConnectorGW::onGeometryChange()
+void NodePortConnectorGW::onGeometryChange()
 {
     recalculateConnectorRect();
 }

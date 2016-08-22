@@ -16,13 +16,15 @@
  */
 
 #include "abstract_node_port_g_w.h"
+#include "node_g_w.h"
 
 #include <QGraphicsLinearLayout>
 
 #include "utils/color_utils.h"
 
-AbstractNodePortGW::AbstractNodePortGW(QGraphicsItem *parent, Qt::WindowFlags wFlags) :
-    QGraphicsWidget(parent, wFlags)
+AbstractNodePortGW::AbstractNodePortGW(NodeGW *parent) :
+    QGraphicsWidget(parent),
+    m_parent(parent)
 {
     //Do not call "init" here, because it calls the virtual method "createCenterWidget", use "AbstractIOGraphicsWidget::create<SubClass>()" instead
 
@@ -31,9 +33,9 @@ AbstractNodePortGW::AbstractNodePortGW(QGraphicsItem *parent, Qt::WindowFlags wF
     m_layout->setContentsMargins(0,2,0,2);
     this->setLayout(m_layout);
 
-    m_leftConnector = new ConnectorGW(ConnectorGW::POS_LEFT, this);
+    m_leftConnector = new NodePortConnectorGW(NodePortConnectorGW::POS_LEFT, this);
     m_centerWidget = new QGraphicsWidget(this);
-    m_rightConnector = new ConnectorGW(ConnectorGW::POS_RIGHT, this);
+    m_rightConnector = new NodePortConnectorGW(NodePortConnectorGW::POS_RIGHT, this);
 
     m_layout->addItem(m_leftConnector);
     m_layout->addItem(m_centerWidget);
@@ -81,6 +83,12 @@ AbstractNodePortGW::AbstractNodePortGW(QGraphicsItem *parent, Qt::WindowFlags wF
 AbstractNodePortGW::~AbstractNodePortGW()
 {
 
+}
+
+bool AbstractNodePortGW::connectionRequest(const NodePortAddress &source, NodePortAddress &thisAddress, const bool &test)
+{
+    thisAddress.port = m_parent->getPortNumber(this);
+    return m_parent->connectionRequest(source, thisAddress, test);
 }
 
 void AbstractNodePortGW::init()

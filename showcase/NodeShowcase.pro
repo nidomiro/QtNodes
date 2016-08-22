@@ -10,6 +10,8 @@ CONFIG += c++14
 
 INCLUDEPATH += . $$PWD/../src
 DEPENDPATH += . $$PWD/../src
+INCLUDEPATH += . $$PWD/../share
+DEPENDPATH += . $$PWD/../share
 
 
 LIBS += -L$$PWD/../build

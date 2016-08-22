@@ -17,4 +17,6 @@
 
 #include "connection.h"
 
-
+bool Connection::isNull() const{
+    return source.isNull() && target.isNull();
+}

@@ -15,30 +15,24 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODE_PORT_ADRESS_H
-#define NODE_PORT_ADRESS_H
+#ifndef INODEIMPL_H
+#define INODEIMPL_H
 
 #include "qtnodesshare_global.h"
+#include "node_port_address.h"
+#include "connection.h"
 
 #include <QUuid>
-#include <QMap>
 
-struct QTNODESSHARESHARED_EXPORT NodePortAdress
-{
+class QTNODESSHARESHARED_EXPORT INodeImpl {
 public:
 
-    enum Type {
-        INPUT,
-        OUTPUT,
-        NULL
-    };
+    virtual bool canConnect(const NodePortAddress &source, const NodePortAddress &target) = 0;
+    virtual Connection connect(const NodePortAddress &source, const NodePortAddress &target) = 0;
 
-    QUuid sceneAddress; // normally unused
-    QUuid nodeAddress;
-    qint16 port = -1;
-    Type type = NULL;
+    virtual QUuid getNodeAddress() = 0;
 
 
 };
 
-#endif // NODE_PORT_ADRESS_H
+#endif // INODEIMPL_H

@@ -19,6 +19,7 @@
 #define CONNECTORGRAPHICSWIDGET_H
 
 #include "qtnodes_global.h"
+#include "node_port_address.h"
 
 class AbstractNodePortGW;
 
@@ -27,7 +28,7 @@ class AbstractNodePortGW;
 #include <QColor>
 
 
-class QTNODESSHARED_EXPORT ConnectorGW : public QGraphicsWidget
+class QTNODESSHARED_EXPORT NodePortConnectorGW : public QGraphicsWidget
 {
     Q_OBJECT
 
@@ -38,7 +39,7 @@ public:
     };
 
 public: // Methods
-    ConnectorGW(Position pos, AbstractNodePortGW *parent);
+    NodePortConnectorGW(Position pos, AbstractNodePortGW *parent);
 
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
@@ -52,6 +53,11 @@ public: // Methods
 
     QRectF getConnectorRect() const;
     void recalculateConnectorRect();
+
+    bool isInput();
+    bool isOutput();
+
+    bool connectionRequest(const NodePortAddress &source, const bool &test=false);
 
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
@@ -71,7 +77,7 @@ protected: // Members
 
     Position m_connectorPos = POS_LEFT;
 
-    AbstractNodePortGW *m_parent= nullptr;
+    AbstractNodePortGW *m_parent = nullptr;
 
     QColor m_conectorColor = QColor(255,255,51);
     QRectF m_connectorRect;

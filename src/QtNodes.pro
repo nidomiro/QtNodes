@@ -32,8 +32,8 @@ unix {
 
 # Libs
 LIBS += -L$$PWD/../build
-#CONFIG(release, debug|release):LIBS += -lQtNodesShare
-#CONFIG(debug, debug|release): LIBS += -lQtNodesShared
+CONFIG(release, debug|release):LIBS += -lQtNodesShare
+CONFIG(debug, debug|release): LIBS += -lQtNodesShared
 
 # Files
 HEADERS += \
@@ -43,9 +43,9 @@ HEADERS += \
     node_grid_view.h \
     qtnodes_global.h \
     node_g_w.h \
-    connector_g_w.h \
     abstract_node_port_g_w.h \
-    iowidgets/qstring_node_port_g_w.h
+    iowidgets/qstring_node_port_g_w.h \
+    node_port_connector_g_w.h
 
 SOURCES += \
     iowidgets/qstring_io_graphics_widget.cpp \
@@ -54,5 +54,5 @@ SOURCES += \
     node_grid_scene.cpp \
     node_grid_view.cpp \
     abstract_node_port_g_w.cpp \
-    connector_g_w.cpp \
-    node_g_w.cpp
+    node_g_w.cpp \
+    node_port_connector_g_w.cpp

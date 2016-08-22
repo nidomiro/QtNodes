@@ -103,6 +103,7 @@ bool NodeGW::addIOWidget(AbstractNodePortGW *ioWidget)
 {
     m_centerWidgetLayout->addItem(ioWidget);
     m_centerWidgetLayout->setSpacing(0);
+    m_nodePorts.append(ioWidget);
 
     return true;
 }
@@ -110,6 +111,7 @@ bool NodeGW::addIOWidget(AbstractNodePortGW *ioWidget)
 bool NodeGW::removeIOWidget(AbstractNodePortGW *ioWidget)
 {
     m_centerWidgetLayout->removeItem(ioWidget);
+    m_nodePorts.removeOne(ioWidget);
     return false;
 }
 
@@ -168,5 +170,23 @@ void NodeGW::closeNodeWidget()
 QUuid NodeGW::getNodeAdress() const
 {
     return m_nodeAdress;
+}
+
+qint16 NodeGW::getPortNumber(AbstractNodePortGW *nodePort) const
+{
+   return m_nodePorts.indexOf(nodePort, -1);
+}
+
+bool NodeGW::connectionRequest(const NodePortAddress &source, NodePortAddress &thisAddress, const bool &test)
+{
+    bool ret = true;
+    thisAddress.nodeAddress = m_nodeImpl->getNodeAddress();
+    if(test){
+        ret = m_nodeImpl->canConnect(source, thisAddress);
+    } else {
+        Connection c = m_nodeImpl->connect(source, thisAddress);
+        ret = !(c.isNull());
+    }
+    return ret;
 }
 

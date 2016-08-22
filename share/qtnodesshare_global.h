@@ -27,4 +27,7 @@
 #  define QTNODESSHARESHARED_EXPORT Q_DECL_IMPORT
 #endif
 
+
+#define STR(s) #s
+
 #endif // QTNODESSHARE_GLOBAL_H

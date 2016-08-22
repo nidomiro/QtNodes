@@ -18,11 +18,13 @@
 #ifndef NODEGRAPHICSWIDGET_H
 #define NODEGRAPHICSWIDGET_H
 
-#include "qtnodes_global.h"
-
 class AbstractNodePortGW;
 class IConnectionRegister;
 class QGraphicsLinearLayout;
+
+#include "qtnodes_global.h"
+#include "i_node_impl.h"
+
 
 #include <QGraphicsWidget>
 #include <QUuid>
@@ -50,8 +52,15 @@ public:
     const IConnectionRegister *getConnectionRegister() const;
 
 
-    static void createDefaultHeaderWidget(NodeGW *node, QGraphicsWidget *headerWidget);
+    qint16 getPortNumber(AbstractNodePortGW *nodePort) const;
+    bool connectionRequest(const NodePortAddress &source, NodePortAddress &thisAddress, const bool &test=false);
 
+
+
+
+
+
+    static void createDefaultHeaderWidget(NodeGW *node, QGraphicsWidget *headerWidget);
 
 
 public slots:
@@ -76,7 +85,13 @@ private:
     QGraphicsLinearLayout *m_centerWidgetLayout = nullptr;
     QGraphicsWidget *m_footerWidget = nullptr;
 
+    QList<AbstractNodePortGW*> m_nodePorts;
+
     IConnectionRegister *m_connections = nullptr;
+
+protected:
+
+    INodeImpl *m_nodeImpl = nullptr;
 
 };
 

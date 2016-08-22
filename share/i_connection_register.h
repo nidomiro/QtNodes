@@ -27,8 +27,8 @@
 class QTNODESSHARESHARED_EXPORT IConnectionRegister
 {
 public:
-    virtual QList<Connection*> *getIncomingConnections() = 0;
-    virtual QList<Connection*> *getOutgoingConnections() = 0;
+    virtual QList<Connection> *getIncomingConnections() = 0;
+    virtual QList<Connection> *getOutgoingConnections() = 0;
 };
 
 #endif // ICONNECTIONREGISTER_H
