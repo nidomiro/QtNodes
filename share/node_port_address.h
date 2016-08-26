@@ -24,7 +24,7 @@
 #include <QMap>
 #include <QUrl>
 
-struct QTNODESSHARESHARED_EXPORT NodePortAddress
+class QTNODESSHARESHARED_EXPORT NodePortAddress
 {
 public:
 
@@ -42,15 +42,18 @@ public:
 
     bool isNull() const;
     bool operator==(const NodePortAddress &other) const;
+    bool operator!=(const NodePortAddress &other) const;
+
+    QString toString() const;
 
 
 };
 
-extern "C" QTNODESSHARESHARED_EXPORT QString toString(const NodePortAddress::Type & type);
-extern "C" QTNODESSHARESHARED_EXPORT NodePortAddress::Type fromString(const QString & str);
+extern "C" QTNODESSHARESHARED_EXPORT QString enumToString(const NodePortAddress::Type & type);
+extern "C" QTNODESSHARESHARED_EXPORT NodePortAddress::Type enumFromString(const QString & str);
 
-extern "C" QTNODESSHARESHARED_EXPORT QUrl toUrl(const NodePortAddress &node);
-extern "C" QTNODESSHARESHARED_EXPORT NodePortAddress fromUrl(const QUrl &url);
+extern "C" QTNODESSHARESHARED_EXPORT QUrl nodePortAddressToUrl(const NodePortAddress &node);
+extern "C" QTNODESSHARESHARED_EXPORT NodePortAddress nodePortAddressFromUrl(const QUrl &url);
 
 
 #endif // NODE_PORT_ADRESS_H

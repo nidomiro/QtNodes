@@ -15,26 +15,30 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "connection_request.h"
 
+#ifndef STRINGTESTNODEIMPL_H
+#define STRINGTESTNODEIMPL_H
 
-#include <QDataStream>
+#include "i_node_impl.h"
 
-void ConnectionRequest::serialize(QByteArray& byteArray)
+class StringTestNodeImpl: public INodeImpl
 {
-    QDataStream stream(&byteArray, QIODevice::WriteOnly);
-    //stream.setVersion(QDataStream::Qt_5_5);
+public:
+    StringTestNodeImpl();
 
-    stream << this->source
-           << this->target;
-}
+    QList<Connection> *getIncomingConnections() override;
+    QList<Connection> *getOutgoingConnections() override;
 
-void ConnectionRequest::deserialize(const QByteArray& byteArray)
-{
-   QDataStream stream(byteArray);
-   //stream.setVersion(QDataStream::Qt_5_5);
+    bool canConnect(const NodePortAddress &source, const NodePortAddress &target) override;
+    Connection connect(const NodePortAddress &source, const NodePortAddress &target) override;
 
+    QUuid getNodeAddress() override;
 
-   //stream >> (void*)this->source
-   //       >> (void*)this->target;
-}
+protected:
+
+    QUuid m_nodeAdress = QUuid::createUuid();
+    QList<Connection> *m_incommingConn = nullptr;
+    QList<Connection> *m_outgoingConn = nullptr;
+};
+
+#endif // STRINGTESTNODEIMPL_H

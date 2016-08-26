@@ -18,10 +18,10 @@
 #ifndef CONNECTORGRAPHICSWIDGET_H
 #define CONNECTORGRAPHICSWIDGET_H
 
+class AbstractNodePortGW;
+
 #include "qtnodes_global.h"
 #include "node_port_address.h"
-
-class AbstractNodePortGW;
 
 #include <QObject>
 #include <QGraphicsWidget>
@@ -54,10 +54,12 @@ public: // Methods
     QRectF getConnectorRect() const;
     void recalculateConnectorRect();
 
-    bool isInput();
-    bool isOutput();
+    bool isInput() const;
+    bool isOutput() const;
 
-    bool connectionRequest(const NodePortAddress &source, const bool &test=false);
+    bool connectionRequest(const NodePortAddress &source, const bool &isTest=false);
+
+    void constructWholeAddress(NodePortAddress &addressToConstruct) const;
 
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;

@@ -21,9 +21,9 @@
 #include "../qtnodes_global.h"
 #include "../abstract_node_port_g_w.h"
 
-class QLabel;
-class QGraphicsProxyWidget;
-class QGraphicsLinearLayout;
+#include <QLabel>
+#include <QGraphicsProxyWidget>
+#include <QGraphicsLinearLayout>
 
 
 
@@ -32,9 +32,10 @@ class QTNODESSHARED_EXPORT QStringNodePortGW : public AbstractNodePortGW
     Q_OBJECT
 
 public:
-
+    QStringNodePortGW(NodeGW *parent); // do not call!! create via AbstractNodePortGW::create()!
 
 protected:
+
     virtual void createCenterWidget(QGraphicsWidget *centerWidget) override;
 
 

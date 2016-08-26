@@ -23,9 +23,14 @@
 #include "connection.h"
 
 #include <QUuid>
+#include <QList>
 
-class QTNODESSHARESHARED_EXPORT INodeImpl {
+// Do not use QTNODESSHARESHARED_EXPORT on Interfaces
+class INodeImpl {
 public:
+
+    virtual QList<Connection> *getIncomingConnections() = 0;
+    virtual QList<Connection> *getOutgoingConnections() = 0;
 
     virtual bool canConnect(const NodePortAddress &source, const NodePortAddress &target) = 0;
     virtual Connection connect(const NodePortAddress &source, const NodePortAddress &target) = 0;

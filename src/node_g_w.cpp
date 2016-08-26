@@ -39,7 +39,6 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
-#include <QGraphicsLinearLayout>
 #include <QUuid>
 
 
@@ -47,20 +46,21 @@
 #include "abstract_node_port_g_w.h"
 #include "utils/color_utils.h"
 
-NodeGW::NodeGW(QGraphicsItem *parent, Qt::WindowFlags wFlags):
-    NodeGW(&NodeGW::createDefaultHeaderWidget, parent, wFlags)
+NodeGW::NodeGW(INodeImpl *nodeImpl, QGraphicsItem *parent, Qt::WindowFlags wFlags):
+    NodeGW(nodeImpl, &NodeGW::createDefaultHeaderWidget, parent, wFlags)
 {
 
 }
 
-NodeGW::NodeGW(WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
-    NodeGW(headerCreationFunc, nullptr, parent, wFlags)
+NodeGW::NodeGW(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
+    NodeGW(nodeImpl, headerCreationFunc, nullptr, parent, wFlags)
 {
 
 }
 
-NodeGW::NodeGW(NodeGW::WidgetCreationFunction headerCreationFunc, NodeGW::WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
-    QGraphicsWidget(parent, wFlags)
+NodeGW::NodeGW(INodeImpl *nodeImpl, NodeGW::WidgetCreationFunction headerCreationFunc, NodeGW::WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
+    QGraphicsWidget(parent, wFlags),
+    m_nodeImpl(nodeImpl)
 {
     m_layout = new QGraphicsLinearLayout(Qt::Orientation::Vertical, this);
     this->setLayout(m_layout);
@@ -172,21 +172,32 @@ QUuid NodeGW::getNodeAdress() const
     return m_nodeAdress;
 }
 
-qint16 NodeGW::getPortNumber(AbstractNodePortGW *nodePort) const
+const INodeImpl *NodeGW::getNodeImpl() const
 {
-   return m_nodePorts.indexOf(nodePort, -1);
+    return m_nodeImpl;
 }
 
-bool NodeGW::connectionRequest(const NodePortAddress &source, NodePortAddress &thisAddress, const bool &test)
+qint16 NodeGW::getPortNumber(const AbstractNodePortGW *nodePort) const
+{
+
+    return m_nodePorts.indexOf((AbstractNodePortGW *)nodePort); // returns -1 if not found
+}
+
+bool NodeGW::connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest)
 {
     bool ret = true;
-    thisAddress.nodeAddress = m_nodeImpl->getNodeAddress();
-    if(test){
+    if(isTest){
         ret = m_nodeImpl->canConnect(source, thisAddress);
     } else {
         Connection c = m_nodeImpl->connect(source, thisAddress);
         ret = !(c.isNull());
     }
+    qDebug() <<source.toString() << " -> " <<thisAddress.toString() <<" = " <<ret;
     return ret;
+}
+
+void NodeGW::constructWholeAddress(NodePortAddress &addressToConstruct) const
+{
+    addressToConstruct.nodeAddress = m_nodeImpl->getNodeAddress();
 }
 

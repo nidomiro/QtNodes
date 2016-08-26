@@ -18,8 +18,6 @@
 #include "abstract_node_port_g_w.h"
 #include "node_g_w.h"
 
-#include <QGraphicsLinearLayout>
-
 #include "utils/color_utils.h"
 
 AbstractNodePortGW::AbstractNodePortGW(NodeGW *parent) :
@@ -85,10 +83,15 @@ AbstractNodePortGW::~AbstractNodePortGW()
 
 }
 
-bool AbstractNodePortGW::connectionRequest(const NodePortAddress &source, NodePortAddress &thisAddress, const bool &test)
+bool AbstractNodePortGW::connectionRequest(const NodePortAddress &source,  const NodePortAddress &thisAddress, const bool &isTest)
 {
-    thisAddress.port = m_parent->getPortNumber(this);
-    return m_parent->connectionRequest(source, thisAddress, test);
+    return m_parent->connectionRequest(source, thisAddress, isTest);
+}
+
+void AbstractNodePortGW::constructWholeAddress(NodePortAddress &addressToConstruct) const
+{
+    addressToConstruct.port = m_parent->getPortNumber(this);
+    m_parent->constructWholeAddress(addressToConstruct);
 }
 
 void AbstractNodePortGW::init()

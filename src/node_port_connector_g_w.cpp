@@ -16,7 +16,6 @@
  */
 
 #include "node_port_connector_g_w.h"
-#include "connection_request.h"
 #include "abstract_node_port_g_w.h"
 
 #include "node_port_address.h"
@@ -111,21 +110,33 @@ void NodePortConnectorGW::recalculateConnectorRect()
     }
 }
 
-bool NodePortConnectorGW::isInput()
+bool NodePortConnectorGW::isInput() const
 {
     return m_connectorPos == POS_LEFT;
 }
 
-bool NodePortConnectorGW::isOutput()
+bool NodePortConnectorGW::isOutput() const
 {
     return !isInput();
 }
 
-bool NodePortConnectorGW::connectionRequest(const NodePortAddress &source, const bool &test)
+bool NodePortConnectorGW::connectionRequest(const NodePortAddress &source, const bool &isTest)
 {
     NodePortAddress thisAddr;
-    thisAddr.type = (this->isInput())? NodePortAddress::INPUT : NodePortAddress::OUTPUT;
-    return m_parent->connectionRequest(source, thisAddr, test);
+    constructWholeAddress(thisAddr);
+    return m_parent->connectionRequest(source, thisAddr, isTest);
+}
+
+void NodePortConnectorGW::constructWholeAddress(NodePortAddress &addressToConstruct) const
+{
+    if(this->isInput())
+        addressToConstruct.type = NodePortAddress::INPUT;
+    else if(this->isOutput())
+        addressToConstruct.type = NodePortAddress::OUTPUT;
+    else
+        addressToConstruct.type = NodePortAddress::NONE;
+
+    m_parent->constructWholeAddress(addressToConstruct);
 }
 
 void NodePortConnectorGW::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
@@ -136,32 +147,36 @@ void NodePortConnectorGW::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 
 void NodePortConnectorGW::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
-    qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragMove: " <<event->pos();
+    //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragMove: " <<event->pos();
     QGraphicsWidget::dragMoveEvent(event);
 }
 
 void NodePortConnectorGW::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-    qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragEnter: " <<event->pos();
+    //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragEnter: " <<event->pos();
     QGraphicsWidget::dragEnterEvent(event);
 }
 
 void NodePortConnectorGW::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
-    qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragLeave: " <<event->pos();
+    //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragLeave: " <<event->pos();
     QGraphicsWidget::dragLeaveEvent(event);
 }
 
 void NodePortConnectorGW::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
-    qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DropEvent: " <<event->pos();
+    //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DropEvent: " <<event->pos();
 
     NodePortAddress source;
     QList<QUrl> urls = event->mimeData()->urls();
-    if(!urls.empty())
-        source = fromUrl(urls.first());
+    if(!urls.empty()){
+        source = nodePortAddressFromUrl(urls.first());
+        qDebug() << "Decoding url " <<urls.first() <<" -> " <<source.toString();
+    }else
+        qDebug() <<"urls is empty";
     //TODO: error handling?
     bool success = connectionRequest(source, false);
+    qDebug() << success;
 
     QGraphicsWidget::dropEvent(event);
 }
@@ -173,11 +188,12 @@ void NodePortConnectorGW::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QDrag *drag = new QDrag(event->widget());
     QMimeData *mime = new QMimeData;
 
-    ConnectionRequest con;
-    con.source = this;
+    NodePortAddress thisAddr;
+    constructWholeAddress(thisAddr);
 
     QList<QUrl> urls;
-    urls.append(QUrl("http://google.de"));
+    urls.append(nodePortAddressToUrl(thisAddr));
+    qDebug() << "Encoding NodePortAddress " <<thisAddr.toString() <<" -> " <<urls.first();
     mime->setUrls(urls);
 //    mime->
     drag->setMimeData(mime);
@@ -190,7 +206,7 @@ void NodePortConnectorGW::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void NodePortConnectorGW::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() <<(int)this  <<"MouseMoveEvent: " <<event->pos();
+    //qDebug() <<(int)this  <<"MouseMoveEvent: " <<event->pos();
     QGraphicsWidget::mouseMoveEvent(event);
 }
 

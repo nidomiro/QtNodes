@@ -17,12 +17,14 @@
 
 #include "qstring_node_port_g_w.h"
 
-#include <QLabel>
-#include <QGraphicsProxyWidget>
-#include <QGraphicsLinearLayout>
-
 #include "utils/color_utils.h"
 
+
+QStringNodePortGW::QStringNodePortGW(NodeGW *parent):
+    AbstractNodePortGW(parent)
+{
+
+}
 
 void QStringNodePortGW::createCenterWidget(QGraphicsWidget *centerWidget)
 {

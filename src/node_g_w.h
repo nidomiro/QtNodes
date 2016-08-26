@@ -20,12 +20,11 @@
 
 class AbstractNodePortGW;
 class IConnectionRegister;
-class QGraphicsLinearLayout;
 
 #include "qtnodes_global.h"
 #include "i_node_impl.h"
 
-
+#include <QGraphicsLinearLayout>
 #include <QGraphicsWidget>
 #include <QUuid>
 
@@ -38,9 +37,9 @@ class QTNODESSHARED_EXPORT NodeGW : public QGraphicsWidget
 public:
     typedef void (*WidgetCreationFunction)(NodeGW *node, QGraphicsWidget *widgetToCreate);
 
-    explicit NodeGW(QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-    explicit NodeGW(WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-    explicit NodeGW(WidgetCreationFunction headerCreationFunc, WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    explicit NodeGW(INodeImpl *nodeImpl, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    explicit NodeGW(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    explicit NodeGW(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
     ~NodeGW();
 
     bool addIOWidget(AbstractNodePortGW *ioWidget);
@@ -49,11 +48,12 @@ public:
     QString nodeName() const;
     QUuid getNodeAdress() const;
 
-    const IConnectionRegister *getConnectionRegister() const;
+    const INodeImpl *getNodeImpl() const;
 
 
-    qint16 getPortNumber(AbstractNodePortGW *nodePort) const;
-    bool connectionRequest(const NodePortAddress &source, NodePortAddress &thisAddress, const bool &test=false);
+    qint16 getPortNumber(const AbstractNodePortGW *nodePort) const;
+    bool connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest=false);
+    void constructWholeAddress(NodePortAddress &addressToConstruct) const;
 
 
 
@@ -85,9 +85,7 @@ private:
     QGraphicsLinearLayout *m_centerWidgetLayout = nullptr;
     QGraphicsWidget *m_footerWidget = nullptr;
 
-    QList<AbstractNodePortGW*> m_nodePorts;
-
-    IConnectionRegister *m_connections = nullptr;
+    QList<AbstractNodePortGW *> m_nodePorts;
 
 protected:
 

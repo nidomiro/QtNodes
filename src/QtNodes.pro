@@ -48,11 +48,11 @@ HEADERS += \
     node_port_connector_g_w.h
 
 SOURCES += \
-    iowidgets/qstring_io_graphics_widget.cpp \
     utils/color_utils.cpp \
     utils/math_util.cpp \
     node_grid_scene.cpp \
     node_grid_view.cpp \
     abstract_node_port_g_w.cpp \
     node_g_w.cpp \
-    node_port_connector_g_w.cpp
+    node_port_connector_g_w.cpp \
+    iowidgets/qstring_node_port_g_w.cpp

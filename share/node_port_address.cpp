@@ -18,6 +18,7 @@
 #include "node_port_address.h"
 
 #include <QUrlQuery>
+#include <QDebug>
 
 bool NodePortAddress::isNull() const{
     return sceneAddress.isNull()
@@ -33,7 +34,17 @@ bool NodePortAddress::operator==(const NodePortAddress &other) const{
             && type == other.type;
 }
 
-QString toString(const NodePortAddress::Type &type)
+bool NodePortAddress::operator!=(const NodePortAddress &other) const
+{
+    return !(*this == other);
+}
+
+QString NodePortAddress::toString() const
+{
+    return sceneAddress.toString() + "::" + nodeAddress.toString() + "::" + QString::number(port) + "::" + enumToString(type);
+}
+
+QString enumToString(const NodePortAddress::Type &type)
 {
 //    using namespace NodePortAddress;
     QString ret;
@@ -52,7 +63,7 @@ QString toString(const NodePortAddress::Type &type)
     return ret;
 }
 
-NodePortAddress::Type fromString(const QString &str)
+NodePortAddress::Type enumFromString(const QString &str)
 {
 //    using namespace NodePortAddress;
     NodePortAddress::Type ret = NodePortAddress::Type::NONE;
@@ -67,33 +78,39 @@ NodePortAddress::Type fromString(const QString &str)
     return ret;
 }
 
-QUrl toUrl(const NodePortAddress &node)
+QUrl nodePortAddressToUrl(const NodePortAddress &node)
 {
     QUrl url;
     url.setScheme("node");
 
-    url.setHost(node.nodeAddress.toString() + "." + node.sceneAddress.toString());
+    url.setHost(node.nodeAddress.toString().replace("{", "s").replace("}", "t")
+                + "."
+                + node.sceneAddress.toString().replace("{", "s").replace("}", "t")
+                );
     url.setPort(node.port);
     QUrlQuery query;
-    query.addQueryItem("type", toString(node.type));
+    query.addQueryItem("type", enumToString(node.type));
     url.setQuery(query);
 
     return url;
 }
 
-NodePortAddress fromUrl(const QUrl &url)
+NodePortAddress nodePortAddressFromUrl(const QUrl &url)
 {
     NodePortAddress node;
     if(url.scheme() == "node"){
-        QStringList host = url.host().split(".");
-        if (host.length() >= 2){
-            node.sceneAddress = host[host.length() - 1];
-            node.nodeAddress = host[host.length() - 2];
+        QStringList hosts = url.host().split(".");
+        if (hosts.length() >= 2){ // If more "subdomains" -> don't care, take the two top-level ones
+            QString sceneAddr = hosts[hosts.length() - 1].replace("s", "{").replace("t", "}");
+            QString nodeAddr = hosts[hosts.length() - 2].replace("s", "{").replace("t", "}");
+            qDebug() <<"sceneAddr=" <<sceneAddr <<" nodeAddr=" <<nodeAddr;
+            node.sceneAddress = QUuid(sceneAddr);
+            node.nodeAddress = QUuid(nodeAddr);
         }
 
         node.port = url.port();
         QUrlQuery query(url.query());
-        node.type = fromString(query.queryItemValue("type"));
+        node.type = enumFromString(query.queryItemValue("type"));
     }
     return node;
 }

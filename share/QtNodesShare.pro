@@ -35,6 +35,5 @@ SOURCES += \
 HEADERS +=\
         qtnodesshare_global.h \
     connection.h \
-    i_connection_register.h \
     i_node_impl.h \
     node_port_address.h

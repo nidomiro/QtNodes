@@ -16,13 +16,19 @@ DEPENDPATH += . $$PWD/../share
 
 LIBS += -L$$PWD/../build
 
-
+# QtNodes lib dynamic linking
 CONFIG(release, debug|release):LIBS += -lQtNodes
 CONFIG(debug, debug|release): LIBS += -lQtNodesd
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+# QtNodesShare lib dynamic linking
+CONFIG(release, debug|release):LIBS += -lQtNodesShare
+CONFIG(debug, debug|release): LIBS += -lQtNodesShared
 
-HEADERS  += mainwindow.h
+SOURCES += main.cpp\
+        mainwindow.cpp \
+    stringtestnodeimpl.cpp
+
+HEADERS  += mainwindow.h \
+    stringtestnodeimpl.h
 
 FORMS    += mainwindow.ui
