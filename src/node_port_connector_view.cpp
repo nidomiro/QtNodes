@@ -129,6 +129,18 @@ bool NodePortConnectorView::isOutput() const
     return !isInput();
 }
 
+NodePortAddress NodePortConnectorView::decodeAddress(const QMimeData *data)
+{
+    NodePortAddress source;
+    QList<QUrl> urls = data->urls();
+    if(!urls.empty()){
+        source = nodePortAddressFromUrl(urls.first());
+        //qDebug() << "Decoding url " <<urls.first() <<" -> " <<source.toString();
+    }else
+        qWarning() <<"urls is empty";
+    return source;
+}
+
 void NodePortConnectorView::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     //qDebug() <<(int)this <<"Hover: " <<event->pos();
@@ -144,8 +156,11 @@ void NodePortConnectorView::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 void NodePortConnectorView::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragEnter: " <<event->pos();
-
+    NodePortAddress source = decodeAddress(event->mimeData());
+    if(!m_portInfo.parentNode->canConnect(source, m_portInfo.parentNode->getNodePortAddress(m_portInfo)))
+        event->ignore();
     QGraphicsWidget::dragEnterEvent(event);
+    //event->ignore();
 }
 
 void NodePortConnectorView::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
@@ -158,15 +173,12 @@ void NodePortConnectorView::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DropEvent: " <<event->pos();
 
-    NodePortAddress source;
-    QList<QUrl> urls = event->mimeData()->urls();
-    if(!urls.empty()){
-        source = nodePortAddressFromUrl(urls.first());
-        //qDebug() << "Decoding url " <<urls.first() <<" -> " <<source.toString();
-    }else
-        qWarning() <<"urls is empty";
+    NodePortAddress source = decodeAddress(event->mimeData());
+    if(!source.isNull()){
+        event->acceptProposedAction();
+    }
     //TODO: error handling?
-    //bool success = connectionRequest(source, false);
+
     Connection con = m_portInfo.parentNode->connect(source, m_portInfo.parentNode->getNodePortAddress(m_portInfo));
     qDebug() <<"Connection made? "<< !con.isNull();
 

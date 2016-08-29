@@ -57,6 +57,8 @@ public: // Methods
     bool isInput() const;
     bool isOutput() const;
 
+    NodePortAddress decodeAddress(const QMimeData *data);
+
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
 
