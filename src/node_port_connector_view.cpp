@@ -29,6 +29,7 @@
 
 #include <QDrag>
 #include <QMimeData>
+#include <QSizePolicy>
 
 
 
@@ -47,6 +48,10 @@ NodePortConnectorView::NodePortConnectorView(Position pos, NodePortInfo info, QG
     setMinimumSize(s_connectorRadius*2, s_connectorRadius*2);
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     setMaximumWidth(s_connectorRadius*2);
+
+    QSizePolicy sizePolicy = this->sizePolicy();
+    sizePolicy.setRetainSizeWhenHidden(true);
+    setSizePolicy(sizePolicy);
 //    setPreferredSize(connectorRadius*2, connectorRadius*2);
 
     QObject::connect(this, SIGNAL(geometryChanged()), this, SLOT(onGeometryChange()));
@@ -122,11 +127,6 @@ bool NodePortConnectorView::isInput() const
 bool NodePortConnectorView::isOutput() const
 {
     return !isInput();
-}
-
-bool NodePortConnectorView::connectionRequest(const NodePortAddress &source, const bool &isTest)
-{
-    return false; //m_parent->connectionRequest(source, m_address, isTest);
 }
 
 void NodePortConnectorView::hoverMoveEvent(QGraphicsSceneHoverEvent *event)

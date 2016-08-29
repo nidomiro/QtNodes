@@ -24,6 +24,7 @@
 
 class INodeStateListener{
 public:
+    virtual void onNodeNameChanged(QString newName) = 0;
     virtual void onPortCountChange() = 0;
     virtual void onInputConnectionsChanged() = 0;
     virtual void onOutputConnectionsChanged() = 0;

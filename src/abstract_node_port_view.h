@@ -41,8 +41,6 @@ class QTNODESSHARED_EXPORT AbstractNodePortView : public QGraphicsWidget
 public:
     ~AbstractNodePortView();
 
-    bool connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest=false);
-
 
 
 protected:

@@ -59,10 +59,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_addNode_clicked()
 {
 
-    StringTestNodeImpl *nodeImpl = new StringTestNodeImpl;
+    StringTestNodeImpl *nodeImpl = new StringTestNodeImpl("Node" + QString::number(m_nodes.size()));
 
     NodeView *nw = new NodeView(nodeImpl);
-    nw->setNodeName("Node" + QString::number(m_nodes.size()));
     m_nodes.append(nw);
     /*
     qDebug() <<"Node: " <<nw->nodeName() <<"j: -1" <<" NodeGraphicsWidgetSize: " <<nw->size();

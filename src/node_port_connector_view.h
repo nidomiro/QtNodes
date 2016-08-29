@@ -57,11 +57,6 @@ public: // Methods
     bool isInput() const;
     bool isOutput() const;
 
-    bool connectionRequest(const NodePortAddress &source, const bool &isTest=false);
-
-//signals:
-//    void connectionRequest(const NodePortAddress &source, const NodePortAddress &target);
-
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
 

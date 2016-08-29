@@ -31,6 +31,9 @@
 class INodeImpl {
 public:
 
+    virtual QString getNodeName() const = 0;
+    virtual void setNodeName(QString name) = 0;
+
     virtual QList<NodePortInfo> getNodePorts() = 0;
 
     virtual QList<Connection> *getIncomingConnections() = 0;

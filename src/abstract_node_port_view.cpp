@@ -45,6 +45,21 @@ AbstractNodePortView::AbstractNodePortView(NodePortInfo info, QGraphicsItem *par
 
     m_centerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
+    switch(info.type){
+    case NodePortType::INPUT:
+        m_leftConnector->setVisible(true);
+        m_rightConnector->setVisible(false);
+        break;
+    case NodePortType::OUTPUT:
+        m_leftConnector->setVisible(false);
+        m_rightConnector->setVisible(true);
+        break;
+    default:
+        m_leftConnector->setVisible(true);
+        m_rightConnector->setVisible(true);
+        break;
+    }
+
 
     // Todo: Remove hacky code after debug
     {
@@ -81,11 +96,6 @@ AbstractNodePortView::AbstractNodePortView(NodePortInfo info, QGraphicsItem *par
 AbstractNodePortView::~AbstractNodePortView()
 {
 
-}
-
-bool AbstractNodePortView::connectionRequest(const NodePortAddress &source,  const NodePortAddress &thisAddress, const bool &isTest)
-{
-    return false;//m_parent->connectionRequest(source, thisAddress, isTest);
 }
 
 

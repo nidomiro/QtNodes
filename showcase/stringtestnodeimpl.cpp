@@ -20,7 +20,8 @@
 
 #include <QDebug>
 
-StringTestNodeImpl::StringTestNodeImpl():
+StringTestNodeImpl::StringTestNodeImpl(QString name):
+    m_nodeName(name),
     m_incommingConn(new QList<Connection>()),
     m_outgoingConn(new QList<Connection>())
 {
@@ -33,6 +34,18 @@ StringTestNodeImpl::~StringTestNodeImpl()
     delete m_outgoingConn;
 }
 
+QString StringTestNodeImpl::getNodeName() const
+{
+    return m_nodeName;
+}
+
+void StringTestNodeImpl::setNodeName(QString name)
+{
+    m_nodeName = name;
+    if(m_nodeStateListener != nullptr)
+        m_nodeStateListener->onNodeNameChanged(m_nodeName);
+}
+
 QList<NodePortInfo> StringTestNodeImpl::getNodePorts()
 {
     QList<NodePortInfo> nodePorts;
@@ -41,7 +54,7 @@ QList<NodePortInfo> StringTestNodeImpl::getNodePorts()
         NodePortInfo port;
         port.parentNode = this;
         port.portNumber = i;
-        port.type = (i < (count/2))? NodePortType::INPUT : NodePortType::OUTPUT;
+        port.type = (i < (count/2))? NodePortType::OUTPUT : NodePortType::INPUT;
 //        qDebug() <<"PortType=" <<static_cast<int>(port.type);
         nodePorts.append(port);
     }

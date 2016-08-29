@@ -105,25 +105,38 @@ NodeView::~NodeView()
 {
 }
 
-bool NodeView::addIOWidget(AbstractNodePortView *ioWidget)
+bool NodeView::addPortView(AbstractNodePortView *portView)
 {
-    m_centerWidgetLayout->addItem(ioWidget);
+    portView->setParentItem(this);
+    m_centerWidgetLayout->addItem(portView);
     m_centerWidgetLayout->setSpacing(0);
-    m_nodePorts.append(ioWidget);
+    m_nodePorts.append(portView);
 
     return true;
 }
 
-bool NodeView::removeIOWidget(AbstractNodePortView *ioWidget)
+bool NodeView::removePortView(AbstractNodePortView *portView)
 {
-    m_centerWidgetLayout->removeItem(ioWidget);
-    m_nodePorts.removeOne(ioWidget);
-    return false;
+    m_centerWidgetLayout->removeItem(portView);
+    portView->setParentItem(nullptr);
+    m_nodePorts.removeOne(portView);
+    return true;
+}
+
+bool NodeView::removeAllPortViews()
+{
+    for(auto port: m_nodePorts){
+        m_centerWidgetLayout->removeItem(port);
+        port->setParentItem(nullptr);
+        port->deleteLater();
+    }
+    m_nodePorts.clear();
+    return true;
 }
 
 QString NodeView::nodeName() const
 {
-    return m_nodeName;
+    return m_nodeImpl->getNodeName();
 }
 
 void NodeView::createDefaultHeaderWidget(NodeView *node, QGraphicsWidget *headerWidget)
@@ -163,28 +176,20 @@ void NodeView::createDefaultHeaderWidget(NodeView *node, QGraphicsWidget *header
 
 void NodeView::recreateNodePorts()
 {
+    removeAllPortViews();
+
     NodePortViewFactory *fac = nullptr;
     for(auto port : m_nodeImpl->getNodePorts()){
         auto portView = fac->createNodePortView(port, this);
-        this->addIOWidget(portView);
+        this->addPortView(portView);
 
     }
 }
 
-void NodeView::setNodeName(const QString &name)
-{
-    m_nodeName = name;
-    emit nodeNameChanged(m_nodeName);
-}
 
 void NodeView::closeNodeWidget()
 {
     qDebug() <<"NodeGraphicsWidget::closeNodeWidget() not implemented!!";
-}
-
-QUuid NodeView::getNodeAdress() const
-{
-    return m_nodeAdress;
 }
 
 const INodeImpl *NodeView::getNodeImpl() const
@@ -192,23 +197,9 @@ const INodeImpl *NodeView::getNodeImpl() const
     return m_nodeImpl;
 }
 
-qint16 NodeView::getPortNumber(const AbstractNodePortView *nodePort) const
+void NodeView::onNodeNameChanged(QString newName)
 {
-
-    return m_nodePorts.indexOf((AbstractNodePortView *)nodePort); // returns -1 if not found
-}
-
-bool NodeView::connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest)
-{
-    bool ret = true;
-    if(isTest){
-        ret = m_nodeImpl->canConnect(source, thisAddress);
-    } else {
-        Connection c = m_nodeImpl->connect(source, thisAddress);
-        ret = !(c.isNull());
-    }
-    qDebug() <<source.toString() << " -> " <<thisAddress.toString() <<" = " <<ret;
-    return ret;
+    emit nodeNameChanged(newName);
 }
 
 void NodeView::onPortCountChange()

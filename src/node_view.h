@@ -33,7 +33,6 @@ class QTNODESSHARED_EXPORT NodeView : public QGraphicsWidget, public INodeStateL
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString nodeName READ nodeName WRITE setNodeName NOTIFY nodeNameChanged)
 
 public:
     typedef void (*WidgetCreationFunction)(NodeView *node, QGraphicsWidget *widgetToCreate);
@@ -43,20 +42,17 @@ public:
     explicit NodeView(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
     ~NodeView();
 
-    bool addIOWidget(AbstractNodePortView *ioWidget);
-    bool removeIOWidget(AbstractNodePortView *ioWidget);
+    bool addPortView(AbstractNodePortView *portView);
+    bool removePortView(AbstractNodePortView *portView);
+    bool removeAllPortViews();
 
     QString nodeName() const;
-    QUuid getNodeAdress() const;
 
     const INodeImpl *getNodeImpl() const;
 
 
-    qint16 getPortNumber(const AbstractNodePortView *nodePort) const;
-    bool connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest=false);
 
-
-
+    void onNodeNameChanged(QString newName) override;
     void onPortCountChange() override;
     void onInputConnectionsChanged() override;
     void onOutputConnectionsChanged() override;
@@ -73,7 +69,6 @@ protected:
 
 
 public slots:
-    void setNodeName(const QString &name);
 
     void closeNodeWidget();
 
@@ -84,7 +79,6 @@ signals:
 
 private:
 
-    QString m_nodeName = "Unnamed Node";
     QUuid m_nodeAdress = QUuid::createUuid();
 
     QGraphicsLinearLayout *m_layout = nullptr;

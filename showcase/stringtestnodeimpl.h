@@ -24,8 +24,11 @@
 class StringTestNodeImpl: public INodeImpl
 {
 public:
-    StringTestNodeImpl();
+    StringTestNodeImpl(QString name);
     ~StringTestNodeImpl();
+
+    QString getNodeName() const override;
+    void setNodeName(QString name) override;
 
     QList<NodePortInfo> getNodePorts() override;
 
@@ -47,6 +50,8 @@ public:
     INodeStateListener *getINodeStateListener() override;
 
 protected:
+
+    QString m_nodeName = "unnamed Node";
 
     QUuid m_nodeAddress = QUuid::createUuid();
     QUuid m_sceneAddress;
