@@ -15,14 +15,14 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "abstract_node_port_g_w.h"
-#include "node_g_w.h"
+#include "abstract_node_port_view.h"
+#include "node_view.h"
 
 #include "utils/color_utils.h"
 
-AbstractNodePortGW::AbstractNodePortGW(NodeGW *parent) :
+AbstractNodePortView::AbstractNodePortView(NodePortInfo info, QGraphicsItem *parent) :
     QGraphicsWidget(parent),
-    m_parent(parent)
+    m_portInfo(info)
 {
     //Do not call "init" here, because it calls the virtual method "createCenterWidget", use "AbstractIOGraphicsWidget::create<SubClass>()" instead
 
@@ -31,9 +31,9 @@ AbstractNodePortGW::AbstractNodePortGW(NodeGW *parent) :
     m_layout->setContentsMargins(0,2,0,2);
     this->setLayout(m_layout);
 
-    m_leftConnector = new NodePortConnectorGW(NodePortConnectorGW::POS_LEFT, this);
+    m_leftConnector = new NodePortConnectorView(NodePortConnectorView::POS_LEFT, m_portInfo, this);
     m_centerWidget = new QGraphicsWidget(this);
-    m_rightConnector = new NodePortConnectorGW(NodePortConnectorGW::POS_RIGHT, this);
+    m_rightConnector = new NodePortConnectorView(NodePortConnectorView::POS_RIGHT, m_portInfo, this);
 
     m_layout->addItem(m_leftConnector);
     m_layout->addItem(m_centerWidget);
@@ -78,23 +78,18 @@ AbstractNodePortGW::AbstractNodePortGW(NodeGW *parent) :
 
 }
 
-AbstractNodePortGW::~AbstractNodePortGW()
+AbstractNodePortView::~AbstractNodePortView()
 {
 
 }
 
-bool AbstractNodePortGW::connectionRequest(const NodePortAddress &source,  const NodePortAddress &thisAddress, const bool &isTest)
+bool AbstractNodePortView::connectionRequest(const NodePortAddress &source,  const NodePortAddress &thisAddress, const bool &isTest)
 {
-    return m_parent->connectionRequest(source, thisAddress, isTest);
+    return false;//m_parent->connectionRequest(source, thisAddress, isTest);
 }
 
-void AbstractNodePortGW::constructWholeAddress(NodePortAddress &addressToConstruct) const
-{
-    addressToConstruct.port = m_parent->getPortNumber(this);
-    m_parent->constructWholeAddress(addressToConstruct);
-}
 
-void AbstractNodePortGW::init()
+void AbstractNodePortView::init()
 {
     createCenterWidget(m_centerWidget);
 }

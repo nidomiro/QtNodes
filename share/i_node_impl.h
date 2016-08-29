@@ -21,6 +21,8 @@
 #include "qtnodesshare_global.h"
 #include "node_port_address.h"
 #include "connection.h"
+#include "node_port_info.h"
+#include "i_node_state_listener.h"
 
 #include <QUuid>
 #include <QList>
@@ -29,13 +31,25 @@
 class INodeImpl {
 public:
 
+    virtual QList<NodePortInfo> getNodePorts() = 0;
+
     virtual QList<Connection> *getIncomingConnections() = 0;
     virtual QList<Connection> *getOutgoingConnections() = 0;
 
     virtual bool canConnect(const NodePortAddress &source, const NodePortAddress &target) = 0;
     virtual Connection connect(const NodePortAddress &source, const NodePortAddress &target) = 0;
 
-    virtual QUuid getNodeAddress() = 0;
+    virtual QUuid getLocalNodeAddress() = 0;
+
+    virtual void setNodeSceneAddress(const QUuid &sceneAddress) = 0;
+    virtual QUuid getNodeSceneAddress() = 0;
+
+    virtual NodePortAddress getNodePortAddress(int portNumber, NodePortType type) = 0;
+    virtual NodePortAddress getNodePortAddress(NodePortInfo info) = 0;
+
+    virtual INodeStateListener *setINodeStateListener(INodeStateListener *listener) = 0;
+    virtual INodeStateListener *getINodeStateListener() = 0;
+
 
 
 };

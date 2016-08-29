@@ -15,37 +15,19 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEGRIDSCENE_H
-#define NODEGRIDSCENE_H
 
-#include "qtnodes_global.h"
-#include "node_view.h"
+#include "node_port_view_factory.h"
 
-#include <QGraphicsScene>
-#include <QGraphicsProxyWidget>
-#include <QMap>
+#include "iowidgets/qstring_node_port_view.h"
 
-
-
-
-class QTNODESSHARED_EXPORT NodeGridScene : public QGraphicsScene
+NodePortViewFactory::NodePortViewFactory()
 {
-    Q_OBJECT
-public:
-    explicit NodeGridScene(QObject *parent = 0);
-    NodeGridScene(const QRectF &sceneRect, QObject *parent = 0);
-    NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
 
-    bool addNodeWidget(NodeView * node);
+}
 
-signals:
-
-public slots:
-
-
-
-private:
-    QList<NodeView*> m_nodes;
-};
-
-#endif // NODEGRIDSCENE_H
+AbstractNodePortView *NodePortViewFactory::createNodePortView(const NodePortInfo &info, QGraphicsItem *parent)
+{
+    // TODO: replace with dynamic selection!
+    AbstractNodePortView *nodePort = AbstractNodePortView::create<QStringNodePortView>(info, parent);
+    return nodePort;
+}

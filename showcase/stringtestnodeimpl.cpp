@@ -18,11 +18,34 @@
 
 #include "stringtestnodeimpl.h"
 
+#include <QDebug>
+
 StringTestNodeImpl::StringTestNodeImpl():
     m_incommingConn(new QList<Connection>()),
     m_outgoingConn(new QList<Connection>())
 {
 
+}
+
+StringTestNodeImpl::~StringTestNodeImpl()
+{
+    delete m_incommingConn;
+    delete m_outgoingConn;
+}
+
+QList<NodePortInfo> StringTestNodeImpl::getNodePorts()
+{
+    QList<NodePortInfo> nodePorts;
+    const int count = 4;
+    for(int i = 0; i < count; i++){
+        NodePortInfo port;
+        port.parentNode = this;
+        port.portNumber = i;
+        port.type = (i < (count/2))? NodePortType::INPUT : NodePortType::OUTPUT;
+//        qDebug() <<"PortType=" <<static_cast<int>(port.type);
+        nodePorts.append(port);
+    }
+    return nodePorts;
 }
 
 QList<Connection> *StringTestNodeImpl::getIncomingConnections()
@@ -37,7 +60,12 @@ QList<Connection> *StringTestNodeImpl::getOutgoingConnections()
 
 bool StringTestNodeImpl::canConnect(const NodePortAddress &source, const NodePortAddress &target)
 {
-    return source != target;
+    if(source == target)
+        return false;
+    if(source.type == target.type)
+        return false;
+
+    return true;
 }
 
 Connection StringTestNodeImpl::connect(const NodePortAddress &source, const NodePortAddress &target)
@@ -50,7 +78,63 @@ Connection StringTestNodeImpl::connect(const NodePortAddress &source, const Node
     return con;
 }
 
-QUuid StringTestNodeImpl::getNodeAddress()
+QUuid StringTestNodeImpl::getLocalNodeAddress()
 {
-    return m_nodeAdress;
+    return m_nodeAddress;
 }
+
+void StringTestNodeImpl::setNodeSceneAddress(const QUuid &sceneAddress)
+{
+    m_sceneAddress = sceneAddress;
+}
+
+QUuid StringTestNodeImpl::getNodeSceneAddress()
+{
+    return m_sceneAddress;
+}
+
+NodePortAddress StringTestNodeImpl::getNodePortAddress(int portNumber, NodePortType type)
+{
+    NodePortAddress address;
+    address.port = portNumber;
+    address.sceneAddress = getNodeSceneAddress();
+    address.type = type;
+    address.nodeAddress = getLocalNodeAddress();
+    return address;
+}
+
+NodePortAddress StringTestNodeImpl::getNodePortAddress(NodePortInfo info)
+{
+    NodePortAddress address;
+    address.port = info.portNumber;
+    address.sceneAddress = getNodeSceneAddress();
+    address.type = info.type;
+    address.nodeAddress = getLocalNodeAddress();
+    return address;
+}
+
+INodeStateListener *StringTestNodeImpl::setINodeStateListener(INodeStateListener *listener)
+{
+    INodeStateListener *old = m_nodeStateListener;
+    m_nodeStateListener = listener;
+    return old;
+}
+
+INodeStateListener *StringTestNodeImpl::getINodeStateListener()
+{
+    return m_nodeStateListener;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

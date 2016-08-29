@@ -25,6 +25,9 @@ class StringTestNodeImpl: public INodeImpl
 {
 public:
     StringTestNodeImpl();
+    ~StringTestNodeImpl();
+
+    QList<NodePortInfo> getNodePorts() override;
 
     QList<Connection> *getIncomingConnections() override;
     QList<Connection> *getOutgoingConnections() override;
@@ -32,13 +35,27 @@ public:
     bool canConnect(const NodePortAddress &source, const NodePortAddress &target) override;
     Connection connect(const NodePortAddress &source, const NodePortAddress &target) override;
 
-    QUuid getNodeAddress() override;
+    QUuid getLocalNodeAddress() override;
+
+    void setNodeSceneAddress(const QUuid &sceneAddress) override;
+    QUuid getNodeSceneAddress() override;
+
+    NodePortAddress getNodePortAddress(int portNumber, NodePortType type) override;
+    NodePortAddress getNodePortAddress(NodePortInfo info) override;
+
+    INodeStateListener *setINodeStateListener(INodeStateListener *listener) override;
+    INodeStateListener *getINodeStateListener() override;
 
 protected:
 
-    QUuid m_nodeAdress = QUuid::createUuid();
+    QUuid m_nodeAddress = QUuid::createUuid();
+    QUuid m_sceneAddress;
     QList<Connection> *m_incommingConn = nullptr;
     QList<Connection> *m_outgoingConn = nullptr;
+
+
+    INodeStateListener *m_nodeStateListener = nullptr;
+
 };
 
 #endif // STRINGTESTNODEIMPL_H

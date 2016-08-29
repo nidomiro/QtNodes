@@ -18,10 +18,11 @@
 #ifndef ABSTRACTIOGRAPHICSWIDGET_H
 #define ABSTRACTIOGRAPHICSWIDGET_H
 
-class NodeGW;
+class NodeView;
 
 #include "qtnodes_global.h"
-#include "node_port_connector_g_w.h"
+#include "node_port_connector_view.h"
+#include "node_port_info.h"
 
 #include "node_port_address.h"
 
@@ -33,20 +34,19 @@ class NodeGW;
 
 
 
-class QTNODESSHARED_EXPORT AbstractNodePortGW : public QGraphicsWidget
+class QTNODESSHARED_EXPORT AbstractNodePortView : public QGraphicsWidget
 {
     Q_OBJECT
 
 public:
-    ~AbstractNodePortGW();
+    ~AbstractNodePortView();
 
     bool connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest=false);
 
-    void constructWholeAddress(NodePortAddress &addressToConstruct) const;
 
 
 protected:
-    AbstractNodePortGW(NodeGW *parent);
+    AbstractNodePortView(NodePortInfo info, QGraphicsItem *parent);
     void init();
     virtual void createCenterWidget(QGraphicsWidget *centerWidget) = 0;
 
@@ -54,20 +54,20 @@ private:
 
     QGraphicsLinearLayout *m_layout = nullptr;
 
-    NodePortConnectorGW *m_leftConnector = nullptr;
+    NodePortConnectorView *m_leftConnector = nullptr;
     QGraphicsWidget *m_centerWidget = nullptr;
-    NodePortConnectorGW *m_rightConnector = nullptr;
+    NodePortConnectorView *m_rightConnector = nullptr;
 
 protected:
-    NodeGW *m_parent = nullptr;
+    NodePortInfo m_portInfo;
 
 
 // BEGIN static part
 public:
     // only callable if template-parameter is derived from AbstractNodePortGW
-    template<typename CLAZZ, typename std::enable_if<std::is_base_of<AbstractNodePortGW, CLAZZ>::value>::type* = nullptr>
-    static CLAZZ *create(NodeGW *parent){
-        CLAZZ *instance = new CLAZZ(parent);
+    template<typename CLAZZ, typename std::enable_if<std::is_base_of<AbstractNodePortView, CLAZZ>::value>::type* = nullptr>
+    static CLAZZ *create(NodePortInfo info, QGraphicsItem *parent){
+        CLAZZ *instance = new CLAZZ(info, parent);
         instance->init();
 
         return instance;

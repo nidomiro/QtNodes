@@ -15,7 +15,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "node_g_w.h"
+#include "node_view.h"
 /*
  * Copyright 2016  Niclas Roßberger
  *
@@ -33,6 +33,10 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "abstract_node_port_view.h"
+#include "utils/color_utils.h"
+#include "node_port_view_factory.h"
+
 #include <QLabel>
 #include <QPushButton>
 #include <QDebug>
@@ -43,22 +47,21 @@
 
 
 
-#include "abstract_node_port_g_w.h"
-#include "utils/color_utils.h"
 
-NodeGW::NodeGW(INodeImpl *nodeImpl, QGraphicsItem *parent, Qt::WindowFlags wFlags):
-    NodeGW(nodeImpl, &NodeGW::createDefaultHeaderWidget, parent, wFlags)
+
+NodeView::NodeView(INodeImpl *nodeImpl, QGraphicsItem *parent, Qt::WindowFlags wFlags):
+    NodeView(nodeImpl, &NodeView::createDefaultHeaderWidget, parent, wFlags)
 {
 
 }
 
-NodeGW::NodeGW(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
-    NodeGW(nodeImpl, headerCreationFunc, nullptr, parent, wFlags)
+NodeView::NodeView(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
+    NodeView(nodeImpl, headerCreationFunc, nullptr, parent, wFlags)
 {
 
 }
 
-NodeGW::NodeGW(INodeImpl *nodeImpl, NodeGW::WidgetCreationFunction headerCreationFunc, NodeGW::WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
+NodeView::NodeView(INodeImpl *nodeImpl, NodeView::WidgetCreationFunction headerCreationFunc, NodeView::WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent, Qt::WindowFlags wFlags):
     QGraphicsWidget(parent, wFlags),
     m_nodeImpl(nodeImpl)
 {
@@ -93,13 +96,16 @@ NodeGW::NodeGW(INodeImpl *nodeImpl, NodeGW::WidgetCreationFunction headerCreatio
         this->setPalette(pal);
     }
 
+
+    recreateNodePorts();
+
 }
 
-NodeGW::~NodeGW()
+NodeView::~NodeView()
 {
 }
 
-bool NodeGW::addIOWidget(AbstractNodePortGW *ioWidget)
+bool NodeView::addIOWidget(AbstractNodePortView *ioWidget)
 {
     m_centerWidgetLayout->addItem(ioWidget);
     m_centerWidgetLayout->setSpacing(0);
@@ -108,19 +114,19 @@ bool NodeGW::addIOWidget(AbstractNodePortGW *ioWidget)
     return true;
 }
 
-bool NodeGW::removeIOWidget(AbstractNodePortGW *ioWidget)
+bool NodeView::removeIOWidget(AbstractNodePortView *ioWidget)
 {
     m_centerWidgetLayout->removeItem(ioWidget);
     m_nodePorts.removeOne(ioWidget);
     return false;
 }
 
-QString NodeGW::nodeName() const
+QString NodeView::nodeName() const
 {
     return m_nodeName;
 }
 
-void NodeGW::createDefaultHeaderWidget(NodeGW *node, QGraphicsWidget *headerWidget)
+void NodeView::createDefaultHeaderWidget(NodeView *node, QGraphicsWidget *headerWidget)
 {
     QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(Qt::Orientation::Horizontal, headerWidget);
 
@@ -153,37 +159,46 @@ void NodeGW::createDefaultHeaderWidget(NodeGW *node, QGraphicsWidget *headerWidg
 
     headerWidget->setPalette(pal);
 
-
 }
 
-void NodeGW::setNodeName(const QString &name)
+void NodeView::recreateNodePorts()
+{
+    NodePortViewFactory *fac = nullptr;
+    for(auto port : m_nodeImpl->getNodePorts()){
+        auto portView = fac->createNodePortView(port, this);
+        this->addIOWidget(portView);
+
+    }
+}
+
+void NodeView::setNodeName(const QString &name)
 {
     m_nodeName = name;
     emit nodeNameChanged(m_nodeName);
 }
 
-void NodeGW::closeNodeWidget()
+void NodeView::closeNodeWidget()
 {
     qDebug() <<"NodeGraphicsWidget::closeNodeWidget() not implemented!!";
 }
 
-QUuid NodeGW::getNodeAdress() const
+QUuid NodeView::getNodeAdress() const
 {
     return m_nodeAdress;
 }
 
-const INodeImpl *NodeGW::getNodeImpl() const
+const INodeImpl *NodeView::getNodeImpl() const
 {
     return m_nodeImpl;
 }
 
-qint16 NodeGW::getPortNumber(const AbstractNodePortGW *nodePort) const
+qint16 NodeView::getPortNumber(const AbstractNodePortView *nodePort) const
 {
 
-    return m_nodePorts.indexOf((AbstractNodePortGW *)nodePort); // returns -1 if not found
+    return m_nodePorts.indexOf((AbstractNodePortView *)nodePort); // returns -1 if not found
 }
 
-bool NodeGW::connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest)
+bool NodeView::connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest)
 {
     bool ret = true;
     if(isTest){
@@ -196,8 +211,24 @@ bool NodeGW::connectionRequest(const NodePortAddress &source, const NodePortAddr
     return ret;
 }
 
-void NodeGW::constructWholeAddress(NodePortAddress &addressToConstruct) const
+void NodeView::onPortCountChange()
 {
-    addressToConstruct.nodeAddress = m_nodeImpl->getNodeAddress();
+    recreateNodePorts();
 }
+
+void NodeView::onInputConnectionsChanged()
+{
+
+}
+
+void NodeView::onOutputConnectionsChanged()
+{
+
+}
+
+void NodeView::onPortValueChanged(int portNumber)
+{
+
+}
+
 

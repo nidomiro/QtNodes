@@ -30,10 +30,15 @@ unix {
 # Files
 SOURCES += \
     connection.cpp \
-    node_port_address.cpp
+    node_port_address.cpp \
+    node_port_info.cpp \
+    node_port_type.cpp
 
 HEADERS +=\
         qtnodesshare_global.h \
     connection.h \
     i_node_impl.h \
-    node_port_address.h
+    node_port_address.h \
+    node_port_info.h \
+    node_port_type.h \
+    i_node_state_listener.h

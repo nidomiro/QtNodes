@@ -15,38 +15,39 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODE_PORT_ADRESS_H
-#define NODE_PORT_ADRESS_H
+#ifndef QSTRINGIOGRAPHICSWIDGET_H
+#define QSTRINGIOGRAPHICSWIDGET_H
 
-#include "qtnodesshare_global.h"
-#include "node_port_type.h"
+#include "../qtnodes_global.h"
+#include "../abstract_node_port_view.h"
 
-#include <QUuid>
-#include <QMap>
-#include <QUrl>
+#include <QLabel>
+#include <QGraphicsProxyWidget>
+#include <QGraphicsLinearLayout>
 
-class QTNODESSHARESHARED_EXPORT NodePortAddress
+
+
+class QTNODESSHARED_EXPORT QStringNodePortView : public AbstractNodePortView
 {
+    Q_OBJECT
+
 public:
+    QStringNodePortView(NodePortInfo info, QGraphicsItem *parent); // do not call!! create via AbstractNodePortGW::create()!
 
-    QUuid sceneAddress; // normally unused
-    QUuid nodeAddress;
-    short port = -1;
-    NodePortType type = NodePortType::NONE;
+protected:
+
+    virtual void createCenterWidget(QGraphicsWidget *centerWidget) override;
 
 
-    bool isNull() const;
-    bool operator==(const NodePortAddress &other) const;
-    bool operator!=(const NodePortAddress &other) const;
 
-    QString toString() const;
 
+private:
+
+    QGraphicsLinearLayout *m_layout = nullptr;
+
+    QLabel *m_label = nullptr;
+    QGraphicsProxyWidget *m_labelProxy = nullptr;
 
 };
 
-
-extern "C" QTNODESSHARESHARED_EXPORT QUrl nodePortAddressToUrl(const NodePortAddress &node);
-extern "C" QTNODESSHARESHARED_EXPORT NodePortAddress nodePortAddressFromUrl(const QUrl &url);
-
-
-#endif // NODE_PORT_ADRESS_H
+#endif // QSTRINGIOGRAPHICSWIDGET_H

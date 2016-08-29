@@ -20,7 +20,7 @@
 
 #include <QMainWindow>
 
-#include "node_g_w.h"
+#include "node_view.h"
 #include "node_grid_scene.h"
 
 namespace Ui {
@@ -45,7 +45,7 @@ private:
 
     NodeGridScene *m_nodeGridScene = nullptr;
 
-    QList<NodeGW*> m_nodes;
+    QList<NodeView*> m_nodes;
 };
 
 #endif // MAINWINDOW_H

@@ -15,18 +15,18 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qstring_node_port_g_w.h"
+#include "qstring_node_port_view.h"
 
 #include "utils/color_utils.h"
 
 
-QStringNodePortGW::QStringNodePortGW(NodeGW *parent):
-    AbstractNodePortGW(parent)
+QStringNodePortView::QStringNodePortView(NodePortInfo info, QGraphicsItem *parent):
+    AbstractNodePortView(info, parent)
 {
 
 }
 
-void QStringNodePortGW::createCenterWidget(QGraphicsWidget *centerWidget)
+void QStringNodePortView::createCenterWidget(QGraphicsWidget *centerWidget)
 {
     m_layout = new QGraphicsLinearLayout(Qt::Orientation::Horizontal, centerWidget);
     m_layout->setContentsMargins(2,0,2,0);

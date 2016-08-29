@@ -18,32 +18,33 @@
 #ifndef NODEGRAPHICSWIDGET_H
 #define NODEGRAPHICSWIDGET_H
 
-class AbstractNodePortGW;
+class AbstractNodePortView;
 class IConnectionRegister;
 
 #include "qtnodes_global.h"
 #include "i_node_impl.h"
+#include "i_node_state_listener.h"
 
 #include <QGraphicsLinearLayout>
 #include <QGraphicsWidget>
 #include <QUuid>
 
-class QTNODESSHARED_EXPORT NodeGW : public QGraphicsWidget
+class QTNODESSHARED_EXPORT NodeView : public QGraphicsWidget, public INodeStateListener
 {
     Q_OBJECT
 
     Q_PROPERTY(QString nodeName READ nodeName WRITE setNodeName NOTIFY nodeNameChanged)
 
 public:
-    typedef void (*WidgetCreationFunction)(NodeGW *node, QGraphicsWidget *widgetToCreate);
+    typedef void (*WidgetCreationFunction)(NodeView *node, QGraphicsWidget *widgetToCreate);
 
-    explicit NodeGW(INodeImpl *nodeImpl, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-    explicit NodeGW(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-    explicit NodeGW(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
-    ~NodeGW();
+    explicit NodeView(INodeImpl *nodeImpl, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    explicit NodeView(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    explicit NodeView(INodeImpl *nodeImpl, WidgetCreationFunction headerCreationFunc, WidgetCreationFunction footerCreationFunc, QGraphicsItem *parent = nullptr, Qt::WindowFlags wFlags = nullptr);
+    ~NodeView();
 
-    bool addIOWidget(AbstractNodePortGW *ioWidget);
-    bool removeIOWidget(AbstractNodePortGW *ioWidget);
+    bool addIOWidget(AbstractNodePortView *ioWidget);
+    bool removeIOWidget(AbstractNodePortView *ioWidget);
 
     QString nodeName() const;
     QUuid getNodeAdress() const;
@@ -51,16 +52,24 @@ public:
     const INodeImpl *getNodeImpl() const;
 
 
-    qint16 getPortNumber(const AbstractNodePortGW *nodePort) const;
+    qint16 getPortNumber(const AbstractNodePortView *nodePort) const;
     bool connectionRequest(const NodePortAddress &source, const NodePortAddress &thisAddress, const bool &isTest=false);
-    void constructWholeAddress(NodePortAddress &addressToConstruct) const;
+
+
+
+    void onPortCountChange() override;
+    void onInputConnectionsChanged() override;
+    void onOutputConnectionsChanged() override;
+    void onPortValueChanged(int portNumber) override;
 
 
 
 
+    static void createDefaultHeaderWidget(NodeView *node, QGraphicsWidget *headerWidget);
 
+protected:
 
-    static void createDefaultHeaderWidget(NodeGW *node, QGraphicsWidget *headerWidget);
+    void recreateNodePorts();
 
 
 public slots:
@@ -85,7 +94,7 @@ private:
     QGraphicsLinearLayout *m_centerWidgetLayout = nullptr;
     QGraphicsWidget *m_footerWidget = nullptr;
 
-    QList<AbstractNodePortGW *> m_nodePorts;
+    QList<AbstractNodePortView *> m_nodePorts;
 
 protected:
 

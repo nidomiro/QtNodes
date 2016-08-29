@@ -15,37 +15,21 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NODEGRIDSCENE_H
-#define NODEGRIDSCENE_H
 
-#include "qtnodes_global.h"
-#include "node_view.h"
+#ifndef NODEPORTTYPE_H
+#define NODEPORTTYPE_H
 
-#include <QGraphicsScene>
-#include <QGraphicsProxyWidget>
-#include <QMap>
+#include "qtnodesshare_global.h"
 
+#include <QString>
 
-
-
-class QTNODESSHARED_EXPORT NodeGridScene : public QGraphicsScene
-{
-    Q_OBJECT
-public:
-    explicit NodeGridScene(QObject *parent = 0);
-    NodeGridScene(const QRectF &sceneRect, QObject *parent = 0);
-    NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
-
-    bool addNodeWidget(NodeView * node);
-
-signals:
-
-public slots:
-
-
-
-private:
-    QList<NodeView*> m_nodes;
+enum class NodePortType {
+    INPUT,
+    OUTPUT,
+    NONE
 };
 
-#endif // NODEGRIDSCENE_H
+extern "C" QTNODESSHARESHARED_EXPORT QString enumToString(const NodePortType & type);
+extern "C" QTNODESSHARESHARED_EXPORT NodePortType enumFromString(const QString & str);
+
+#endif // NODEPORTTYPE_H

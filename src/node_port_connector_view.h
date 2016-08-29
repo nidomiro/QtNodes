@@ -18,17 +18,17 @@
 #ifndef CONNECTORGRAPHICSWIDGET_H
 #define CONNECTORGRAPHICSWIDGET_H
 
-class AbstractNodePortGW;
 
 #include "qtnodes_global.h"
 #include "node_port_address.h"
+#include "node_port_info.h"
 
 #include <QObject>
 #include <QGraphicsWidget>
 #include <QColor>
 
 
-class QTNODESSHARED_EXPORT NodePortConnectorGW : public QGraphicsWidget
+class QTNODESSHARED_EXPORT NodePortConnectorView : public QGraphicsWidget
 {
     Q_OBJECT
 
@@ -39,7 +39,7 @@ public:
     };
 
 public: // Methods
-    NodePortConnectorGW(Position pos, AbstractNodePortGW *parent);
+    NodePortConnectorView(Position pos, NodePortInfo info, QGraphicsItem *parent);
 
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
@@ -59,7 +59,8 @@ public: // Methods
 
     bool connectionRequest(const NodePortAddress &source, const bool &isTest=false);
 
-    void constructWholeAddress(NodePortAddress &addressToConstruct) const;
+//signals:
+//    void connectionRequest(const NodePortAddress &source, const NodePortAddress &target);
 
 protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent *event) override;
@@ -78,8 +79,8 @@ protected slots:
 protected: // Members
 
     Position m_connectorPos = POS_LEFT;
+    NodePortInfo m_portInfo;
 
-    AbstractNodePortGW *m_parent = nullptr;
 
     QColor m_conectorColor = QColor(255,255,51);
     QRectF m_connectorRect;
@@ -90,8 +91,6 @@ private: // Members
 public: // Static
     static qreal s_connectorRadius;
     static QString s_connectionRequestMimeType;
-
-
 
 };
 

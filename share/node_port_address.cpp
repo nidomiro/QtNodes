@@ -23,8 +23,8 @@
 bool NodePortAddress::isNull() const{
     return sceneAddress.isNull()
             && nodeAddress.isNull()
-            && port == -1
-            && type == Type::NONE;
+            && port < 0
+            && type == NodePortType::NONE;
 }
 
 bool NodePortAddress::operator==(const NodePortAddress &other) const{
@@ -42,40 +42,6 @@ bool NodePortAddress::operator!=(const NodePortAddress &other) const
 QString NodePortAddress::toString() const
 {
     return sceneAddress.toString() + "::" + nodeAddress.toString() + "::" + QString::number(port) + "::" + enumToString(type);
-}
-
-QString enumToString(const NodePortAddress::Type &type)
-{
-//    using namespace NodePortAddress;
-    QString ret;
-    switch(type){
-    case NodePortAddress::INPUT:
-        ret=STR(INPUT);
-        break;
-    case NodePortAddress::OUTPUT:
-        ret=STR(OUTPUT);
-        break;
-    case NodePortAddress::NONE:
-    default:
-        ret=STR(NONE);
-        break;
-    }
-    return ret;
-}
-
-NodePortAddress::Type enumFromString(const QString &str)
-{
-//    using namespace NodePortAddress;
-    NodePortAddress::Type ret = NodePortAddress::Type::NONE;
-
-    if(str == STR(INPUT))
-        ret = NodePortAddress::INPUT;
-    else if(str == STR(OUTPUT))
-        ret = NodePortAddress::OUTPUT;
-    else
-        ret = NodePortAddress::NONE;
-
-    return ret;
 }
 
 QUrl nodePortAddressToUrl(const NodePortAddress &node)

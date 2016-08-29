@@ -15,10 +15,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "node_port_connector_g_w.h"
-#include "abstract_node_port_g_w.h"
+#include "node_port_connector_view.h"
+#include "abstract_node_port_view.h"
 
 #include "node_port_address.h"
+#include "i_node_impl.h"
 
 #include <QWidget>
 #include <QPainter>
@@ -31,14 +32,15 @@
 
 
 
-qreal NodePortConnectorGW::s_connectorRadius = 5;
-QString NodePortConnectorGW::s_connectionRequestMimeType = QStringLiteral("application/nodeconnectrequest");
+
+qreal NodePortConnectorView::s_connectorRadius = 5;
+QString NodePortConnectorView::s_connectionRequestMimeType = QStringLiteral("application/nodeconnectrequest");
 
 
-NodePortConnectorGW::NodePortConnectorGW(Position pos, AbstractNodePortGW *parent) :
+NodePortConnectorView::NodePortConnectorView(Position pos, NodePortInfo info, QGraphicsItem *parent) :
     QGraphicsWidget(parent),
     m_connectorPos(pos),
-    m_parent(parent)
+    m_portInfo(info)
 {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 
@@ -55,8 +57,10 @@ NodePortConnectorGW::NodePortConnectorGW(Position pos, AbstractNodePortGW *paren
     recalculateConnectorRect();
 }
 
-void NodePortConnectorGW::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void NodePortConnectorView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
     painter->setRenderHint(QPainter::Antialiasing, true);
 
 //    QPointF center = QPointF(this->size().width() / 2, this->size().height() / 2);
@@ -68,29 +72,29 @@ void NodePortConnectorGW::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
 }
 
-QPainterPath NodePortConnectorGW::shape() const
+QPainterPath NodePortConnectorView::shape() const
 {
     QPainterPath path;
     path.addEllipse(getConnectorRect());
     return path;
 }
 
-QColor NodePortConnectorGW::conectorColor() const
+QColor NodePortConnectorView::conectorColor() const
 {
     return m_conectorColor;
 }
 
-void NodePortConnectorGW::setConectorColor(const QColor &conectorColor)
+void NodePortConnectorView::setConectorColor(const QColor &conectorColor)
 {
     m_conectorColor = conectorColor;
 }
 
-QRectF NodePortConnectorGW::getConnectorRect() const
+QRectF NodePortConnectorView::getConnectorRect() const
 {
     return m_connectorRect;
 }
 
-void NodePortConnectorGW::recalculateConnectorRect()
+void NodePortConnectorView::recalculateConnectorRect()
 {
     if(!m_isRecalulatingRect) // Prevent possible infinate recursion
     {
@@ -110,60 +114,47 @@ void NodePortConnectorGW::recalculateConnectorRect()
     }
 }
 
-bool NodePortConnectorGW::isInput() const
+bool NodePortConnectorView::isInput() const
 {
     return m_connectorPos == POS_LEFT;
 }
 
-bool NodePortConnectorGW::isOutput() const
+bool NodePortConnectorView::isOutput() const
 {
     return !isInput();
 }
 
-bool NodePortConnectorGW::connectionRequest(const NodePortAddress &source, const bool &isTest)
+bool NodePortConnectorView::connectionRequest(const NodePortAddress &source, const bool &isTest)
 {
-    NodePortAddress thisAddr;
-    constructWholeAddress(thisAddr);
-    return m_parent->connectionRequest(source, thisAddr, isTest);
+    return false; //m_parent->connectionRequest(source, m_address, isTest);
 }
 
-void NodePortConnectorGW::constructWholeAddress(NodePortAddress &addressToConstruct) const
-{
-    if(this->isInput())
-        addressToConstruct.type = NodePortAddress::INPUT;
-    else if(this->isOutput())
-        addressToConstruct.type = NodePortAddress::OUTPUT;
-    else
-        addressToConstruct.type = NodePortAddress::NONE;
-
-    m_parent->constructWholeAddress(addressToConstruct);
-}
-
-void NodePortConnectorGW::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+void NodePortConnectorView::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
 {
     //qDebug() <<(int)this <<"Hover: " <<event->pos();
     QGraphicsWidget::hoverMoveEvent(event);
 }
 
-void NodePortConnectorGW::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+void NodePortConnectorView::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
     //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragMove: " <<event->pos();
     QGraphicsWidget::dragMoveEvent(event);
 }
 
-void NodePortConnectorGW::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+void NodePortConnectorView::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragEnter: " <<event->pos();
+
     QGraphicsWidget::dragEnterEvent(event);
 }
 
-void NodePortConnectorGW::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+void NodePortConnectorView::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
     //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DragLeave: " <<event->pos();
     QGraphicsWidget::dragLeaveEvent(event);
 }
 
-void NodePortConnectorGW::dropEvent(QGraphicsSceneDragDropEvent *event)
+void NodePortConnectorView::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     //qDebug() <<(int)event->source() <<"->" <<(int)this  <<"DropEvent: " <<event->pos();
 
@@ -175,25 +166,24 @@ void NodePortConnectorGW::dropEvent(QGraphicsSceneDragDropEvent *event)
     }else
         qDebug() <<"urls is empty";
     //TODO: error handling?
-    bool success = connectionRequest(source, false);
-    qDebug() << success;
+    //bool success = connectionRequest(source, false);
+    Connection con = m_portInfo.parentNode->connect(source, m_portInfo.parentNode->getNodePortAddress(m_portInfo));
+    qDebug() << !con.isNull();
 
     QGraphicsWidget::dropEvent(event);
 }
 
-void NodePortConnectorGW::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void NodePortConnectorView::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() <<(int)this  <<"MousePressEvent: " <<event->pos();
 
     QDrag *drag = new QDrag(event->widget());
     QMimeData *mime = new QMimeData;
 
-    NodePortAddress thisAddr;
-    constructWholeAddress(thisAddr);
-
     QList<QUrl> urls;
-    urls.append(nodePortAddressToUrl(thisAddr));
-    qDebug() << "Encoding NodePortAddress " <<thisAddr.toString() <<" -> " <<urls.first();
+    NodePortAddress address = m_portInfo.parentNode->getNodePortAddress(m_portInfo);
+    urls.append(nodePortAddressToUrl(address));
+    qDebug() << "Encoding NodePortAddress " <<address.toString() <<" -> " <<urls.first();
     mime->setUrls(urls);
 //    mime->
     drag->setMimeData(mime);
@@ -204,13 +194,14 @@ void NodePortConnectorGW::mousePressEvent(QGraphicsSceneMouseEvent *event)
     //QGraphicsWidget::mousePressEvent(event);
 }
 
-void NodePortConnectorGW::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void NodePortConnectorView::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     //qDebug() <<(int)this  <<"MouseMoveEvent: " <<event->pos();
     QGraphicsWidget::mouseMoveEvent(event);
 }
 
-void NodePortConnectorGW::onGeometryChange()
+void NodePortConnectorView::onGeometryChange()
 {
     recalculateConnectorRect();
 }
+
