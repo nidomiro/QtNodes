@@ -162,13 +162,13 @@ void NodePortConnectorView::dropEvent(QGraphicsSceneDragDropEvent *event)
     QList<QUrl> urls = event->mimeData()->urls();
     if(!urls.empty()){
         source = nodePortAddressFromUrl(urls.first());
-        qDebug() << "Decoding url " <<urls.first() <<" -> " <<source.toString();
+        //qDebug() << "Decoding url " <<urls.first() <<" -> " <<source.toString();
     }else
-        qDebug() <<"urls is empty";
+        qWarning() <<"urls is empty";
     //TODO: error handling?
     //bool success = connectionRequest(source, false);
     Connection con = m_portInfo.parentNode->connect(source, m_portInfo.parentNode->getNodePortAddress(m_portInfo));
-    qDebug() << !con.isNull();
+    qDebug() <<"Connection made? "<< !con.isNull();
 
     QGraphicsWidget::dropEvent(event);
 }
@@ -183,11 +183,9 @@ void NodePortConnectorView::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QList<QUrl> urls;
     NodePortAddress address = m_portInfo.parentNode->getNodePortAddress(m_portInfo);
     urls.append(nodePortAddressToUrl(address));
-    qDebug() << "Encoding NodePortAddress " <<address.toString() <<" -> " <<urls.first();
+    //qDebug() << "Encoding NodePortAddress " <<address.toString() <<" -> " <<urls.first();
     mime->setUrls(urls);
-//    mime->
     drag->setMimeData(mime);
-   /* . . . */
     drag->exec(Qt::LinkAction);
 
 

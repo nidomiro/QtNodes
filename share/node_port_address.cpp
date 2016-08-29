@@ -69,7 +69,7 @@ NodePortAddress nodePortAddressFromUrl(const QUrl &url)
         if (hosts.length() >= 2){ // If more "subdomains" -> don't care, take the two top-level ones
             QString sceneAddr = hosts[hosts.length() - 1].replace("s", "{").replace("t", "}");
             QString nodeAddr = hosts[hosts.length() - 2].replace("s", "{").replace("t", "}");
-            qDebug() <<"sceneAddr=" <<sceneAddr <<" nodeAddr=" <<nodeAddr;
+//            qDebug() <<"sceneAddr=" <<sceneAddr <<" nodeAddr=" <<nodeAddr;
             node.sceneAddress = QUuid(sceneAddr);
             node.nodeAddress = QUuid(nodeAddr);
         }
