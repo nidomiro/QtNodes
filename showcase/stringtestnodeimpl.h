@@ -49,6 +49,8 @@ public:
     INodeStateListener *setINodeStateListener(INodeStateListener *listener) override;
     INodeStateListener *getINodeStateListener() override;
 
+    bool canStartConnect(const NodePortAddress &address) override;
+
 protected:
 
     QString m_nodeName = "unnamed Node";

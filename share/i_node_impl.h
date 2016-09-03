@@ -53,6 +53,13 @@ public:
     virtual INodeStateListener *setINodeStateListener(INodeStateListener *listener) = 0;
     virtual INodeStateListener *getINodeStateListener() = 0;
 
+    /*!
+     * \brief Checks if an connectionrequest can start from this NodePort (address.nodeAddress has to be getLocalNodeAddress()).
+     * \param address The address of the NodePort
+     * \return true if the NodePort at adress can start a connection, false otherwise.
+     */
+    virtual bool canStartConnect(const NodePortAddress &address) = 0;
+
 
 
 };

@@ -138,6 +138,12 @@ INodeStateListener *StringTestNodeImpl::getINodeStateListener()
     return m_nodeStateListener;
 }
 
+bool StringTestNodeImpl::canStartConnect(const NodePortAddress &address)
+{
+    Q_UNUSED(address)
+    return true;
+}
+
 
 
 

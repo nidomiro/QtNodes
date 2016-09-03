@@ -189,16 +189,7 @@ void NodePortConnectorView::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() <<(int)this  <<"MousePressEvent: " <<event->pos();
 
-    QDrag *drag = new QDrag(event->widget());
-    QMimeData *mime = new QMimeData;
-
-    QList<QUrl> urls;
-    NodePortAddress address = m_portInfo.parentNode->getNodePortAddress(m_portInfo);
-    urls.append(nodePortAddressToUrl(address));
-    //qDebug() << "Encoding NodePortAddress " <<address.toString() <<" -> " <<urls.first();
-    mime->setUrls(urls);
-    drag->setMimeData(mime);
-    drag->exec(Qt::LinkAction);
+    dragStart(event->widget());
 
 
     //QGraphicsWidget::mousePressEvent(event);
@@ -208,6 +199,28 @@ void NodePortConnectorView::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     //qDebug() <<(int)this  <<"MouseMoveEvent: " <<event->pos();
     QGraphicsWidget::mouseMoveEvent(event);
+}
+
+bool NodePortConnectorView::dragStart(QObject *dragSource)
+{
+    bool ret = false;
+    NodePortAddress address = m_portInfo.parentNode->getNodePortAddress(m_portInfo);
+
+    if(m_portInfo.parentNode->canStartConnect(address))
+    {
+        QDrag *drag = new QDrag(dragSource);
+        QMimeData *mime = new QMimeData;
+
+        QList<QUrl> urls;
+
+        urls.append(nodePortAddressToUrl(address));
+        //qDebug() << "Encoding NodePortAddress " <<address.toString() <<" -> " <<urls.first();
+        mime->setUrls(urls);
+        drag->setMimeData(mime);
+        drag->exec(Qt::LinkAction);
+        ret = true;
+    }
+    return ret;
 }
 
 void NodePortConnectorView::onGeometryChange()

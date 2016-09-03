@@ -70,6 +70,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
+    virtual bool dragStart(QObject *dragSource);
+
 protected slots:
     void onGeometryChange();
 
