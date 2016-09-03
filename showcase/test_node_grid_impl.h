@@ -19,7 +19,7 @@
 #ifndef TESTNODEGRIDIMPL_H
 #define TESTNODEGRIDIMPL_H
 
-#include "i_node_grid_impl.h"
+#include "shared/i_node_grid_impl.h"
 #include "stringtestnodeimpl.h"
 
 #include <QList>

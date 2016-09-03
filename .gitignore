@@ -31,13 +31,27 @@
 *.pro.user
 *.autosave
 
+# Nodes
 build-Nodes-*
 */build-Nodes-*
+
+# QtNodes
 build-QtNodes-*
+*/build-QtNodes-*
+
+# QtNodesShare
 */build-QtNodesShare-*
 build-QtNodesShare-*
+
+# QtNodesShared
+*/build-QtNodesShared-*
+build-QtNodesShared-*
+
+# NodeShowcase
 */build-NodeShowcase-*
 build-NodeShowcase-*
 
+
 # KDE
 .directory
+

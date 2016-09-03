@@ -19,7 +19,7 @@
 #ifndef I_NODE_GRID_IMPL_H
 #define I_NODE_GRID_IMPL_H
 
-#include "qtnodesshare_global.h"
+#include "qtnodesshared_global.h"
 
 #include "i_node_impl.h"
 #include "i_node_grid_state_listener.h"

@@ -20,15 +20,15 @@
 
 
 #include "qtnodes_global.h"
-#include "node_port_address.h"
-#include "node_port_info.h"
+#include "shared/node_port_address.h"
+#include "shared/node_port_info.h"
 
 #include <QObject>
 #include <QGraphicsWidget>
 #include <QColor>
 
 
-class QTNODESSHARED_EXPORT NodePortConnectorView : public QGraphicsWidget
+class QTNODES_EXPORT NodePortConnectorView : public QGraphicsWidget
 {
     Q_OBJECT
 

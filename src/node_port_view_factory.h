@@ -20,10 +20,10 @@
 #define NODEPORTVIEWFACTORY_H
 
 #include "qtnodes_global.h"
-#include "node_port_info.h"
+#include "shared/node_port_info.h"
 #include "abstract_node_port_view.h"
 
-class QTNODESSHARED_EXPORT NodePortViewFactory
+class QTNODES_EXPORT NodePortViewFactory
 {
 public:
     NodePortViewFactory();

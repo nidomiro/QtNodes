@@ -18,7 +18,7 @@
 #ifndef INODEIMPL_H
 #define INODEIMPL_H
 
-#include "qtnodesshare_global.h"
+#include "qtnodesshared_global.h"
 #include "node_port_address.h"
 #include "connection.h"
 #include "node_port_info.h"

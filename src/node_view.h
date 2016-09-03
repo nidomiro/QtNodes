@@ -22,14 +22,14 @@ class AbstractNodePortView;
 class IConnectionRegister;
 
 #include "qtnodes_global.h"
-#include "i_node_impl.h"
-#include "i_node_state_listener.h"
+#include "shared/i_node_impl.h"
+#include "shared/i_node_state_listener.h"
 
 #include <QGraphicsLinearLayout>
 #include <QGraphicsWidget>
 #include <QUuid>
 
-class QTNODESSHARED_EXPORT NodeView : public QGraphicsWidget, public INodeStateListener
+class QTNODES_EXPORT NodeView : public QGraphicsWidget, public INodeStateListener
 {
     Q_OBJECT
 

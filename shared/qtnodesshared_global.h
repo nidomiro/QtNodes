@@ -15,39 +15,19 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSTRINGIOGRAPHICSWIDGET_H
-#define QSTRINGIOGRAPHICSWIDGET_H
 
-#include "../qtnodes_global.h"
-#include "../abstract_node_port_view.h"
+#ifndef QTNODESSHARE_GLOBAL_H
+#define QTNODESSHARE_GLOBAL_H
 
-#include <QLabel>
-#include <QGraphicsProxyWidget>
-#include <QGraphicsLinearLayout>
+#include <QtCore/qglobal.h>
 
-
-
-class QTNODES_EXPORT QStringNodePortView : public AbstractNodePortView
-{
-    Q_OBJECT
-
-public:
-    QStringNodePortView(NodePortInfo info, QGraphicsItem *parent); // do not call!! create via AbstractNodePortGW::create()!
-
-protected:
-
-    virtual void createCenterWidget(QGraphicsWidget *centerWidget) override;
+#if defined(QTNODESSHARED_LIBRARY)
+#  define QTNODESSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define QTNODESSHARED_EXPORT Q_DECL_IMPORT
+#endif
 
 
+#define STR(s) #s
 
-
-private:
-
-    QGraphicsLinearLayout *m_layout = nullptr;
-
-    QLabel *m_label = nullptr;
-    QGraphicsProxyWidget *m_labelProxy = nullptr;
-
-};
-
-#endif // QSTRINGIOGRAPHICSWIDGET_H
+#endif // QTNODESSHARE_GLOBAL_H

@@ -20,8 +20,8 @@
 
 #include <QMainWindow>
 
-#include "node_view.h"
-#include "node_grid_scene.h"
+#include "src/node_view.h"
+#include "src/node_grid_scene.h"
 #include "test_node_grid_impl.h"
 
 namespace Ui {

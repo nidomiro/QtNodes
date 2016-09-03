@@ -8,9 +8,9 @@ TEMPLATE = app
 
 CONFIG += c++14
 
-INCLUDEPATH += . $$PWD/../src
+INCLUDEPATH += . $$PWD/..
 DEPENDPATH += . $$PWD/../src
-INCLUDEPATH += . $$PWD/../share
+INCLUDEPATH += . $$PWD/../src
 DEPENDPATH += . $$PWD/../share
 
 
@@ -21,8 +21,8 @@ CONFIG(release, debug|release):LIBS += -lQtNodes
 CONFIG(debug, debug|release): LIBS += -lQtNodesd
 
 # QtNodesShare lib dynamic linking
-CONFIG(release, debug|release):LIBS += -lQtNodesShare
-CONFIG(debug, debug|release): LIBS += -lQtNodesShared
+CONFIG(release, debug|release):LIBS += -lQtNodesShared
+CONFIG(debug, debug|release): LIBS += -lQtNodesSharedd
 
 SOURCES += main.cpp\
         mainwindow.cpp \

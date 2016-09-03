@@ -15,20 +15,38 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef NODE_PORT_ADRESS_H
+#define NODE_PORT_ADRESS_H
 
-#ifndef I_NODE_GRID_STATE_LISTENER_H
-#define I_NODE_GRID_STATE_LISTENER_H
+#include "qtnodesshared_global.h"
+#include "node_port_io_type.h"
 
-#include "qtnodesshare_global.h"
+#include <QUuid>
+#include <QMap>
+#include <QUrl>
 
-#include "i_node_impl.h"
-
-class INodeGridStateListener{
+class QTNODESSHARED_EXPORT NodePortAddress
+{
 public:
 
-    virtual void onNodeAdded(INodeImpl *node) = 0;
-    virtual void onNodeRemoved(INodeImpl *node) = 0;
+    QUuid sceneAddress;
+    QUuid nodeAddress;
+    short port = -1;
+    NodePortIOType type = NodePortIOType::NONE;
+
+
+    bool isNull() const;
+    bool operator==(const NodePortAddress &other) const;
+    bool operator!=(const NodePortAddress &other) const;
+
+    QString toString() const;
+
 
 };
 
-#endif // I_NODE_GRID_STATE_LISTENER_H
+
+extern "C" QTNODESSHARED_EXPORT QUrl nodePortAddressToUrl(const NodePortAddress &node);
+extern "C" QTNODESSHARED_EXPORT NodePortAddress nodePortAddressFromUrl(const QUrl &url);
+
+
+#endif // NODE_PORT_ADRESS_H

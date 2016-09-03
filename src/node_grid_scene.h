@@ -20,8 +20,8 @@
 
 #include "qtnodes_global.h"
 #include "node_view.h"
-#include "i_node_grid_impl.h"
-#include "i_node_grid_state_listener.h"
+#include "shared/i_node_grid_impl.h"
+#include "shared/i_node_grid_state_listener.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
@@ -30,7 +30,7 @@
 
 
 
-class QTNODESSHARED_EXPORT NodeGridScene : public QGraphicsScene, public INodeGridStateListener
+class QTNODES_EXPORT NodeGridScene : public QGraphicsScene, public INodeGridStateListener
 {
     Q_OBJECT
 public:

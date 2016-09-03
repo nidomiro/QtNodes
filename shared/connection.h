@@ -15,21 +15,19 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef CONNECTION_H
+#define CONNECTION_H
 
-#ifndef NODEPORTTYPE_H
-#define NODEPORTTYPE_H
+#include "qtnodesshared_global.h"
+#include "node_port_address.h"
 
-#include "qtnodesshare_global.h"
+class QTNODESSHARED_EXPORT Connection
+{
+public:
+    NodePortAddress source;
+    NodePortAddress target;
 
-#include <QString>
-
-enum class NodePortIOType {
-    INPUT,
-    OUTPUT,
-    NONE
+    bool isNull() const;
 };
 
-extern "C" QTNODESSHARESHARED_EXPORT QString enumToString(const NodePortIOType & type);
-extern "C" QTNODESSHARESHARED_EXPORT NodePortIOType enumFromString(const QString & str);
-
-#endif // NODEPORTTYPE_H
+#endif // CONNECTION_H

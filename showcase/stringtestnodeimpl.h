@@ -19,7 +19,7 @@
 #ifndef STRINGTESTNODEIMPL_H
 #define STRINGTESTNODEIMPL_H
 
-#include "i_node_impl.h"
+#include "shared/i_node_impl.h"
 
 class StringTestNodeImpl: public INodeImpl
 {

@@ -22,9 +22,9 @@
 #include <QtCore/qglobal.h>
 
 #if defined(QTNODES_LIBRARY)
-#  define QTNODESSHARED_EXPORT Q_DECL_EXPORT
+#  define QTNODES_EXPORT Q_DECL_EXPORT
 #else
-#  define QTNODESSHARED_EXPORT Q_DECL_IMPORT
+#  define QTNODES_EXPORT Q_DECL_IMPORT
 #endif
 
 #endif // QTNODES_GLOBAL_H

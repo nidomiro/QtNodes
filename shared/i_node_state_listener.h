@@ -15,19 +15,20 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CONNECTION_H
-#define CONNECTION_H
 
-#include "qtnodesshare_global.h"
-#include "node_port_address.h"
+#ifndef I_NODE_STATE_LISTENER_H
+#define I_NODE_STATE_LISTENER_H
 
-class QTNODESSHARESHARED_EXPORT Connection
-{
+#include "qtnodesshared_global.h"
+
+
+class INodeStateListener{
 public:
-    NodePortAddress source;
-    NodePortAddress target;
-
-    bool isNull() const;
+    virtual void onNodeNameChanged(QString newName) = 0;
+    virtual void onPortCountChange() = 0;
+    virtual void onInputConnectionsChanged() = 0;
+    virtual void onOutputConnectionsChanged() = 0;
+    virtual void onPortValueChanged(int portNumber) = 0;
 };
 
-#endif // CONNECTION_H
+#endif // I_NODE_STATE_LISTENER_H

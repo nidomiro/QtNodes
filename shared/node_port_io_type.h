@@ -16,19 +16,20 @@
  */
 
 
-#ifndef I_NODE_STATE_LISTENER_H
-#define I_NODE_STATE_LISTENER_H
+#ifndef NODEPORTTYPE_H
+#define NODEPORTTYPE_H
 
-#include "qtnodesshare_global.h"
+#include "qtnodesshared_global.h"
 
+#include <QString>
 
-class INodeStateListener{
-public:
-    virtual void onNodeNameChanged(QString newName) = 0;
-    virtual void onPortCountChange() = 0;
-    virtual void onInputConnectionsChanged() = 0;
-    virtual void onOutputConnectionsChanged() = 0;
-    virtual void onPortValueChanged(int portNumber) = 0;
+enum class NodePortIOType {
+    INPUT,
+    OUTPUT,
+    NONE
 };
 
-#endif // I_NODE_STATE_LISTENER_H
+extern "C" QTNODESSHARED_EXPORT QString enumToString(const NodePortIOType & type);
+extern "C" QTNODESSHARED_EXPORT NodePortIOType enumFromString(const QString & str);
+
+#endif // NODEPORTTYPE_H

@@ -15,39 +15,20 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QSTRINGIOGRAPHICSWIDGET_H
-#define QSTRINGIOGRAPHICSWIDGET_H
 
-#include "../qtnodes_global.h"
-#include "../abstract_node_port_view.h"
+#ifndef I_NODE_GRID_STATE_LISTENER_H
+#define I_NODE_GRID_STATE_LISTENER_H
 
-#include <QLabel>
-#include <QGraphicsProxyWidget>
-#include <QGraphicsLinearLayout>
+#include "qtnodesshared_global.h"
 
+#include "i_node_impl.h"
 
-
-class QTNODES_EXPORT QStringNodePortView : public AbstractNodePortView
-{
-    Q_OBJECT
-
+class INodeGridStateListener{
 public:
-    QStringNodePortView(NodePortInfo info, QGraphicsItem *parent); // do not call!! create via AbstractNodePortGW::create()!
 
-protected:
-
-    virtual void createCenterWidget(QGraphicsWidget *centerWidget) override;
-
-
-
-
-private:
-
-    QGraphicsLinearLayout *m_layout = nullptr;
-
-    QLabel *m_label = nullptr;
-    QGraphicsProxyWidget *m_labelProxy = nullptr;
+    virtual void onNodeAdded(INodeImpl *node) = 0;
+    virtual void onNodeRemoved(INodeImpl *node) = 0;
 
 };
 
-#endif // QSTRINGIOGRAPHICSWIDGET_H
+#endif // I_NODE_GRID_STATE_LISTENER_H

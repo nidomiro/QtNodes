@@ -22,7 +22,7 @@
 
 #include <QGraphicsView>
 
-class QTNODESSHARED_EXPORT NodeGridView : public QGraphicsView
+class QTNODES_EXPORT NodeGridView : public QGraphicsView
 {
     Q_OBJECT
 public:

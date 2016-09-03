@@ -22,7 +22,7 @@
 
 #include <QColor>
 
-class QTNODESSHARED_EXPORT ColorUtils
+class QTNODES_EXPORT ColorUtils
 {
 public:
     ColorUtils();

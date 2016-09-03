@@ -18,8 +18,8 @@
 #include "node_port_connector_view.h"
 #include "abstract_node_port_view.h"
 
-#include "node_port_address.h"
-#include "i_node_impl.h"
+#include "shared/node_port_address.h"
+#include "shared/i_node_impl.h"
 
 #include <QWidget>
 #include <QPainter>

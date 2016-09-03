@@ -22,9 +22,9 @@ class NodeView;
 
 #include "qtnodes_global.h"
 #include "node_port_connector_view.h"
-#include "node_port_info.h"
+#include "shared/node_port_info.h"
 
-#include "node_port_address.h"
+#include "shared/node_port_address.h"
 
 #include <QMimeData>
 #include <QGraphicsWidget>
@@ -34,7 +34,7 @@ class NodeView;
 
 
 
-class QTNODESSHARED_EXPORT AbstractNodePortView : public QGraphicsWidget
+class QTNODES_EXPORT AbstractNodePortView : public QGraphicsWidget
 {
     Q_OBJECT
 

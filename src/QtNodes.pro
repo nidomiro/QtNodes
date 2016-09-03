@@ -9,7 +9,7 @@ TARGET = QtNodes
 TEMPLATE = lib
 
 INCLUDEPATH += $$PWD
-INCLUDEPATH += . $$PWD/../share
+INCLUDEPATH += . $$PWD/..
 DEPENDPATH += . $$PWD/../share
 DESTDIR = $$PWD/../build
 
@@ -32,8 +32,8 @@ unix {
 
 # Libs
 LIBS += -L$$PWD/../build
-CONFIG(release, debug|release):LIBS += -lQtNodesShare
-CONFIG(debug, debug|release): LIBS += -lQtNodesShared
+CONFIG(release, debug|release):LIBS += -lQtNodesShared
+CONFIG(debug, debug|release): LIBS += -lQtNodesSharedd
 
 # Files
 HEADERS += \

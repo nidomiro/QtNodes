@@ -20,7 +20,7 @@
 
 #include "../qtnodes_global.h"
 
-class QTNODESSHARED_EXPORT MathUtil
+class QTNODES_EXPORT MathUtil
 {
 public:
     MathUtil();

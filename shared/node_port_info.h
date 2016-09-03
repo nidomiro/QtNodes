@@ -20,13 +20,13 @@
 
 class INodeImpl;
 
-#include "qtnodesshare_global.h"
+#include "qtnodesshared_global.h"
 
 #include "node_port_io_type.h"
 
 #include <QString>
 
-class QTNODESSHARESHARED_EXPORT NodePortInfo{
+class QTNODESSHARED_EXPORT NodePortInfo{
 public:
 
     NodePortIOType type  = NodePortIOType::NONE;
