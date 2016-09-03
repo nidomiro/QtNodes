@@ -33,6 +33,7 @@ class INodeGridImpl{
 public:
 
     virtual QList<INodeImpl*> getAllNodes() = 0;
+    virtual INodeImpl *getNode(const NodePortAddress &address) = 0;
     virtual bool addNewNode(const QString &nodeClassName) = 0;
     /*!
      * \brief removeNode
@@ -41,7 +42,7 @@ public:
      */
     virtual bool removeNode(const NodePortAddress &nodeAddress) = 0;
 
-    virtual QUuid getNodeSceneAddress() = 0;
+    virtual QUuid getNodeGridAddress() = 0;
 
     virtual INodeGridStateListener *setINodeGridStateListener(INodeGridStateListener *listener) = 0;
     virtual INodeGridStateListener *getINodeGridStateListener() = 0;

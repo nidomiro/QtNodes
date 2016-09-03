@@ -176,11 +176,9 @@ void NodePortConnectorView::dropEvent(QGraphicsSceneDragDropEvent *event)
     NodePortAddress source = decodeAddress(event->mimeData());
     if(!source.isNull()){
         event->acceptProposedAction();
+        qDebug() <<"Connection made? "<< connectionRequest(source);
     }
     //TODO: error handling?
-
-    Connection con = m_portInfo.parentNode->connect(source, m_portInfo.parentNode->getNodePortAddress(m_portInfo));
-    qDebug() <<"Connection made? "<< !con.isNull();
 
     QGraphicsWidget::dropEvent(event);
 }
@@ -221,6 +219,23 @@ bool NodePortConnectorView::dragStart(QObject *dragSource)
         ret = true;
     }
     return ret;
+}
+
+bool NodePortConnectorView::connectionRequest(const NodePortAddress &otherAddress)
+{
+    Connection con;
+    NodePortAddress thisAdress = m_portInfo.parentNode->getNodePortAddress(m_portInfo);
+
+    if(otherAddress.ioType == NodePortIOType::OUTPUT){
+        con = m_portInfo.parentNode->connect(otherAddress, thisAdress);
+    }else if(otherAddress.ioType == NodePortIOType::INPUT){
+        con = m_portInfo.parentNode->connect(thisAdress, otherAddress);
+    }
+
+    //TODO: error handling?
+
+
+    return !con.isNull();
 }
 
 void NodePortConnectorView::onGeometryChange()

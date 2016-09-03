@@ -21,17 +21,17 @@
 #include <QDebug>
 
 bool NodePortAddress::isNull() const{
-    return sceneAddress.isNull()
+    return gridAddress.isNull()
             && nodeAddress.isNull()
             && port < 0
-            && type == NodePortIOType::NONE;
+            && ioType == NodePortIOType::NONE;
 }
 
 bool NodePortAddress::operator==(const NodePortAddress &other) const{
-    return sceneAddress == other.sceneAddress
+    return gridAddress == other.gridAddress
             && nodeAddress == other.nodeAddress
             && port == other.port
-            && type == other.type;
+            && ioType == other.ioType;
 }
 
 bool NodePortAddress::operator!=(const NodePortAddress &other) const
@@ -41,7 +41,7 @@ bool NodePortAddress::operator!=(const NodePortAddress &other) const
 
 QString NodePortAddress::toString() const
 {
-    return sceneAddress.toString() + "::" + nodeAddress.toString() + "::" + QString::number(port) + "::" + enumToString(type);
+    return gridAddress.toString() + "::" + nodeAddress.toString() + "::" + QString::number(port) + "::" + enumToString(ioType);
 }
 
 QUrl nodePortAddressToUrl(const NodePortAddress &node)
@@ -51,11 +51,11 @@ QUrl nodePortAddressToUrl(const NodePortAddress &node)
 
     url.setHost(node.nodeAddress.toString().replace("{", "s").replace("}", "t")
                 + "."
-                + node.sceneAddress.toString().replace("{", "s").replace("}", "t")
+                + node.gridAddress.toString().replace("{", "s").replace("}", "t")
                 );
     url.setPort(node.port);
     QUrlQuery query;
-    query.addQueryItem("type", enumToString(node.type));
+    query.addQueryItem("type", enumToString(node.ioType));
     url.setQuery(query);
 
     return url;
@@ -70,13 +70,13 @@ NodePortAddress nodePortAddressFromUrl(const QUrl &url)
             QString sceneAddr = hosts[hosts.length() - 1].replace("s", "{").replace("t", "}");
             QString nodeAddr = hosts[hosts.length() - 2].replace("s", "{").replace("t", "}");
 //            qDebug() <<"sceneAddr=" <<sceneAddr <<" nodeAddr=" <<nodeAddr;
-            node.sceneAddress = QUuid(sceneAddr);
+            node.gridAddress = QUuid(sceneAddr);
             node.nodeAddress = QUuid(nodeAddr);
         }
 
         node.port = url.port();
         QUrlQuery query(url.query());
-        node.type = enumFromString(query.queryItemValue("type"));
+        node.ioType = enumFromString(query.queryItemValue("type"));
     }
     return node;
 }

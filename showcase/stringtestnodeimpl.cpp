@@ -20,8 +20,9 @@
 
 #include <QDebug>
 
-StringTestNodeImpl::StringTestNodeImpl(QString name):
+StringTestNodeImpl::StringTestNodeImpl(INodeGridImpl *nodeGrid, QString name):
     m_nodeName(name),
+    m_nodeGrid(nodeGrid),
     m_incommingConn(new QList<Connection>()),
     m_outgoingConn(new QList<Connection>())
 {
@@ -75,7 +76,7 @@ bool StringTestNodeImpl::canConnect(const NodePortAddress &source, const NodePor
 {
     if(source == target)
         return false;
-    if(source.type == target.type)
+    if(source.ioType == target.ioType)
         return false;
 
     return true;
@@ -84,10 +85,28 @@ bool StringTestNodeImpl::canConnect(const NodePortAddress &source, const NodePor
 Connection StringTestNodeImpl::connect(const NodePortAddress &source, const NodePortAddress &target)
 {
     Connection con;
+    if (source.isNull() || target.isNull()){
+        qWarning() <<"Cannot connect if source or target is null.";
+        return con;
+    }
+
     if(canConnect(source, target)){
         con.source = source;
         con.target = target;
+
+        if(!m_outgoingConn->contains(con))
+            m_outgoingConn->append(con);
+        else
+            con = Connection();
+
     }
+
+    if(con.isNull()){
+        qDebug() << "Not Connected: m_outgoingConn=" << m_outgoingConn->size();
+    }else{
+        qDebug() << "Connected: m_outgoingConn=" << m_outgoingConn->size();
+    }
+
     return con;
 }
 
@@ -96,22 +115,17 @@ QUuid StringTestNodeImpl::getLocalNodeAddress()
     return m_nodeAddress;
 }
 
-void StringTestNodeImpl::setNodeSceneAddress(const QUuid &sceneAddress)
+INodeGridImpl *StringTestNodeImpl::getNodeGrid()
 {
-    m_sceneAddress = sceneAddress;
-}
-
-QUuid StringTestNodeImpl::getNodeSceneAddress()
-{
-    return m_sceneAddress;
+    return m_nodeGrid;
 }
 
 NodePortAddress StringTestNodeImpl::getNodePortAddress(int portNumber, NodePortIOType type)
 {
     NodePortAddress address;
     address.port = portNumber;
-    address.sceneAddress = getNodeSceneAddress();
-    address.type = type;
+    address.gridAddress = getNodeGrid()->getNodeGridAddress();
+    address.ioType = type;
     address.nodeAddress = getLocalNodeAddress();
     return address;
 }
@@ -120,8 +134,8 @@ NodePortAddress StringTestNodeImpl::getNodePortAddress(NodePortInfo info)
 {
     NodePortAddress address;
     address.port = info.portNumber;
-    address.sceneAddress = getNodeSceneAddress();
-    address.type = info.type;
+    address.gridAddress = getNodeGrid()->getNodeGridAddress();
+    address.ioType = info.type;
     address.nodeAddress = getLocalNodeAddress();
     return address;
 }

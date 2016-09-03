@@ -20,3 +20,13 @@
 bool Connection::isNull() const{
     return source.isNull() && target.isNull();
 }
+
+bool Connection::operator==(const Connection &other) const
+{
+    return this->source == other.source && this->target == other.target;
+}
+
+bool Connection::operator!=(const Connection &other) const
+{
+    return !(*this == other);
+}

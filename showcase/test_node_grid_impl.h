@@ -22,25 +22,27 @@
 #include "shared/i_node_grid_impl.h"
 #include "stringtestnodeimpl.h"
 
-#include <QList>
+#include <QMap>
+#include <QUuid>
 
 class TestNodeGridImpl : public INodeGridImpl
 {
 public:
     TestNodeGridImpl();
 
-    // INodeGridImpl interface
-public:
+
     QList<INodeImpl *> getAllNodes() override;
+    INodeImpl *getNode(const NodePortAddress &address) override;
     bool addNewNode(const QString &nodeClassName) override;
+    bool addNode(INodeImpl * node);
     bool removeNode(const NodePortAddress &nodeAddress) override;
-    QUuid getNodeSceneAddress() override;
+    QUuid getNodeGridAddress() override;
     INodeGridStateListener *setINodeGridStateListener(INodeGridStateListener *listener) override;
     INodeGridStateListener *getINodeGridStateListener() override;
 
 
 protected:
-    QList<INodeImpl *> m_nodes;
+    QMap<QUuid, INodeImpl *> m_nodes;
     QUuid m_sceneAddress = QUuid::createUuid();
 
     INodeGridStateListener *m_listener = nullptr;

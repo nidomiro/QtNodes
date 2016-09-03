@@ -20,11 +20,12 @@
 #define STRINGTESTNODEIMPL_H
 
 #include "shared/i_node_impl.h"
+#include "shared/i_node_grid_impl.h"
 
 class StringTestNodeImpl: public INodeImpl
 {
 public:
-    StringTestNodeImpl(QString name);
+    StringTestNodeImpl(INodeGridImpl *nodeGrid, QString name);
     ~StringTestNodeImpl();
 
     QString getNodeName() const override;
@@ -38,10 +39,10 @@ public:
     bool canConnect(const NodePortAddress &source, const NodePortAddress &target) override;
     Connection connect(const NodePortAddress &source, const NodePortAddress &target) override;
 
+
     QUuid getLocalNodeAddress() override;
 
-    void setNodeSceneAddress(const QUuid &sceneAddress) override;
-    QUuid getNodeSceneAddress() override;
+    INodeGridImpl *getNodeGrid() override;
 
     NodePortAddress getNodePortAddress(int portNumber, NodePortIOType type) override;
     NodePortAddress getNodePortAddress(NodePortInfo info) override;
@@ -56,7 +57,7 @@ protected:
     QString m_nodeName = "unnamed Node";
 
     QUuid m_nodeAddress = QUuid::createUuid();
-    QUuid m_sceneAddress;
+    INodeGridImpl * m_nodeGrid = nullptr;
     QList<Connection> *m_incommingConn = nullptr;
     QList<Connection> *m_outgoingConn = nullptr;
 

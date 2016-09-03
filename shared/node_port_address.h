@@ -29,10 +29,10 @@ class QTNODESSHARED_EXPORT NodePortAddress
 {
 public:
 
-    QUuid sceneAddress;
+    QUuid gridAddress;
     QUuid nodeAddress;
     short port = -1;
-    NodePortIOType type = NodePortIOType::NONE;
+    NodePortIOType ioType = NodePortIOType::NONE;
 
 
     bool isNull() const;

@@ -28,6 +28,10 @@ public:
     NodePortAddress target;
 
     bool isNull() const;
+
+    bool operator==(const Connection &other) const;
+    bool operator!=(const Connection &other) const;
+
 };
 
 #endif // CONNECTION_H

@@ -18,6 +18,8 @@
 #ifndef INODEIMPL_H
 #define INODEIMPL_H
 
+class INodeGridImpl;
+
 #include "qtnodesshared_global.h"
 #include "node_port_address.h"
 #include "connection.h"
@@ -44,8 +46,7 @@ public:
 
     virtual QUuid getLocalNodeAddress() = 0;
 
-    virtual void setNodeSceneAddress(const QUuid &sceneAddress) = 0;
-    virtual QUuid getNodeSceneAddress() = 0;
+    virtual INodeGridImpl *getNodeGrid() = 0;
 
     virtual NodePortAddress getNodePortAddress(int portNumber, NodePortIOType type) = 0;
     virtual NodePortAddress getNodePortAddress(NodePortInfo info) = 0;

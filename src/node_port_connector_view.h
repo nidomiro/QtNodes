@@ -71,6 +71,7 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
     virtual bool dragStart(QObject *dragSource);
+    bool connectionRequest(const NodePortAddress &otherAddress);
 
 protected slots:
     void onGeometryChange();
