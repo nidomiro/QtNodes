@@ -54,7 +54,7 @@ QList<NodePortInfo> StringTestNodeImpl::getNodePorts()
         NodePortInfo port;
         port.parentNode = this;
         port.portNumber = i;
-        port.type = (i < (count/2))? NodePortType::OUTPUT : NodePortType::INPUT;
+        port.type = (i < (count/2))? NodePortIOType::OUTPUT : NodePortIOType::INPUT;
 //        qDebug() <<"PortType=" <<static_cast<int>(port.type);
         nodePorts.append(port);
     }
@@ -106,7 +106,7 @@ QUuid StringTestNodeImpl::getNodeSceneAddress()
     return m_sceneAddress;
 }
 
-NodePortAddress StringTestNodeImpl::getNodePortAddress(int portNumber, NodePortType type)
+NodePortAddress StringTestNodeImpl::getNodePortAddress(int portNumber, NodePortIOType type)
 {
     NodePortAddress address;
     address.port = portNumber;

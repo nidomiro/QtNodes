@@ -43,7 +43,7 @@ public:
     void setNodeSceneAddress(const QUuid &sceneAddress) override;
     QUuid getNodeSceneAddress() override;
 
-    NodePortAddress getNodePortAddress(int portNumber, NodePortType type) override;
+    NodePortAddress getNodePortAddress(int portNumber, NodePortIOType type) override;
     NodePortAddress getNodePortAddress(NodePortInfo info) override;
 
     INodeStateListener *setINodeStateListener(INodeStateListener *listener) override;

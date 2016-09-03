@@ -46,11 +46,11 @@ AbstractNodePortView::AbstractNodePortView(NodePortInfo info, QGraphicsItem *par
     m_centerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     switch(info.type){
-    case NodePortType::INPUT:
+    case NodePortIOType::INPUT:
         m_leftConnector->setVisible(true);
         m_rightConnector->setVisible(false);
         break;
-    case NodePortType::OUTPUT:
+    case NodePortIOType::OUTPUT:
         m_leftConnector->setVisible(false);
         m_rightConnector->setVisible(true);
         break;

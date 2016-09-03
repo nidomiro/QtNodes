@@ -47,7 +47,7 @@ public:
     virtual void setNodeSceneAddress(const QUuid &sceneAddress) = 0;
     virtual QUuid getNodeSceneAddress() = 0;
 
-    virtual NodePortAddress getNodePortAddress(int portNumber, NodePortType type) = 0;
+    virtual NodePortAddress getNodePortAddress(int portNumber, NodePortIOType type) = 0;
     virtual NodePortAddress getNodePortAddress(NodePortInfo info) = 0;
 
     virtual INodeStateListener *setINodeStateListener(INodeStateListener *listener) = 0;

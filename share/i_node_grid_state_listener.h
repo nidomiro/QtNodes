@@ -16,38 +16,19 @@
  */
 
 
-#include "node_port_type.h"
+#ifndef I_NODE_GRID_STATE_LISTENER_H
+#define I_NODE_GRID_STATE_LISTENER_H
 
-QString enumToString(const NodePortType &type)
-{
-//    using namespace NodePortInfo;
-    QString ret;
-    switch(type){
-    case NodePortType::INPUT:
-        ret=STR(INPUT);
-        break;
-    case NodePortType::OUTPUT:
-        ret=STR(OUTPUT);
-        break;
-    case NodePortType::NONE:
-    default:
-        ret=STR(NONE);
-        break;
-    }
-    return ret;
-}
+#include "qtnodesshare_global.h"
 
-NodePortType enumFromString(const QString &str)
-{
-//    using namespace NodePortInfo;
-    NodePortType ret = NodePortType::NONE;
+#include "i_node_impl.h"
 
-    if(str == STR(INPUT))
-        ret = NodePortType::INPUT;
-    else if(str == STR(OUTPUT))
-        ret = NodePortType::OUTPUT;
-    else
-        ret = NodePortType::NONE;
+class INodeGridStateListener{
+public:
 
-    return ret;
-}
+    virtual void onNodeAdded(INodeImpl *node) = 0;
+    virtual void onNodeRemoved(INodeImpl *node) = 0;
+
+};
+
+#endif // I_NODE_GRID_STATE_LISTENER_H

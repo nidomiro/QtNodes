@@ -1,5 +1,6 @@
 # QtNodes
 QtNodes is a library for the visualization of Nodes for the Qt-framework.
+
 _**Note:** This library is at a very early stage and not fancy nor usable right now_
 
 ## Run Showcase

@@ -24,7 +24,7 @@ bool NodePortAddress::isNull() const{
     return sceneAddress.isNull()
             && nodeAddress.isNull()
             && port < 0
-            && type == NodePortType::NONE;
+            && type == NodePortIOType::NONE;
 }
 
 bool NodePortAddress::operator==(const NodePortAddress &other) const{

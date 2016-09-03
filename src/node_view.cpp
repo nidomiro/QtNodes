@@ -65,6 +65,10 @@ NodeView::NodeView(INodeImpl *nodeImpl, NodeView::WidgetCreationFunction headerC
     QGraphicsWidget(parent, wFlags),
     m_nodeImpl(nodeImpl)
 {
+    this->setFlag(QGraphicsProxyWidget::ItemIsMovable);
+    this->setFlag(QGraphicsProxyWidget::ItemIsSelectable);
+    this->setFlag(QGraphicsProxyWidget::ItemSendsGeometryChanges);
+
     m_layout = new QGraphicsLinearLayout(Qt::Orientation::Vertical, this);
     this->setLayout(m_layout);
     m_layout->setContentsMargins(0,0,0,0);
@@ -192,7 +196,7 @@ void NodeView::closeNodeWidget()
     qDebug() <<"NodeGraphicsWidget::closeNodeWidget() not implemented!!";
 }
 
-const INodeImpl *NodeView::getNodeImpl() const
+INodeImpl *NodeView::getNodeImpl()
 {
     return m_nodeImpl;
 }

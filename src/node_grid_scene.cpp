@@ -18,34 +18,62 @@
 #include "node_grid_scene.h"
 
 
-NodeGridScene::NodeGridScene(QObject *parent):
-    QGraphicsScene(parent)
+NodeGridScene::NodeGridScene(INodeGridImpl *nodeGrid, QObject *parent):
+    QGraphicsScene(parent),
+    m_nodeGrid(nodeGrid)
 {
-
+    init();
 }
 
-NodeGridScene::NodeGridScene(const QRectF &sceneRect, QObject *parent):
-    QGraphicsScene(sceneRect, parent)
+NodeGridScene::NodeGridScene(const QRectF &sceneRect, INodeGridImpl *nodeGrid, QObject *parent):
+    QGraphicsScene(sceneRect, parent),
+    m_nodeGrid(nodeGrid)
 {
-
+    init();
 }
 
-NodeGridScene::NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent):
-    QGraphicsScene(x, y, width, height, parent)
+NodeGridScene::NodeGridScene(qreal x, qreal y, qreal width, qreal height, INodeGridImpl *nodeGrid, QObject *parent):
+    QGraphicsScene(x, y, width, height, parent),
+    m_nodeGrid(nodeGrid)
 {
-
+    init();
 }
 
-bool NodeGridScene::addNodeWidget(NodeView *node)
+bool NodeGridScene::addNodeView(NodeView *node)
 {
     bool ret = false;
-    if( !m_nodes.contains(node)){
+    if(node != nullptr
+            && !m_nodeViews.contains(node->getNodeImpl())
+    ){
         this->addItem(node);
-        m_nodes.append(node);
-        node->setFlag(QGraphicsProxyWidget::ItemIsMovable);
-        node->setFlag(QGraphicsProxyWidget::ItemIsSelectable);
-        node->setFlag(QGraphicsProxyWidget::ItemSendsGeometryChanges);
+        m_nodeViews.insert(node->getNodeImpl(), node);
         ret = true;
     }
     return ret;
+}
+
+bool NodeGridScene::removeNodeView(NodeView *node)
+{
+    if(node == nullptr)
+        return false;
+    return m_nodeViews.remove(node->getNodeImpl()) > 0;
+}
+
+void NodeGridScene::onNodeAdded(INodeImpl *node)
+{
+    // TODO: Custom header-/footer- creators
+    NodeView *nodeView = new NodeView(node);
+    addNodeView(nodeView);
+}
+
+void NodeGridScene::onNodeRemoved(INodeImpl *node)
+{
+    this->removeNodeView(m_nodeViews.value(node, nullptr));
+}
+
+void NodeGridScene::init()
+{
+    for( INodeImpl *node :m_nodeGrid->getAllNodes()){
+        onNodeAdded(node);
+    }
 }

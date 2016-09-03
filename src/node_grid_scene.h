@@ -20,6 +20,8 @@
 
 #include "qtnodes_global.h"
 #include "node_view.h"
+#include "i_node_grid_impl.h"
+#include "i_node_grid_state_listener.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
@@ -28,24 +30,35 @@
 
 
 
-class QTNODESSHARED_EXPORT NodeGridScene : public QGraphicsScene
+class QTNODESSHARED_EXPORT NodeGridScene : public QGraphicsScene, public INodeGridStateListener
 {
     Q_OBJECT
 public:
-    explicit NodeGridScene(QObject *parent = 0);
-    NodeGridScene(const QRectF &sceneRect, QObject *parent = 0);
-    NodeGridScene(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
+    explicit NodeGridScene(INodeGridImpl *nodeGrid, QObject *parent = 0);
+    NodeGridScene(const QRectF &sceneRect, INodeGridImpl *nodeGrid, QObject *parent = 0);
+    NodeGridScene(qreal x, qreal y, qreal width, qreal height, INodeGridImpl *nodeGrid, QObject *parent = 0);
 
-    bool addNodeWidget(NodeView * node);
+    bool addNodeView(NodeView * node);
+    bool removeNodeView(NodeView * node);
+
+    // INodeGridStateListener interface
+    void onNodeAdded(INodeImpl *node) override;
+    void onNodeRemoved(INodeImpl *node) override;
 
 signals:
 
 public slots:
 
+private:
+    void init();
+
 
 
 private:
-    QList<NodeView*> m_nodes;
+    INodeGridImpl *m_nodeGrid = nullptr;
+    QMap<INodeImpl *, NodeView *> m_nodeViews;
+
+
 };
 
 #endif // NODEGRIDSCENE_H

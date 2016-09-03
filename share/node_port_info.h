@@ -22,14 +22,14 @@ class INodeImpl;
 
 #include "qtnodesshare_global.h"
 
-#include "node_port_type.h"
+#include "node_port_io_type.h"
 
 #include <QString>
 
 class QTNODESSHARESHARED_EXPORT NodePortInfo{
 public:
 
-    NodePortType type  = NodePortType::NONE;
+    NodePortIOType type  = NodePortIOType::NONE;
     QString dataType = "default:unsetDataType";
     QString visualHint = "default:unsetVisualHint";
     int portNumber = -1;

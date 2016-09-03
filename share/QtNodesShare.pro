@@ -32,7 +32,7 @@ SOURCES += \
     connection.cpp \
     node_port_address.cpp \
     node_port_info.cpp \
-    node_port_type.cpp
+    node_port_io_type.cpp
 
 HEADERS +=\
         qtnodesshare_global.h \
@@ -40,5 +40,7 @@ HEADERS +=\
     i_node_impl.h \
     node_port_address.h \
     node_port_info.h \
-    node_port_type.h \
-    i_node_state_listener.h
+    i_node_state_listener.h \
+    i_node_grid_impl.h \
+    i_node_grid_state_listener.h \
+    node_port_io_type.h

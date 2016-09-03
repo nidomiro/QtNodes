@@ -23,13 +23,13 @@
 
 #include <QString>
 
-enum class NodePortType {
+enum class NodePortIOType {
     INPUT,
     OUTPUT,
     NONE
 };
 
-extern "C" QTNODESSHARESHARED_EXPORT QString enumToString(const NodePortType & type);
-extern "C" QTNODESSHARESHARED_EXPORT NodePortType enumFromString(const QString & str);
+extern "C" QTNODESSHARESHARED_EXPORT QString enumToString(const NodePortIOType & type);
+extern "C" QTNODESSHARESHARED_EXPORT NodePortIOType enumFromString(const QString & str);
 
 #endif // NODEPORTTYPE_H

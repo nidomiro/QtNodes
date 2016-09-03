@@ -48,7 +48,7 @@ public:
 
     QString nodeName() const;
 
-    const INodeImpl *getNodeImpl() const;
+    INodeImpl *getNodeImpl();
 
 
 

@@ -26,9 +26,11 @@ CONFIG(debug, debug|release): LIBS += -lQtNodesShared
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    stringtestnodeimpl.cpp
+    stringtestnodeimpl.cpp \
+    test_node_grid_impl.cpp
 
 HEADERS  += mainwindow.h \
-    stringtestnodeimpl.h
+    stringtestnodeimpl.h \
+    test_node_grid_impl.h
 
 FORMS    += mainwindow.ui

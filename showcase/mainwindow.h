@@ -22,6 +22,7 @@
 
 #include "node_view.h"
 #include "node_grid_scene.h"
+#include "test_node_grid_impl.h"
 
 namespace Ui {
 class MainWindow;
@@ -43,7 +44,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    TestNodeGridImpl *m_nodeGridImpl = nullptr;
     NodeGridScene *m_nodeGridScene = nullptr;
+
 
     QList<NodeView*> m_nodes;
 };

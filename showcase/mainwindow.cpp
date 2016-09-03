@@ -26,13 +26,15 @@
 #include "stringtestnodeimpl.h"
 
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    m_nodeGridScene = new NodeGridScene;
+    m_nodeGridImpl = new TestNodeGridImpl;
+    m_nodeGridScene = new NodeGridScene(m_nodeGridImpl);
 
     ui->nodeGridView->setScene(m_nodeGridScene);
     m_nodeGridScene->setSceneRect(QRect(QPoint(0,0),ui->nodeGridView->size()));
@@ -59,19 +61,19 @@ MainWindow::~MainWindow()
 void MainWindow::on_addNode_clicked()
 {
 
+    /*
     StringTestNodeImpl *nodeImpl = new StringTestNodeImpl("Node" + QString::number(m_nodes.size()));
 
     NodeView *nw = new NodeView(nodeImpl);
     m_nodes.append(nw);
-    /*
-    qDebug() <<"Node: " <<nw->nodeName() <<"j: -1" <<" NodeGraphicsWidgetSize: " <<nw->size();
-    for( int j=0; j<3; j++){
-        nw->addIOWidget(AbstractNodePortView::create<QStringNodePortView>(nw));
-        qDebug() <<"Node: " <<nw->nodeName() <<"j: " <<j <<" NodeGraphicsWidgetSize: " <<nw->size();
-    }
-    */
-    m_nodeGridScene->addNodeWidget(nw);
 
+    //qDebug() <<"Node: " <<nw->nodeName() <<"j: -1" <<" NodeGraphicsWidgetSize: " <<nw->size();
+    //for( int j=0; j<3; j++){
+    //    nw->addIOWidget(AbstractNodePortView::create<QStringNodePortView>(nw));
+    //    qDebug() <<"Node: " <<nw->nodeName() <<"j: " <<j <<" NodeGraphicsWidgetSize: " <<nw->size();
+    //}
+    m_nodeGridScene->addNodeView(nw);
+    */
 }
 
 void MainWindow::on_addIOWidget_clicked()
