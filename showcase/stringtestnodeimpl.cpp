@@ -94,9 +94,10 @@ Connection StringTestNodeImpl::connect(const NodePortAddress &source, const Node
         con.source = source;
         con.target = target;
 
-        if(!m_outgoingConn->contains(con))
+        if(!m_outgoingConn->contains(con)){
             m_outgoingConn->append(con);
-        else
+            m_connectionStateListener->onConnectionAdded(con);
+        }else
             con = Connection();
 
     }
@@ -150,6 +151,18 @@ INodeStateListener *StringTestNodeImpl::setINodeStateListener(INodeStateListener
 INodeStateListener *StringTestNodeImpl::getINodeStateListener()
 {
     return m_nodeStateListener;
+}
+
+IConnectionStateListener *StringTestNodeImpl::setIConnectionStateListener(IConnectionStateListener *listener)
+{
+    IConnectionStateListener *old = m_connectionStateListener;
+    m_connectionStateListener = listener;
+    return old;
+}
+
+IConnectionStateListener *StringTestNodeImpl::getIConnectionStateListener()
+{
+    return m_connectionStateListener;
 }
 
 bool StringTestNodeImpl::canStartConnect(const NodePortAddress &address)

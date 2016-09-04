@@ -25,6 +25,7 @@ class INodeGridImpl;
 #include "connection.h"
 #include "node_port_info.h"
 #include "i_node_state_listener.h"
+#include "i_connection_state_listener.h"
 
 #include <QUuid>
 #include <QList>
@@ -53,6 +54,9 @@ public:
 
     virtual INodeStateListener *setINodeStateListener(INodeStateListener *listener) = 0;
     virtual INodeStateListener *getINodeStateListener() = 0;
+
+    virtual IConnectionStateListener *setIConnectionStateListener(IConnectionStateListener *listener) = 0;
+    virtual IConnectionStateListener *getIConnectionStateListener() = 0;
 
     /*!
      * \brief Checks if an connectionrequest can start from this NodePort (address.nodeAddress has to be getLocalNodeAddress()).

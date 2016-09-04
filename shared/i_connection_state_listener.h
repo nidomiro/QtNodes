@@ -16,21 +16,13 @@
  */
 
 
-#ifndef I_NODE_STATE_LISTENER_H
-#define I_NODE_STATE_LISTENER_H
+#ifndef I_CONNECTION_STATE_LISTENER_H
+#define I_CONNECTION_STATE_LISTENER_H
 
-#include "qtnodesshared_global.h"
-
-#include "connection.h"
-
-
-class INodeStateListener{
+class IConnectionStateListener{
 public:
-    virtual void onNodeNameChanged(QString newName) = 0;
-    virtual void onPortCountChange() = 0;
-    virtual void onInputConnectionsChanged() = 0;
-    virtual void onOutputConnectionsChanged() = 0;
-    virtual void onPortValueChanged(int portNumber) = 0;
+    virtual void onConnectionAdded(const Connection &con) = 0;
+    virtual void onConnectionRemoved(const Connection &con) = 0;
 };
 
-#endif // I_NODE_STATE_LISTENER_H
+#endif // I_CONNECTION_STATE_LISTENER_H

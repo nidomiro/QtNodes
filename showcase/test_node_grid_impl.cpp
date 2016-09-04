@@ -43,7 +43,7 @@ INodeImpl *TestNodeGridImpl::getNode(const NodePortAddress &address)
 
 bool TestNodeGridImpl::addNewNode(const QString &nodeClassName)
 {
-
+    //TODO: implement!
 
 
     return false;
@@ -66,6 +66,7 @@ bool TestNodeGridImpl::addNode(INodeImpl *node)
 
 bool TestNodeGridImpl::removeNode(const NodePortAddress &nodeAddress)
 {
+    //TODO: implement!
     return false;
 }
 

@@ -43,4 +43,5 @@ HEADERS +=\
     i_node_grid_impl.h \
     i_node_grid_state_listener.h \
     node_port_io_type.h \
-    qtnodesshared_global.h
+    qtnodesshared_global.h \
+    i_connection_state_listener.h

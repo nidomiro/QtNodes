@@ -41,6 +41,8 @@ class QTNODES_EXPORT AbstractNodePortView : public QGraphicsWidget
 public:
     ~AbstractNodePortView();
 
+    QPointF getPortConnectorMiddleInSceneSpace();
+
 
 
 protected:

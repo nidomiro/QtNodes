@@ -30,3 +30,8 @@ bool Connection::operator!=(const Connection &other) const
 {
     return !(*this == other);
 }
+
+bool Connection::operator<(const Connection &other) const
+{
+    return this->source < other.source && this->target < other.target;
+}

@@ -98,6 +98,22 @@ AbstractNodePortView::~AbstractNodePortView()
 
 }
 
+QPointF AbstractNodePortView::getPortConnectorMiddleInSceneSpace()
+{
+    QPointF ret;
+    switch(m_portInfo.type){
+    case NodePortIOType::INPUT:
+        ret = m_leftConnector->getConnectorMiddleInSceneSpace();
+        break;
+    case NodePortIOType::OUTPUT:
+        ret = m_rightConnector->getConnectorMiddleInSceneSpace();
+        break;
+    default:
+        break;
+    }
+    return ret;
+}
+
 
 void AbstractNodePortView::init()
 {

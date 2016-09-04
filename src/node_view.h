@@ -46,6 +46,8 @@ public:
     bool removePortView(AbstractNodePortView *portView);
     bool removeAllPortViews();
 
+    QPointF getPortConnectorMiddleInSceneSpace(const NodePortAddress &address);
+
     QString nodeName() const;
 
     INodeImpl *getNodeImpl();
@@ -59,13 +61,13 @@ public:
     void onPortValueChanged(int portNumber) override;
 
 
-
-
     static void createDefaultHeaderWidget(NodeView *node, QGraphicsWidget *headerWidget);
 
 protected:
 
     void recreateNodePorts();
+
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 
 public slots:
@@ -75,6 +77,7 @@ public slots:
 signals:
 
     void nodeNameChanged(const QString &newName);
+    void nodePositionChanged(const QPointF &newPos);
 
 
 private:

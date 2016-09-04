@@ -31,13 +31,15 @@ public:
 
     QUuid gridAddress;
     QUuid nodeAddress;
-    short port = -1;
+    int port = -1;
     NodePortIOType ioType = NodePortIOType::NONE;
 
 
     bool isNull() const;
     bool operator==(const NodePortAddress &other) const;
     bool operator!=(const NodePortAddress &other) const;
+
+    bool operator<(const NodePortAddress &other) const;
 
     QString toString() const;
 

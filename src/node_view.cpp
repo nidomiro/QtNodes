@@ -138,6 +138,15 @@ bool NodeView::removeAllPortViews()
     return true;
 }
 
+QPointF NodeView::getPortConnectorMiddleInSceneSpace(const NodePortAddress &address)
+{
+    QPointF ret;
+    if(address.port < m_nodePorts.size()){
+        ret = m_nodePorts[address.port]->getPortConnectorMiddleInSceneSpace();
+    }
+    return ret;
+}
+
 QString NodeView::nodeName() const
 {
     return m_nodeImpl->getNodeName();
@@ -188,6 +197,15 @@ void NodeView::recreateNodePorts()
         this->addPortView(portView);
 
     }
+}
+
+QVariant NodeView::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemPositionChange && scene()) {
+            QPointF newPos = value.toPointF();
+            emit nodePositionChanged(newPos);
+        }
+    return QGraphicsWidget::itemChange(change, value);
 }
 
 

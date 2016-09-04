@@ -119,6 +119,11 @@ void NodePortConnectorView::recalculateConnectorRect()
     }
 }
 
+QPointF NodePortConnectorView::getConnectorMiddleInSceneSpace()
+{
+    return mapToScene(m_connectorRect.center());
+}
+
 bool NodePortConnectorView::isInput() const
 {
     return m_connectorPos == POS_LEFT;

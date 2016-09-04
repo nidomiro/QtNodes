@@ -39,6 +39,14 @@ bool NodePortAddress::operator!=(const NodePortAddress &other) const
     return !(*this == other);
 }
 
+bool NodePortAddress::operator<(const NodePortAddress &other) const
+{
+    return gridAddress < other.gridAddress
+            && nodeAddress < other.nodeAddress
+            && port < other.port
+            && ioType < other.ioType;
+}
+
 QString NodePortAddress::toString() const
 {
     return gridAddress.toString() + "::" + nodeAddress.toString() + "::" + QString::number(port) + "::" + enumToString(ioType);

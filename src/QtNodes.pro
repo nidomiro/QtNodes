@@ -46,7 +46,8 @@ HEADERS += \
     abstract_node_port_view.h \
     iowidgets/qstring_node_port_view.h \
     node_view.h \
-    node_port_connector_view.h
+    node_port_connector_view.h \
+    node_connection_view.h
 
 SOURCES += \
     utils/color_utils.cpp \
@@ -57,4 +58,5 @@ SOURCES += \
     iowidgets/qstring_node_port_view.cpp \
     abstract_node_port_view.cpp \
     node_view.cpp \
-    node_port_connector_view.cpp
+    node_port_connector_view.cpp \
+    node_connection_view.cpp

@@ -63,12 +63,32 @@ void NodeGridScene::onNodeAdded(INodeImpl *node)
 {
     // TODO: Custom header-/footer- creators
     NodeView *nodeView = new NodeView(node);
+    nodeView->setZValue(nodeZLevel);
+    node->setIConnectionStateListener(this);
     addNodeView(nodeView);
 }
 
 void NodeGridScene::onNodeRemoved(INodeImpl *node)
 {
     this->removeNodeView(m_nodeViews.value(node, nullptr));
+}
+
+void NodeGridScene::onConnectionAdded(const Connection &con)
+{
+    qDebug() <<"onConnectionAdded(" <<")";
+    NodeConnectionView *conView = new NodeConnectionView(con, m_nodeViews[m_nodeGrid->getNode(con.source)], m_nodeViews[m_nodeGrid->getNode(con.target)]);
+    conView->setZValue(connectionZLevel);
+    m_connectionViews.insert(con, conView);
+    this->addItem(conView);
+}
+
+void NodeGridScene::onConnectionRemoved(const Connection &con)
+{
+    NodeConnectionView * view = this->m_connectionViews.value(con, nullptr);
+    if(view != nullptr){
+        this->removeItem(view);
+        view->deleteLater();
+    }
 }
 
 void NodeGridScene::init()

@@ -50,6 +50,9 @@ public:
     INodeStateListener *setINodeStateListener(INodeStateListener *listener) override;
     INodeStateListener *getINodeStateListener() override;
 
+    IConnectionStateListener *setIConnectionStateListener(IConnectionStateListener *listener) override;
+    IConnectionStateListener *getIConnectionStateListener() override;
+
     bool canStartConnect(const NodePortAddress &address) override;
 
 protected:
@@ -63,6 +66,8 @@ protected:
 
 
     INodeStateListener *m_nodeStateListener = nullptr;
+    IConnectionStateListener *m_connectionStateListener = nullptr;
+
 
 };
 

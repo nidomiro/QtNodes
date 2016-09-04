@@ -20,17 +20,22 @@
 
 #include "qtnodes_global.h"
 #include "node_view.h"
+#include "node_connection_view.h"
 #include "shared/i_node_grid_impl.h"
 #include "shared/i_node_grid_state_listener.h"
+#include "shared/i_connection_state_listener.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 #include <QMap>
+#include <QGraphicsPathItem>
+#include <QDebug>
 
 
 
 
-class QTNODES_EXPORT NodeGridScene : public QGraphicsScene, public INodeGridStateListener
+
+class QTNODES_EXPORT NodeGridScene : public QGraphicsScene, public INodeGridStateListener, public IConnectionStateListener
 {
     Q_OBJECT
 public:
@@ -45,6 +50,9 @@ public:
     void onNodeAdded(INodeImpl *node) override;
     void onNodeRemoved(INodeImpl *node) override;
 
+    void onConnectionAdded(const Connection &con) override;
+    void onConnectionRemoved(const Connection &con) override;
+
 signals:
 
 public slots:
@@ -57,6 +65,12 @@ private:
 private:
     INodeGridImpl *m_nodeGrid = nullptr;
     QMap<INodeImpl *, NodeView *> m_nodeViews;
+    QMap<Connection, NodeConnectionView*> m_connectionViews;
+
+
+public:
+    static const int nodeZLevel = 20;
+    static const int connectionZLevel = 10;
 
 
 };
