@@ -190,7 +190,7 @@ void NodePortConnectorView::dropEvent(QGraphicsSceneDragDropEvent *event)
 
 void NodePortConnectorView::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() <<(int)this  <<"MousePressEvent: " <<event->pos();
+    qDebug() <<(long)this  <<"MousePressEvent: " <<event->pos();
 
     dragStart(event->widget());
 

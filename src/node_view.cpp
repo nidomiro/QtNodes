@@ -46,6 +46,7 @@
 #include <QUuid>
 
 
+QColor NodeView::defaultBackgroundColor = QColor(150,150,150);
 
 
 
@@ -92,16 +93,15 @@ NodeView::NodeView(INodeImpl *nodeImpl, NodeView::WidgetCreationFunction headerC
         footerCreationFunc(this, m_footerWidget);
     }
 
-    // Todo: Remove hacky code after debug
-    {
-        QPalette pal;
-        pal.setColor(QPalette::Window, QColor(200,50,50));
-        this->setAutoFillBackground(true);
-        this->setPalette(pal);
-    }
+    QPalette pal;
+    pal.setColor(QPalette::Window, NodeView::defaultBackgroundColor);
+    this->setAutoFillBackground(true);
+    this->setPalette(pal);
 
 
     recreateNodePorts();
+
+    setOpacity(.8);
 
 }
 

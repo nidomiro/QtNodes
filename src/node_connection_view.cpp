@@ -28,6 +28,16 @@ NodeConnectionView::NodeConnectionView(const Connection &con, NodeView *source, 
     m_sourceNode(source),
     m_targetNode(target)
 {
+    QBrush brush;
+    brush.setColor(Qt::white);
+
+    QPen pen;
+    pen.setBrush(brush);
+    pen.setWidth(2);
+    pen.setColor(Qt::black);
+
+    this->setBrush(brush);
+    this->setPen(pen);
 
     QObject::connect(m_sourceNode, SIGNAL(nodePositionChanged(QPointF)), this, SLOT(onSourceNodePositionChanged()));
     QObject::connect(m_targetNode, SIGNAL(nodePositionChanged(QPointF)), this, SLOT(onTargetNodePositionChanged()));

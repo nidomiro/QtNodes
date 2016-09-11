@@ -31,6 +31,9 @@
 *.pro.user
 *.autosave
 
+# Build directory
+build/*
+
 # Nodes
 build-Nodes-*
 */build-Nodes-*

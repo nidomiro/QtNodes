@@ -79,7 +79,7 @@ signals:
     void nodeNameChanged(const QString &newName);
     void nodePositionChanged(const QPointF &newPos);
 
-
+//MEMBERS
 private:
 
     QUuid m_nodeAdress = QUuid::createUuid();
@@ -96,6 +96,12 @@ private:
 protected:
 
     INodeImpl *m_nodeImpl = nullptr;
+
+//STATIC
+public:
+    static QColor defaultBackgroundColor;
+
+
 
 };
 
