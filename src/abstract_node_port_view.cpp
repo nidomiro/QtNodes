@@ -43,16 +43,25 @@ AbstractNodePortView::AbstractNodePortView(NodePortInfo info, QGraphicsItem *par
     m_layout->setStretchFactor(m_centerWidget, 20);
     m_layout->setStretchFactor(m_rightConnector, 1);
 
-    m_centerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    m_layout->setAlignment(m_leftConnector, Qt::AlignCenter);
+    m_layout->setAlignment(m_centerWidget, Qt::AlignCenter);
+    m_layout->setAlignment(m_rightConnector, Qt::AlignCenter);
+
+    m_centerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QSizePolicy sizePolicy = m_centerWidget->sizePolicy();
+    sizePolicy.setRetainSizeWhenHidden(true);
+    m_centerWidget->setSizePolicy(sizePolicy);
 
     switch(info.type){
     case NodePortIOType::INPUT:
         m_leftConnector->setVisible(true);
         m_rightConnector->setVisible(false);
+        m_centerWidget->setVisible(true);
         break;
     case NodePortIOType::OUTPUT:
         m_leftConnector->setVisible(false);
         m_rightConnector->setVisible(true);
+        m_centerWidget->setVisible(false);
         break;
     default:
         m_leftConnector->setVisible(true);
@@ -60,7 +69,7 @@ AbstractNodePortView::AbstractNodePortView(NodePortInfo info, QGraphicsItem *par
         break;
     }
 
-
+/*
     // Todo: Remove hacky code after debug
     {
         QPalette pal;
@@ -81,7 +90,7 @@ AbstractNodePortView::AbstractNodePortView(NodePortInfo info, QGraphicsItem *par
         pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
         m_rightConnector->setPalette(pal);
         m_rightConnector->setAutoFillBackground(true);
-    }*/
+    }
     // Todo: Remove hacky code after debug
     {
         QPalette pal;
@@ -89,6 +98,7 @@ AbstractNodePortView::AbstractNodePortView(NodePortInfo info, QGraphicsItem *par
         m_centerWidget->setPalette(pal);
         m_centerWidget->setAutoFillBackground(true);
     }
+    */
 
 
 }

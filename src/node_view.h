@@ -63,6 +63,9 @@ public:
 
     static void createDefaultHeaderWidget(NodeView *node, QGraphicsWidget *headerWidget);
 
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    QPainterPath shape() const override;
+
 protected:
 
     void recreateNodePorts();
@@ -100,8 +103,7 @@ protected:
 //STATIC
 public:
     static QColor defaultBackgroundColor;
-
-
+    static qreal outerMargin;
 
 };
 

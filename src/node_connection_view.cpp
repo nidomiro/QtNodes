@@ -50,6 +50,8 @@ NodeConnectionView::NodeConnectionView(const Connection &con, NodeView *source, 
 void NodeConnectionView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
+
 
     QGraphicsPathItem::paint(painter, option, widget);
 }

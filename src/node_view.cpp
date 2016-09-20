@@ -44,9 +44,13 @@
 #include <QGraphicsScene>
 #include <QGraphicsProxyWidget>
 #include <QUuid>
+#include <QPainter>
 
 
-QColor NodeView::defaultBackgroundColor = QColor(150,150,150);
+//QColor NodeView::defaultBackgroundColor = QColor(150,150,150);
+QColor NodeView::defaultBackgroundColor = QColor(136, 205, 204);
+
+qreal NodeView::outerMargin = 5;
 
 
 
@@ -76,6 +80,7 @@ NodeView::NodeView(INodeImpl *nodeImpl, NodeView::WidgetCreationFunction headerC
     m_layout->setSpacing(0);
 
     m_headerWidget = new QGraphicsWidget(this);
+    m_headerWidget->setContentsMargins(NodeView::outerMargin, 0, NodeView::outerMargin, 0);
     m_layout->addItem(m_headerWidget);
     m_centerWidget = new QGraphicsWidget(this);
     m_layout->addItem(m_centerWidget);
@@ -84,6 +89,7 @@ NodeView::NodeView(INodeImpl *nodeImpl, NodeView::WidgetCreationFunction headerC
     m_centerWidgetLayout->setContentsMargins(0,2,0,2);
     m_centerWidget->setLayout(m_centerWidgetLayout);
     m_footerWidget = new QGraphicsWidget(this);
+    m_footerWidget->setContentsMargins(NodeView::outerMargin, 0, NodeView::outerMargin, 0);
     m_footerWidget->setPreferredHeight(5);
     m_layout->addItem(m_footerWidget);
 
@@ -95,13 +101,13 @@ NodeView::NodeView(INodeImpl *nodeImpl, NodeView::WidgetCreationFunction headerC
 
     QPalette pal;
     pal.setColor(QPalette::Window, NodeView::defaultBackgroundColor);
-    this->setAutoFillBackground(true);
+    //this->setAutoFillBackground(true);
     this->setPalette(pal);
 
 
     recreateNodePorts();
 
-    setOpacity(.8);
+    setOpacity(.99);
 
 }
 
@@ -158,33 +164,70 @@ void NodeView::createDefaultHeaderWidget(NodeView *node, QGraphicsWidget *header
 
     QLabel *headerLabel = new QLabel(node->nodeName());
     QObject::connect(node, SIGNAL(nodeNameChanged(QString)), headerLabel, SLOT(setText(QString)));
-    QSizePolicy spHeaderLabel(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    QSizePolicy spHeaderLabel(QSizePolicy::Expanding, QSizePolicy::Preferred);
     spHeaderLabel.setHorizontalStretch(2);
     headerLabel->setSizePolicy(spHeaderLabel);
+    headerLabel->setAttribute(Qt::WA_TranslucentBackground);
 
     QGraphicsProxyWidget *headerLabelProxy = new QGraphicsProxyWidget(headerWidget);
     headerLabelProxy->setWidget(headerLabel);
     layout->addItem(headerLabelProxy);
 
+
+
     QPushButton *closeButton = new QPushButton("X");
     QObject::connect(closeButton, SIGNAL(clicked()), node, SLOT(closeNodeWidget()));
-    QSizePolicy spCloseButton(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    QSizePolicy spCloseButton(QSizePolicy::Minimum, QSizePolicy::Minimum);
     spCloseButton.setHorizontalStretch(1);
     closeButton->setSizePolicy(spCloseButton);
+    closeButton->setMaximumSize(QSize(25,25));
+
     QGraphicsProxyWidget *closeButtonProxy = new QGraphicsProxyWidget(headerWidget);
     closeButtonProxy->setWidget(closeButton);
     layout->addItem(closeButtonProxy);
 
+    layout->setAlignment(headerLabelProxy, Qt::AlignCenter);
+    layout->setAlignment(closeButtonProxy, Qt::AlignCenter);
+
     headerWidget->setLayout(layout);
 
-    headerWidget->setAutoFillBackground(true);
-
+    /*
     QPalette pal;
-
+    headerWidget->setAutoFillBackground(true);
     pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
-
     headerWidget->setPalette(pal);
+    */
 
+}
+
+void NodeView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+
+    QBrush brush(NodeView::defaultBackgroundColor);
+
+    //painter->setBackground(brush);
+    //painter->eraseRect(this->boundingRect());
+    //QRectF rect = this->boundingRect();
+    //rect.adjust(outerMargin, 0, -outerMargin, 0);
+    //QPainterPath path = Shape;
+    //path.addRoundedRect(rect, 10,10);
+    painter->fillPath(this->shape(), brush);
+    //painter->setBrush(brush);
+    //painter->drawRoundedRect(this->boundingRect(), 10,10);
+
+    qDebug() << "paint: " << this->boundingRect();
+}
+
+QPainterPath NodeView::shape() const
+{
+    QPainterPath path;
+    QRectF rect = this->boundingRect();
+    rect.adjust(outerMargin, 0, -outerMargin, 0);
+    path.addRoundedRect(rect, 10,10);
+    return path;
 }
 
 void NodeView::recreateNodePorts()

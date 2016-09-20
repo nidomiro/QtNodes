@@ -19,11 +19,11 @@
 
 NodeGridView::NodeGridView(QWidget *parent) : QGraphicsView(parent)
 {
-
+    //this->scale(0.8, 0.8);
 }
 
 NodeGridView::NodeGridView(QGraphicsScene *scene, QWidget *parent):
     QGraphicsView(scene, parent)
 {
-
+    //this->scale(0.8, 0.8);
 }

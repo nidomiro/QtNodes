@@ -57,10 +57,12 @@ void QStringNodePortView::createCenterWidget(QGraphicsWidget *centerWidget)
     m_lineEditProxy->setWidget(m_lineEdit);
 
     m_layout->addItem(m_lineEditProxy);
+    m_layout->setAlignment(m_lineEditProxy, Qt::AlignCenter);
 
     QObject::connect(m_lineEdit, &QLineEdit::textEdited,
                      this, &QStringNodePortView::valueChangedInUi);
 
+    /*
     // Todo: Remove hacky code after debug
     {
         QPalette pal;
@@ -68,6 +70,7 @@ void QStringNodePortView::createCenterWidget(QGraphicsWidget *centerWidget)
         m_lineEditProxy->setAutoFillBackground(true);
         m_lineEditProxy->setPalette(pal);
     }
+    */
 
 
     centerWidget->setLayout(m_layout);
