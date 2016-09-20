@@ -22,7 +22,7 @@
 #include <QDebug>
 
 #include "src/abstract_node_port_view.h"
-#include "src/iowidgets/qstring_node_port_view.h"
+#include "src/nodeports/qstring_node_port_view.h"
 #include "stringtestnodeimpl.h"
 
 

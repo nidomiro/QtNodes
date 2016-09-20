@@ -23,12 +23,88 @@
 #include "shared/node_port_info.h"
 #include "abstract_node_port_view.h"
 
+
+#include <QString>
+#include <QMap>
+#include <QDebug>
+
 class QTNODES_EXPORT NodePortViewFactory
 {
 public:
-    NodePortViewFactory();
+    typedef AbstractNodePortView* (*CreateNodePortViewFunc)(NodePortInfo info, QGraphicsItem *parent);
 
     AbstractNodePortView *createNodePortView(const NodePortInfo &info, QGraphicsItem *parent = nullptr);
+
+
+
+protected:
+    NodePortViewFactory();
+
+
+private:
+    QMap<QString, CreateNodePortViewFunc> map;
+
+public:
+
+
+    static inline NodePortViewFactory& get()
+    {
+        static NodePortViewFactory reg;
+        return reg;
+    }
+
+    template<class T>
+    class RegistryEntry
+    {
+      public:
+        static RegistryEntry<T>& Instance(const QString& name)
+        {
+            // Because I use a singleton here, even though `COMPONENT_REGISTER`
+            // is expanded in multiple translation units, the constructor
+            // will only be executed once. Only this cheap `Instance` function
+            // (which most likely gets inlined) is executed multiple times.
+
+            static RegistryEntry<T> inst(name);
+            return inst;
+        }
+
+      private:
+        RegistryEntry(const QString& name)
+        {
+            qDebug() <<"Adding Type:" <<name;
+            NodePortViewFactory& reg = NodePortViewFactory::get();
+            CreateNodePortViewFunc func = AbstractNodePortView::createA<T>;
+
+            if(reg.map.contains(name))
+                qWarning("overriding existing entry in Factory");
+
+            reg.map.insert(name, func);
+
+
+        }
+
+        RegistryEntry(const RegistryEntry<T>&) = delete; // C++11 feature
+        RegistryEntry& operator=(const RegistryEntry<T>&) = delete;
+    };
 };
+
+
+
+#define REGISTER_NODE_PORT_VIEW_TYPE(TYPE, NAME)                                        \
+    namespace                                                                 \
+    {                                                                         \
+        template<class T>                                                     \
+        class NodePortViewTypeRegistration;                                          \
+                                                                              \
+        template<>                                                            \
+        class NodePortViewTypeRegistration<TYPE>                                     \
+        {                                                                     \
+            static const ::NodePortViewFactory::RegistryEntry<TYPE>& reg;       \
+        };                                                                    \
+                                                                              \
+        const ::NodePortViewFactory::RegistryEntry<TYPE>&                       \
+            NodePortViewTypeRegistration<TYPE>::reg =                                \
+                ::NodePortViewFactory::RegistryEntry<TYPE>::Instance(NAME);     \
+    }
 
 #endif // NODEPORTVIEWFACTORY_H

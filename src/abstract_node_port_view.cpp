@@ -98,7 +98,7 @@ AbstractNodePortView::~AbstractNodePortView()
 
 }
 
-QPointF AbstractNodePortView::getPortConnectorMiddleInSceneSpace()
+QPointF AbstractNodePortView::getPortConnectorMiddleInSceneSpace() const
 {
     QPointF ret;
     switch(m_portInfo.type){
@@ -112,6 +112,17 @@ QPointF AbstractNodePortView::getPortConnectorMiddleInSceneSpace()
         break;
     }
     return ret;
+}
+
+bool AbstractNodePortView::isEditable() const
+{
+    return m_isEditable;
+}
+
+void AbstractNodePortView::setEditable(bool val)
+{
+    m_isEditable = val;
+    emit editableChanged(m_isEditable);
 }
 
 

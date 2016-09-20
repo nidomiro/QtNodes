@@ -20,8 +20,9 @@
 
 #include "../qtnodes_global.h"
 #include "../abstract_node_port_view.h"
+#include "../node_port_view_factory.h"
 
-#include <QLabel>
+#include <QLineEdit>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsLinearLayout>
 
@@ -34,6 +35,14 @@ class QTNODES_EXPORT QStringNodePortView : public AbstractNodePortView
 public:
     QStringNodePortView(NodePortInfo info, QGraphicsItem *parent); // do not call!! create via AbstractNodePortGW::create()!
 
+    QString getValueType() const override;
+
+public slots:
+    void displayValue(QVariant val) override;
+    void setConfig(QString key, QVariant value) override;
+
+    void onEditableChanged(bool val);
+
 protected:
 
     virtual void createCenterWidget(QGraphicsWidget *centerWidget) override;
@@ -45,9 +54,12 @@ private:
 
     QGraphicsLinearLayout *m_layout = nullptr;
 
-    QLabel *m_label = nullptr;
-    QGraphicsProxyWidget *m_labelProxy = nullptr;
+    QLineEdit *m_lineEdit = nullptr;
+    QGraphicsProxyWidget *m_lineEditProxy = nullptr;
 
 };
+
+REGISTER_NODE_PORT_VIEW_TYPE(QStringNodePortView, "default:string")
+
 
 #endif // QSTRINGIOGRAPHICSWIDGET_H

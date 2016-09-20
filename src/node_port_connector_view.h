@@ -53,7 +53,7 @@ public: // Methods
 
     QRectF getConnectorRect() const;
     void recalculateConnectorRect();
-    QPointF getConnectorMiddleInSceneSpace();
+    QPointF getConnectorMiddleInSceneSpace() const;
 
     bool isInput() const;
     bool isOutput() const;

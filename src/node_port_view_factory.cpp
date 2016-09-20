@@ -15,10 +15,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "node_port_view_factory.h"
 
-#include "iowidgets/qstring_node_port_view.h"
+#include "nodeports/qstring_node_port_view.h"
 
 NodePortViewFactory::NodePortViewFactory()
 {
@@ -28,6 +27,20 @@ NodePortViewFactory::NodePortViewFactory()
 AbstractNodePortView *NodePortViewFactory::createNodePortView(const NodePortInfo &info, QGraphicsItem *parent)
 {
     // TODO: replace with dynamic selection!
-    AbstractNodePortView *nodePort = AbstractNodePortView::create<QStringNodePortView>(info, parent);
+
+    QString visualType = info.visualHint;
+
+    if(visualType == "default:unsetVisualHint")
+        visualType = "default:string";
+
+    CreateNodePortViewFunc f = this->map.value(visualType, nullptr);
+
+    //qDebug() << "f is " <<f <<"and visualHint is " <<visualType;
+
+    if(f == nullptr)
+        return nullptr;
+
+
+    AbstractNodePortView *nodePort = f(info, parent);
     return nodePort;
 }

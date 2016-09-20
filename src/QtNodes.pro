@@ -44,7 +44,7 @@ HEADERS += \
     qtnodes_global.h \
     node_port_view_factory.h \
     abstract_node_port_view.h \
-    iowidgets/qstring_node_port_view.h \
+    nodeports/qstring_node_port_view.h \
     node_view.h \
     node_port_connector_view.h \
     node_connection_view.h
@@ -55,7 +55,7 @@ SOURCES += \
     node_grid_scene.cpp \
     node_grid_view.cpp \
     node_port_view_factory.cpp \
-    iowidgets/qstring_node_port_view.cpp \
+    nodeports/qstring_node_port_view.cpp \
     abstract_node_port_view.cpp \
     node_view.cpp \
     node_port_connector_view.cpp \

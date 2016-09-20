@@ -191,9 +191,9 @@ void NodeView::recreateNodePorts()
 {
     removeAllPortViews();
 
-    NodePortViewFactory *fac = nullptr;
+    NodePortViewFactory &fac = NodePortViewFactory::get();
     for(auto port : m_nodeImpl->getNodePorts()){
-        auto portView = fac->createNodePortView(port, this);
+        auto portView = fac.createNodePortView(port, this);
         this->addPortView(portView);
 
     }

@@ -19,11 +19,32 @@
 
 #include "utils/color_utils.h"
 
+#include <QMetaType>
+
 
 QStringNodePortView::QStringNodePortView(NodePortInfo info, QGraphicsItem *parent):
     AbstractNodePortView(info, parent)
 {
+}
 
+QString QStringNodePortView::getValueType() const
+{
+    return "QString";
+}
+
+void QStringNodePortView::displayValue(QVariant val)
+{
+    m_lineEdit->setText(val.toString());
+}
+
+void QStringNodePortView::setConfig(QString key, QVariant value)
+{
+
+}
+
+void QStringNodePortView::onEditableChanged(bool val)
+{
+    m_lineEdit->setReadOnly(!val);
 }
 
 void QStringNodePortView::createCenterWidget(QGraphicsWidget *centerWidget)
@@ -31,18 +52,21 @@ void QStringNodePortView::createCenterWidget(QGraphicsWidget *centerWidget)
     m_layout = new QGraphicsLinearLayout(Qt::Orientation::Horizontal, centerWidget);
     m_layout->setContentsMargins(2,0,2,0);
 
-    m_label = new QLabel("Some Text"); // no need to destroy, QGraphicsProxyWidget handles it
-    m_labelProxy = new QGraphicsProxyWidget(centerWidget);
-    m_labelProxy->setWidget(m_label);
+    m_lineEdit = new QLineEdit("Text"); // no need to delete, QGraphicsProxyWidget handles it
+    m_lineEditProxy = new QGraphicsProxyWidget(centerWidget);
+    m_lineEditProxy->setWidget(m_lineEdit);
 
-    m_layout->addItem(m_labelProxy);
+    m_layout->addItem(m_lineEditProxy);
+
+    QObject::connect(m_lineEdit, &QLineEdit::textEdited,
+                     this, &QStringNodePortView::valueChangedInUi);
 
     // Todo: Remove hacky code after debug
     {
         QPalette pal;
         pal.setColor(QPalette::Window, ColorUtils::generateRandomColor());
-        m_labelProxy->setAutoFillBackground(true);
-        m_labelProxy->setPalette(pal);
+        m_lineEditProxy->setAutoFillBackground(true);
+        m_lineEditProxy->setPalette(pal);
     }
 
 

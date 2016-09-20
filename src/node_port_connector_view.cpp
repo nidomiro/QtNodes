@@ -119,7 +119,7 @@ void NodePortConnectorView::recalculateConnectorRect()
     }
 }
 
-QPointF NodePortConnectorView::getConnectorMiddleInSceneSpace()
+QPointF NodePortConnectorView::getConnectorMiddleInSceneSpace() const
 {
     return mapToScene(m_connectorRect.center());
 }
